@@ -9,4 +9,8 @@ public class User {
     private String password;
     private List<String> courses;
     private String availability;
+    
+    public User(){
+        
+    }
 }
