@@ -1,26 +1,28 @@
+    private DatabaseManager db;
 package studyLibrary.project;
 
-
-import java.util.*;
+import java.util.List;
 
 public class LibrarySystem {
-    private List <Book> books;
-    private List <User> users;
-    private List <Student> activeStudents;
-    private List <StudyMatch> activeStudyMatches;
-    private List <Book> borrowedBooks;
-    private List <Message> messages;
-    private DatabaseManager db;
+    
+    private List<StudyRequest> requests;
+    private List<StudyMatch> matches;
+    private List<Student> students;
 
-
-    public LibrarySystem() {
-        books = new ArrayList <Book> ();
-        users = new ArrayList <User> ();
-        activeStudents = new ArrayList<Student> ();
-        activeStudyMatches = new ArrayList<StudyMatch>();
-        borrowedBooks = new ArrayList<Book>();
-        messages = new ArrayList<Message>();
-        db = new DatabaseManager();
+    public LibrarySystem(List<StudyRequest> requests, List<StudyMatch> matches, List<Student> students) {
+        this.requests = requests;
+        this.matches = matches;
+        this.students = students;
+    }
+    //StudyMate kısmı için yapmam gerekti
+    public void acceptRequest(StudyRequest request){
+        StudyMatch studyMatch = new StudyMatch(request.getSender(), request.getReceiver());
+        studyMatch.setCourse(request.getCourse());
+        this.matches.add(studyMatch);
+        this.requests.remove(request);
     }
 
+    public void removeRequest(StudyRequest request){
+        requests.remove(request);
+    }
 }
