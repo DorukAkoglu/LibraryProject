@@ -16,6 +16,9 @@ public class StudyMateController {
         else if(studyRequest.getStatus() == RequestStatus.REJECTED){
             
         }
+        else{ // If pending
+            
+        }
     }
     
 }
