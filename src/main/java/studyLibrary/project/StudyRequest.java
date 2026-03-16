@@ -3,11 +3,13 @@ package studyLibrary.project;
 import java.time.LocalDateTime;
 
 public class StudyRequest {
-    private String sender;
-    private String receiver;
+    private Student sender;
+    private Student receiver;
     private RequestStatus status; // PENDING, ACCEPTED, REJECTED (ENUM)
     private LocalDateTime timestamp;
-    public StudyRequest(String sender, String receiver) {
+    private String course;
+
+    public StudyRequest(Student sender, Student receiver) {
         this.sender = sender;
         this.receiver = receiver;
         this.status = RequestStatus.PENDING;
@@ -19,14 +21,20 @@ public class StudyRequest {
     public void rejectRequest() {
         this.status = RequestStatus.REJECTED;
     }
-    public String getSender() {
+    public Student getSender() {
         return sender;
     }
-    public String getReceiver() {
+    public Student getReceiver() {
         return receiver;
     }
     public RequestStatus getStatus() {
         return status;
+    }
+    public void setCourse(String course) {
+        this.course = course;
+    }
+    public String getCourse() {
+        return this.course;
     }
     public void setStatus(RequestStatus status) {
         this.status = status;

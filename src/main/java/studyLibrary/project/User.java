@@ -2,9 +2,14 @@ package studyLibrary.project;
 
 import java.util.List;
 
-public class User {
-    private int userId;
-    private String name;
-    private String email;
-    private String password;
+public abstract class User {
+    protected int userId;
+    protected String name;
+    protected String email;
+    protected String password;
+
+    public String getName(){
+        return this.name;
+    }
+
 }

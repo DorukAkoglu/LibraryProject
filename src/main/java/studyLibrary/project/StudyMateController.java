@@ -1,24 +1,18 @@
 package studyLibrary.project;
 
 public class StudyMateController {
-    
-    private StudyRequest studyRequest;
-    private StudyMatch studyMatch;
 
-    public StudyMateController(StudyRequest studyRequest, StudyMatch studyMatch){
-        this.studyRequest = studyRequest;
-        this.studyMatch = studyMatch;
+    private LibrarySystem librarySystem;
+
+    public StudyMateController(LibrarySystem librarySystem) {
+        this.librarySystem = librarySystem;
     }
-    public void handleStudyRequest(){
+    public void handleStudyRequest(StudyRequest studyRequest) {
         if(studyRequest.getStatus() == RequestStatus.ACCEPTED){
-            studyMatch.setCourse(studyMatch.getCourse());
+            librarySystem.acceptRequest(studyRequest);
         }
         else if(studyRequest.getStatus() == RequestStatus.REJECTED){
-            
+            librarySystem.removeRequest(studyRequest);
         }
-        else{ // If pending
-            
-        }
-    }
-    
+    } 
 }

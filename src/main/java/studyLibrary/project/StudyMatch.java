@@ -21,4 +21,12 @@ public class StudyMatch {
     public Student getStudent2() {
         return student2;
     }
+    public String displayMatchDetails(Student currentStudent) {
+        if(student1.equals(currentStudent)){
+            return "You are matched with " + student2.getName() + "\n Course: " + course;
+        }
+        else{
+            return "You are matched with " + student1.getName() + "\n Course: " + course;
+        }
+    }
 }
