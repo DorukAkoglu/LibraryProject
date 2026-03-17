@@ -9,26 +9,37 @@ public class StudyRequest {
     private LocalDateTime timestamp;
     private String course;
 
-    public StudyRequest(Student sender, Student receiver) {
+    public StudyRequest(Student sender, Student receiver, String course){
         this.sender = sender;
         this.receiver = receiver;
         this.status = RequestStatus.PENDING;
+        this.course = course;
         timestamp = LocalDateTime.now();
     }
-    public void acceptRequest() {
-        this.status = RequestStatus.ACCEPTED;
+    public boolean acceptRequest() {
+        if (this.status == RequestStatus.PENDING){
+            this.status = RequestStatus.ACCEPTED;
+            this.sender.setAvailabilityStatus("In chat");
+            this.receiver.setAvailabilityStatus("In Chat");
+            return true;
+        }
+        return false;
     }
-    public void rejectRequest() {
-        this.status = RequestStatus.REJECTED;
+    public boolean rejectRequest() {
+        if (this.status == RequestStatus.PENDING){
+            this.status = RequestStatus.REJECTED;
+            return true;
+        }
+        return false;
     }
     public Student getSender() {
-        return sender;
+        return this.sender;
     }
     public Student getReceiver() {
-        return receiver;
+        return this.receiver;
     }
     public RequestStatus getStatus() {
-        return status;
+        return this.status;
     }
     public void setCourse(String course) {
         this.course = course;
