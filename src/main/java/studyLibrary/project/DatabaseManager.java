@@ -25,4 +25,10 @@ public class DatabaseManager {
             mongoClient.close();
         }
     }
+
+    public void saveBook(Book b) {
+        // to do
+    }
+
+    
 }

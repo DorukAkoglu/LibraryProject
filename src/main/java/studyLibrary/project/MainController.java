@@ -19,15 +19,17 @@ public class MainController {
         if (user != null) {
             currentUser = user;
             isLoggedIn = true;
-            if (user instanceof Admin) {
-                adminController = new AdminController();
-            } else if (user instanceof Librarian) {
-                librarianController = new LibrarianController();
-            } else if (user instanceof Student) {
-                studentController = new StudentController();
-            }
             return true;
         }
         return false;
+    }
+    public void routeUser(User u) {
+        if (u instanceof Student) {
+            studentController = new StudentController();
+        } else if (u instanceof Librarian) {
+            librarianController = new LibrarianController();
+        } else if (u instanceof Admin) {
+            adminController = new AdminController();
+        }
     }
 }
