@@ -41,23 +41,36 @@ public class LibrarySystem {
     }
 
     public void addBookDB(Book b) {
-        this.books.add(b);
+        if (b != null && !books.contains(b)) {
+            books.add(b);
+            db.saveBook(b);
+        }
+
     }
     public void deleteBookDB(Book b) {
-        this.books.remove(b);
+        if (books.contains(b)) {
+            books.remove(b);
+        }
     }
 
     public void addUserDB(User u) {
-        this.users.add(u);
+        if(!users.contains(u)){
+            this.users.add(u);
+        }
     }
 
-    public void deleteUserDB(User u) {
-        this.users.remove(u);
+    public boolean deleteUserDB(User u) {
+        if (users.contains(u)) {
+            this.users.remove(u);
+            return true;
+        }
+        return false;
     }
     
      public void addChat(Message m) {
         this.chats.add(m);
     }
+
      public void removeChat(Message m) {
         this.chats.remove(m);
     }
@@ -97,5 +110,9 @@ public class LibrarySystem {
             return user;
         }
         return null;
+    }
+
+    public void closeSystem() {
+        db.closeConnection();
     }
 }
