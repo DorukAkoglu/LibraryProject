@@ -1,15 +1,21 @@
 package studyLibrary.project;
 
-import java.util.List;
+public class User {
 
-public abstract class User {
-    protected int userId;
+    protected int userID;
     protected String name;
     protected String email;
     protected String password;
 
-    public String getName(){
-        return this.name;
+    public User(int userID, String name, String email, String password){
+        this.userID = userID;
+        this.name = name;
+        this.email = email;
+        this.password = password;
     }
-
+    
+    public void updateProfile(){
+        //TODO
+    }
+    
 }
