@@ -21,13 +21,13 @@ public class Student extends User {
         if(this == other) return true;
         if(!(other instanceof Student)) return false;
         Student otherStudent = (Student) other;
-        if(this.userId != otherStudent.userId || !(this.email.equals(otherStudent.email))){
+        if(this.userID != otherStudent.userID || !(this.email.equals(otherStudent.email))){
             return false;
         }
         return true;
     }
     @Override
     public int hashCode() { // Equals metodunu UserID ve Email üzerinden karşılaştırır, her kullanıcının kendine has ID ve emaili olduğunu düşünürsek
-        return Objects.hash(userId, email); 
+        return Objects.hash(userID, email); 
     }
 }
