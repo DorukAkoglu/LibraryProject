@@ -1,5 +1,8 @@
 package studyLibrary.project;
 
+import javafx.event.ActionEvent;
+
+/** 
 public class StudyMateController {
 
     private LibrarySystem librarySystem;
@@ -15,4 +18,13 @@ public class StudyMateController {
             librarySystem.removeRequest(studyRequest);
         }
     } 
+}
+*/  
+public class StudyMateController {
+
+    private LibrarySystem librarySystem;
+
+    public void displayRequestMessage(ActionEvent event) {
+        System.out.println("Test message");
+    }
 }
