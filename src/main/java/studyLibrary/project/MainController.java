@@ -2,7 +2,7 @@ package studyLibrary.project;
 
 public class MainController {
     private boolean isLoggedIn;
-    private User currentUser;
+    private static User currentUser;
     private LibrarySystem system;
     private AdminController adminController;
     private LibrarianController librarianController;
@@ -32,4 +32,7 @@ public class MainController {
             adminController = new AdminController();
         }
     }
-}
+    public static User getCurrentUser() {
+        return currentUser;
+    }
+}   
