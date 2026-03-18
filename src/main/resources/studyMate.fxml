@@ -5,26 +5,72 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.StudyMateController">
    <children>
-      <Button layoutX="470.0" layoutY="14.0" mnemonicParsing="false" onAction="#displayRequests" text="View Requests" />
+      <Button layoutX="31.0" layoutY="26.0" mnemonicParsing="false" onAction="#displayRequests" prefHeight="39.0" prefWidth="120.0" style="-fx-background-color: #00FFFF;" text="View Requests">
+         <padding>
+            <Insets left="20.0" right="20.0" />
+         </padding></Button>
       <Accordion layoutX="31.0" layoutY="125.0" />
-      <VBox alignment="TOP_CENTER" layoutX="31.0" layoutY="93.0" prefHeight="272.0" prefWidth="187.0" style="-fx-background-color: #A1AEB1;">
+      <VBox alignment="TOP_CENTER" layoutX="31.0" layoutY="93.0" prefHeight="272.0" prefWidth="187.0" spacing="10.0" style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-background-color: #f4f4f4; -fx-border-color: #cccccc; -fx-border-width: 1;">
          <children>
-            <ImageView fx:id="profilePicture" fitHeight="76.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="profilePicture" fitHeight="76.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../Users/USER/Downloads/defaultProfilePicture.png" />
+               </image></ImageView>
             <Separator prefWidth="200.0" />
-            <Label fx:id="nameLabel" text="Label" />
-            <Label fx:id="ageLabel" text="Label" />
-            <Label fx:id="departmentLabel" text="Label" />
-            <Label fx:id="courseLabel" text="Label" />
+            <Label fx:id="nameLabel" alignment="CENTER" text="NAME" />
+            <Label fx:id="ageLabel" alignment="CENTER" text="AGE" />
+            <Label fx:id="departmentLabel" alignment="CENTER" text="DEPARTMENT" />
+            <Label fx:id="courseLabel" alignment="CENTER" text="Label" />
          </children>
          <padding>
-            <Insets top="20.0" />
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
+         <effect>
+            <DropShadow offsetY="5.0">
+               <color>
+                  <Color opacity="0.30000001192092896" />
+               </color>
+            </DropShadow>
+         </effect>
       </VBox>
+      <ImageView fitHeight="111.0" fitWidth="122.0" layoutX="245.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../Users/USER/Downloads/findMatchSymbol.png" />
+         </image>
+      </ImageView>
+      <VBox alignment="TOP_CENTER" layoutX="383.0" layoutY="93.0" prefHeight="272.0" prefWidth="187.0" spacing="10.0" style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-background-color: #f4f4f4; -fx-border-color: #cccccc; -fx-border-width: 1;">
+         <children>
+            <ImageView fx:id="profilePicture1" fitHeight="76.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../Users/USER/Downloads/defaultProfilePicture.png" />
+               </image>
+            </ImageView>
+            <Separator prefWidth="200.0" />
+            <Label fx:id="nameLabel1" alignment="CENTER" text="NAME" />
+            <Label fx:id="ageLabel1" alignment="CENTER" text="AGE" />
+            <Label fx:id="departmentLabel1" alignment="CENTER" text="DEPARTMENT" />
+            <Label fx:id="courseLabel1" alignment="CENTER" text="Label" />
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <effect>
+            <DropShadow offsetY="5.0">
+               <color>
+                  <Color opacity="0.30000001192092896" />
+               </color>
+            </DropShadow>
+         </effect>
+      </VBox>
+      <Button layoutX="262.0" layoutY="279.0" mnemonicParsing="false" text="Find Match" />
    </children>
 </AnchorPane>
