@@ -3,7 +3,10 @@ package studyLibrary.project;
 
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,13 +15,10 @@ import javafx.stage.Stage;
 
 public class App extends Application
 {
-    public void start(Stage stage){
-        Group root = new Group();
+    public void start(Stage stage) throws Exception{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/studyMate.fxml"));
+        Parent root = loader.load();
         Scene scene = new Scene(root);
-        Button button = new Button("abc");
-        Label label = new Label("abc");
-        root.getChildren().add(label);
-        root.getChildren().add(button);
         stage.setScene(scene);
         stage.show();
     }

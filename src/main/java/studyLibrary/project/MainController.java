@@ -4,8 +4,8 @@ public class MainController {
     private boolean isLoggedIn;
     private static User currentUser;
     private LibrarySystem system;
-    private AdminController adminController;
-    private LibrarianController librarianController;
+    //private AdminController adminController;
+    //private LibrarianController librarianController;
     private StudentController studentController;
 
     public MainController() {
@@ -27,9 +27,9 @@ public class MainController {
         if (u instanceof Student) {
             studentController = new StudentController();
         } else if (u instanceof Librarian) {
-            librarianController = new LibrarianController();
+            //librarianController = new LibrarianController();
         } else if (u instanceof Admin) {
-            adminController = new AdminController();
+            //adminController = new AdminController();
         }
     }
     public static User getCurrentUser() {

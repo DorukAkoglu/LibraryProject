@@ -30,7 +30,7 @@ public class StudentController {
 
 
     public void goToStudyMateMenu(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("studyMate.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/studyMate.fxml"));
         root = loader.load();
         stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
