@@ -20,13 +20,21 @@ public class Book {
         this.author = author;
         this.category = category;
         this.numCopies = numCopies;
-
         this.availability = calculateAv() ;
         this.reviews=new ArrayList<>();
+        this.dueTime = null;
     }
 
     public int getAverageRating(){
-        return 0;
+        if(reviews.size()==0){
+            return 0;
+        }
+        int total=0;
+        for(int i=0; i<reviews.size();i++){
+            Review r = reviews.get(i);
+            total+=r.getRating();
+        }
+        return total / reviews.size();
     }
 
     public int getBookID() {
@@ -47,6 +55,30 @@ public class Book {
 
     public boolean isAvailable() {
         return availability;
+    }
+
+    public void setAvailability(boolean availability) {
+        this.availability = availability;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void addReview(Review review) {
+        this.reviews.add(review);
+    }
+
+    public LocalDate getDueTime() {
+        return dueTime;
+    }
+
+    public void setDueTime(LocalDate dueTime) {
+        this.dueTime = dueTime;
+    }
+
+    public int getNumCopies() {
+        return numCopies;
     }
 
     private boolean calculateAv(){
