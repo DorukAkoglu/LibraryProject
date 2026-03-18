@@ -39,26 +39,24 @@ public class StudyMateController {
     @FXML private Label departmentLabel;
     @FXML private ImageView imageView;
 
+    public void initialize(){
+        User user = MainController.getCurrentUser();
+        if(user instanceof Student){
+            Student student = (Student) user;
+            displayStudyMateInfo(student);
+        }
+    }
 
-    public void displayStudyMateInfo(Student student) {
+    private void displayStudyMateInfo(Student student) {
         if(student != null){
             nameLabel.setText(student.getName());
             ageLabel.setText(String.valueOf(student.getAge()));
             departmentLabel.setText(student.getDepartment());
         }
     }
-    
-
     public void displayRequests(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("studyRequests.fxml"));
-        stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-    public void backToStudyMateMenu(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("studyMate.fxml"));
-        Parent root = loader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("studyRequests.fxml"));
+        root = loader.load();
         stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
