@@ -12,11 +12,13 @@ public class Student extends User {
     private int grade;
     private String availabilityStatus;
     private List<StudyRequest> incomingRequests;
+    private String department;
 
-    public Student(int userID, String name, String email, String password, int age, int grade){
+    public Student(int userID, String name, String email, String password, int age, int grade, String department) {
         super(userID, name, email, password);
         this.age = age;
         this.grade = grade;
+        this.department = department;
         this.courses = new ArrayList<>();
         this.borrowedBooks = new ArrayList<>();
         this.incomingRequests = new ArrayList<>();
@@ -119,6 +121,9 @@ public class Student extends User {
     }
     public void removeCourse(String course){
         this.courses.remove(course); 
+    }
+    public String getDepartment() {
+        return department;
     }
 
 
