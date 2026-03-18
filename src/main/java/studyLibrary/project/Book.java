@@ -69,6 +69,14 @@ public class Book {
         this.reviews.add(review);
     }
 
+    public boolean deleteReview(Review rev){
+        if (this.reviews.contains(rev)){
+            this.reviews.remove(rev);
+            return true; 
+        }
+        return false;
+    }
+
     public LocalDate getDueTime() {
         return dueTime;
     }
