@@ -9,14 +9,8 @@ public class Comment {
         this.content = content;
     }
 
-    public boolean editComment(String com){
+    public void editComment(String com){
         this.content = com;
-        return true;
-    }
-
-    public boolean deleteComment(){
-        //TODO
-        return false;
     }
 
     public User getUser() {

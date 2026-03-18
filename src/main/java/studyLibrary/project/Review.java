@@ -18,21 +18,23 @@ public class Review {
         this.comments = new ArrayList<>();
     }
 
-    public boolean editReview(String s, int rating){
+    public void editReview(String s, int rating){
         this.content = s;
         this.rating = rating;
-        return true;
     }
 
-    public boolean deleteReview(){
-        //TODO
+    public void addComment(Comment com) {
+        this.comments.add(com);
+    }
+
+    public boolean deleteComment(Comment delCom){
+        if(this.comments.contains(delCom)){
+            this.comments.remove(delCom);
+            return true;
+        }
         return false;
     }
 
-    public Comment addComment(Review r){
-        //TODO
-        return null;
-    }
 
     public User getUser() {
         return user;
@@ -60,10 +62,6 @@ public class Review {
 
     public List<Comment> getComments() {
         return comments;
-    }
-
-    public void addCommentToList(Comment comment) {
-        this.comments.add(comment);
     }
 
     public int getRating() {
