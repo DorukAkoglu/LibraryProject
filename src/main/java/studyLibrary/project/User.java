@@ -20,5 +20,20 @@ public class User {
     public void updateProfile(){
         //TODO
     }
+
+    //database kısmı için getterların hepsi lazımdı.
+    public String getPassword() {
+        return null;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    
     
 }

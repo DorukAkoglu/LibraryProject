@@ -28,7 +28,7 @@ public class LibrarySystem {
     }
     
     public void acceptRequest(StudyRequest request){
-        StudyMatch studyMatch = new StudyMatch(request.getSender(), request.getReceiver());
+        StudyMatch studyMatch = new StudyMatch(request.getSender(), request.getReceiver(), request.getCourse());
         studyMatch.setCourse(request.getCourse());
         this.activeStudents.remove(request.getSender());
         this.activeStudents.remove(request.getReceiver());
@@ -50,6 +50,7 @@ public class LibrarySystem {
     public void deleteBookDB(Book b) {
         if (books.contains(b)) {
             books.remove(b);
+            db.removeBook(b);
         }
     }
 
@@ -76,35 +77,35 @@ public class LibrarySystem {
     }
 
     public ArrayList<StudyRequest> getRequests() {
-        return (ArrayList<StudyRequest>) requests.clone();
+        return (ArrayList<StudyRequest>) requests;
     }
 
     public ArrayList<StudyMatch> getMatches() {
-        return (ArrayList<StudyMatch>) matches.clone();
+        return (ArrayList<StudyMatch>) matches;
     }
 
     public ArrayList<User> getUsers() {
-        return (ArrayList<User>) users.clone();
+        return (ArrayList<User>)users;
     }
 
     public ArrayList <Book> getBooks() {
-        return (ArrayList<Book>) books.clone();
+        return books;
     }
 
     public ArrayList <Book> getBorrowedBooks() {
-        return (ArrayList<Book>)borrowedBooks.clone();
+        return (ArrayList<Book>)borrowedBooks;
     }
     
     public ArrayList <Student> getActiveStudents() {
-        return (ArrayList<Student>) activeStudents.clone();
+        return (ArrayList<Student>) activeStudents;
     }
 
     public List<Message> getChats() {
-        return (ArrayList <Message>) chats.clone();
+        return (ArrayList <Message>) chats;
     }
 
     public User authorizeUser(String email, String password) {
-        User user = db.getUserbyEmail(email);
+        User user = db.getUserByEmail(email);
 
         if (user != null && user.getPassword().equals(password)) {
             return user;
