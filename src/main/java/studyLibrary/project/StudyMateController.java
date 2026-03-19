@@ -55,7 +55,7 @@ public class StudyMateController {
         }
     }
     public void displayRequests(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("studyRequests.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/studyRequests.fxml"));
         root = loader.load();
         stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
