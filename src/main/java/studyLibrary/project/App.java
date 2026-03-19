@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 
@@ -20,7 +21,10 @@ public class App extends Application
         Parent root = loader.load();
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setTitle("StudyLibrary");
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/programIcon.png")));
         stage.show();
+        
     }
     
     public static void main(String[] args)
