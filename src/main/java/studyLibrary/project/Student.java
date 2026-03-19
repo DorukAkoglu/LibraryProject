@@ -24,7 +24,7 @@ public class Student extends User {
         this.incomingRequests = new ArrayList<>();
         this.availabilityStatus = "Available";
     }
-
+    /** 
     public boolean borrowBook(Book b){
         if (b != null && b.isAvailability()){
             this.borrowedBooks.add(b);
@@ -33,6 +33,7 @@ public class Student extends User {
         }
         return false;
     }
+        */
 
     public void returnBook(Book b){
         if (this.borrowedBooks.contains(b)){
@@ -67,6 +68,7 @@ public class Student extends User {
         receiver.addIncomingRequest(request);
         return request;
     }
+    /** 
     public Review addReview(String s, int rating, Book b){
         if (b != null && s != null && rating >= 1 && rating <= 5){
             Review review = new Review(this, b, s, rating);
@@ -75,6 +77,7 @@ public class Student extends User {
         }
         return null;
     }
+        */
     public boolean endStudySession(){
         if (this.availabilityStatus.equals("In Chat") || this.availabilityStatus.equals("Busy")) {
             this.availabilityStatus = "Available";

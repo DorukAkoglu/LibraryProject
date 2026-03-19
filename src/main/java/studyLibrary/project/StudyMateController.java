@@ -57,8 +57,10 @@ public class StudyMateController {
     public void displayRequests(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/studyRequests.fxml"));
         root = loader.load();
+        root.setStyle("-fx-background-color: #f8f9fa;");
         stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }
