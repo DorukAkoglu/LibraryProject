@@ -20,6 +20,8 @@ public class App extends Application
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
+        String css2 = getClass().getResource("/student.css").toExternalForm();
+        scene.getStylesheets().add(css2);
         stage.setScene(scene);
         stage.setTitle("StudyLibrary");
         stage.setResizable(false);

@@ -7,6 +7,7 @@ import java.util.Objects;
 public class Student extends User {
     
     private int age;
+    private String name;
     private List<String> courses;
     private List<Book> borrowedBooks;
     private int grade;
@@ -19,6 +20,7 @@ public class Student extends User {
         this.age = age;
         this.grade = grade;
         this.department = department;
+        this.name = name;
         this.courses = new ArrayList<>();
         this.borrowedBooks = new ArrayList<>();
         this.incomingRequests = new ArrayList<>();
@@ -127,6 +129,15 @@ public class Student extends User {
     }
     public String getDepartment() {
         return department;
+    }
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 
 
