@@ -13,9 +13,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1100.0" styleClass="root-login-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="root-login-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <VBox alignment="TOP_CENTER" prefHeight="655.0" prefWidth="631.0" styleClass="login-Vbox" stylesheets="@style.css" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="650.0" prefWidth="630.0" styleClass="login-Vbox" stylesheets="@style.css" BorderPane.alignment="CENTER">
          <children>
             <ImageView fitHeight="83.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
                <VBox.margin>
@@ -36,7 +36,7 @@
                   <Insets left="100.0" right="100.0" />
                </padding>
                <VBox.margin>
-                  <Insets left="100.0" right="100.0" />
+                  <Insets left="50.0" right="50.0" />
                </VBox.margin>
             </Separator>
             <HBox alignment="CENTER" spacing="10.0" styleClass="login-Hbox" stylesheets="@style.css">
@@ -44,7 +44,7 @@
                   <Insets />
                </opaqueInsets>
                <VBox.margin>
-                  <Insets left="100.0" right="100.0" />
+                  <Insets left="50.0" right="50.0" />
                </VBox.margin>
                <children>
                   <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
@@ -53,10 +53,10 @@
                      </image>
                   </ImageView>
                   <Label alignment="CENTER" prefHeight="36.0" prefWidth="52.0" style="-fx-text-fill: grey;" text="E-Mail" />
-                  <TextField prefHeight="25.0" prefWidth="250.0" />
+                  <TextField prefHeight="25.0" prefWidth="152.0" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" layoutX="230.0" layoutY="259.0" prefHeight="63.0" prefWidth="205.0" spacing="10.0" styleClass="login-Hbox" stylesheets="@style.css">
+            <HBox alignment="CENTER" layoutX="230.0" layoutY="259.0" spacing="10.0" styleClass="login-Hbox" stylesheets="@style.css">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -67,15 +67,15 @@
                      </image>
                   </ImageView>
                   <Label alignment="CENTER" prefHeight="36.0" prefWidth="89.0" style="-fx-text-fill: grey;" text="Password" />
-                  <TextField prefHeight="25.0" prefWidth="250.0" />
+                  <TextField prefHeight="25.0" prefWidth="157.0" />
                </children>
                <VBox.margin>
-                  <Insets left="100.0" right="100.0" />
+                  <Insets left="50.0" right="50.0" />
                </VBox.margin>
             </HBox>
             <Hyperlink text="Forgot Password?">
                <VBox.margin>
-                  <Insets left="250.0" />
+                  <Insets left="150.0" />
                </VBox.margin>
             </Hyperlink>
             <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="313.0" style="-fx-background-color: linear-gradient(to right, #6366f1, #ec4899); -fx-background-radius: 10;" text="Log In" textFill="WHITE">
@@ -88,11 +88,11 @@
             </Button>
             <HBox alignment="TOP_RIGHT" prefHeight="23.0" prefWidth="277.0">
                <VBox.margin>
-                  <Insets left="100.0" right="100.0" />
+                  <Insets left="50.0" right="50.0" />
                </VBox.margin>
                <children>
-                  <Label prefHeight="32.0" prefWidth="124.0" style="-fx-text-fill: grey;" text="Don't have an account?" />
-                  <Hyperlink prefHeight="0.0" prefWidth="55.0" text="Sign Up" />
+                  <Label prefHeight="23.0" prefWidth="129.0" style="-fx-text-fill: grey;" text="Don't have an account?" />
+                  <Hyperlink prefHeight="22.0" prefWidth="67.0" text="Sign Up" />
                </children>
             </HBox>
          </children>
