@@ -1,6 +1,6 @@
 
 .root{
-    -fx-background-color: #f4f7f6;
+    -fx-background-color: linear-gradient(to bottom right, #0f172a, #4c1d95) !important;
     -fx-font-family: 'Segoe UI', sans-serif;
 }
 .header-pane{ 
@@ -10,13 +10,15 @@
 }
 
 .header-title{
-    -fx-font-size: 24px;
+    -fx-font-size: 26px;
     -fx-font-weight: bold;
-    -fx-text-fill: #2c3e50;
+    -fx-text-fill: white;
+    -fx-min-width: 500; 
+    -fx-alignment: CENTER;
 }
 
 .header-divider{
-    -fx-background-color: #f39c12;
+    -fx-background-color: white;
     -fx-min-height: 2px; 
     -fx-max-height: 2px;
 }
@@ -66,7 +68,7 @@
 }
 
 .request-card{
-    -fx-background-color: white;
+    -fx-background-color: #2c3e50;
     -fx-background-radius: 15;
     -fx-padding: 20;
     -fx-spacing: 15;
@@ -74,7 +76,7 @@
 }
 
 .request-card:hover{
-    -fx-background-color: #fdfdfd;
+    -fx-background-color: #3e526a;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 15, 0, 0, 8);
     -fx-translate-y: -2px; 
 }
@@ -86,7 +88,7 @@
 .student-name{
     -fx-font-size: 18px;
     -fx-font-weight: bold;
-    -fx-text-fill: #2c3e50;
+    -fx-text-fill: #ffffff;
 }
 
 .course-name{
@@ -127,8 +129,8 @@
 }
 
 .return-button{
-    -fx-background-color: #ecf0f1;
-    -fx-text-fill: #34495e;
+    -fx-background-color: #2c3e50;
+    -fx-text-fill: #ffffff;
     -fx-background-radius: 10;
     -fx-padding: 10 20;
     -fx-font-weight: bold;
@@ -143,7 +145,25 @@
     -fx-effect: dropshadow(three-pass-box, rgba(231, 76, 60, 0.4), 15, 0, 0, 0);
 }
 .return-button:hover {
-    -fx-background-color: #d5dbdb; 
+    -fx-background-color: #3e526a; 
     -fx-scale-x: 1.02;
     -fx-scale-y: 1.02;
+}
+.empty-label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #9fb5c4;
+    -fx-font-style: italic;
+    -fx-alignment: CENTER;
+}
+.toast-label {
+    -fx-background-color: rgba(30, 41, 59, 0.9); /* Arka planla uyumlu koyu lacivert */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+    -fx-background-radius: 20;
+    -fx-border-color: #2ecc71; /* Neon yeşil başarı çizgisi */
+    -fx-border-radius: 20;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 5);
 }

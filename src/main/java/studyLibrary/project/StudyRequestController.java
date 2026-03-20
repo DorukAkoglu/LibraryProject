@@ -121,6 +121,26 @@ public class StudyRequestController {
                 }
             }
         });
+        
+        acceptButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (request.acceptRequest()) {
+                    displayTheInformation("Success: Request accepted. You can now chat with " + request.getSender().getName() + ".");
+                    removeCardWithAnimation(card, request);
+                }
+            }
+        });
+
+        rejectButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (request.rejectRequest()) {
+                    displayTheInformation("Request rejected.");
+                    removeCardWithAnimation(card, request);
+                }
+            }
+        });
 
         buttonBox.getChildren().addAll(acceptButton, rejectButton);
         card.getChildren().addAll(profileImage, informations, buttonBox);
@@ -142,11 +162,12 @@ public class StudyRequestController {
         fade.play();
     }
     private void checkIfEmpty() {
-        if (requestsBox.getChildren().isEmpty()) {
-            Label emptyList = new Label("There are no pending study requests.");
-            emptyList.getStyleClass().add("empty-label");
+        if (activeRequests.isEmpty()) {
+            requestsBox.getChildren().clear();
+            Label emptyListLabel = new Label("There are no pending study requests.");
+            emptyListLabel.getStyleClass().add("empty-label");
             requestsBox.setAlignment(Pos.CENTER);
-            requestsBox.getChildren().add(emptyList);
+            requestsBox.getChildren().add(emptyListLabel);
         }
     }
 
@@ -158,6 +179,33 @@ public class StudyRequestController {
         stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
+        stage.setMaximized(true);
         stage.show();
+    }
+
+    private void displayTheInformation(String message) {
+        Label information = new Label(message);
+        information.getStyleClass().add("toast-label");
+        requestsBox.getChildren().add(0, information); 
+        FadeTransition startFade = new FadeTransition(Duration.millis(300), information);
+        startFade.setFromValue(0.0);
+        startFade.setToValue(1.0);
+        FadeTransition finishFade = new FadeTransition(Duration.millis(500), information);
+        finishFade.setFromValue(1.0);
+        finishFade.setToValue(0.0);
+        finishFade.setDelay(Duration.seconds(2)); 
+        finishFade.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                requestsBox.getChildren().remove(information);
+            }
+        });
+        startFade.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                finishFade.play();
+            }
+        });
+        startFade.play();
     }
 }
