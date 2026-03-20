@@ -1,7 +1,6 @@
 package studyLibrary.project;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.scene.CacheHint;
 
 public class LibrarySystem {
     private DatabaseManager db;
@@ -15,15 +14,15 @@ public class LibrarySystem {
 
 
     public LibrarySystem() {
-        requests = new ArrayList<StudyRequest>();
-        matches = new ArrayList<StudyMatch>();
-        books = new ArrayList<Book>();
-        activeStudents = new ArrayList<Student>();
-        users = new ArrayList<User>();
-        borrowedBooks = new ArrayList<Book>();
         db = new DatabaseManager();
         db.connect();
-        chats = new ArrayList<Message>();
+        requests = db.getStudyRequests();
+        matches = db.getStudyMatches();
+        books = db.getBooks();
+        activeStudents = db.getActiveStudents();
+        users = db.getUsers();
+        borrowedBooks = db.getBorrowedBooks();
+        chats = db.getChats();
         
     }
     
@@ -32,12 +31,17 @@ public class LibrarySystem {
         studyMatch.setCourse(request.getCourse());
         this.activeStudents.remove(request.getSender());
         this.activeStudents.remove(request.getReceiver());
+        this.db.updateUser(request.getReceiver());
+        this.db.updateUser(request.getSender());
         this.matches.add(studyMatch);
         this.requests.remove(request);
+        this.db.saveStudyMatch(studyMatch);
+        this.db.removeStudyRequest(request);    
     }
 
     public void removeRequest(StudyRequest request){
         requests.remove(request);
+        db.removeStudyRequest(request);
     }
 
     public void addBookDB(Book b) {
@@ -57,12 +61,14 @@ public class LibrarySystem {
     public void addUserDB(User u) {
         if(!users.contains(u)){
             this.users.add(u);
+            db.saveUser(u);
         }
     }
 
     public boolean deleteUserDB(User u) {
         if (users.contains(u)) {
             this.users.remove(u);
+            db.removeUser(u);
             return true;
         }
         return false;
@@ -70,22 +76,24 @@ public class LibrarySystem {
     
      public void addChat(Message m) {
         this.chats.add(m);
+        db.saveChat(m);
     }
 
      public void removeChat(Message m) {
         this.chats.remove(m);
+        db.removeChat(m);
     }
 
     public ArrayList<StudyRequest> getRequests() {
-        return (ArrayList<StudyRequest>) requests;
+        return requests;
     }
 
     public ArrayList<StudyMatch> getMatches() {
-        return (ArrayList<StudyMatch>) matches;
+        return matches;
     }
 
     public ArrayList<User> getUsers() {
-        return (ArrayList<User>)users;
+        return users;
     }
 
     public ArrayList <Book> getBooks() {
@@ -93,15 +101,15 @@ public class LibrarySystem {
     }
 
     public ArrayList <Book> getBorrowedBooks() {
-        return (ArrayList<Book>)borrowedBooks;
+        return borrowedBooks;
     }
     
     public ArrayList <Student> getActiveStudents() {
-        return (ArrayList<Student>) activeStudents;
+        return  activeStudents;
     }
 
     public List<Message> getChats() {
-        return (ArrayList <Message>) chats;
+        return chats;
     }
 
     public User authorizeUser(String email, String password) {
@@ -113,7 +121,32 @@ public class LibrarySystem {
         return null;
     }
 
+    public void addActiveStudent(Student s) {
+        if (!activeStudents.contains(s)) {
+            activeStudents.add(s);
+            db.updateUser(s);
+        }
+    }
+
+    public void removeActiveStudent(Student s) {
+        if (activeStudents.contains(s)) {
+            activeStudents.remove(s);
+            db.updateUser(s);
+        }
+    }
+
     public void closeSystem() {
         db.closeConnection();
+    }
+
+    public void addStudyRequest(StudyRequest r) {
+    if (!requests.contains(r)) {
+        requests.add(r);
+        db.saveStudyRequest(r);
+    }
+}
+
+    public void updateBook(Book b) {
+        db.updateBook(b);
     }
 }
