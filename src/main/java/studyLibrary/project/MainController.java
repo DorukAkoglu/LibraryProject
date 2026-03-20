@@ -1,5 +1,14 @@
 package studyLibrary.project;
 
+import java.io.IOException;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 public class MainController {
     private boolean isLoggedIn;
     private static User currentUser;
@@ -13,6 +22,15 @@ public class MainController {
         isLoggedIn = false;
         system = new LibrarySystem();
     }   
+    public void successfulLogin(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/student.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+
+    }
 
     public boolean login (String email, String password) {
         User user = system.authorizeUser(email, password);
