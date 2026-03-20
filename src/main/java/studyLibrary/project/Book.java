@@ -101,4 +101,17 @@ public class Book {
         // Kopya sayısı değiştiği an müsaitlik durumunu yeniden uzun yoldan hesaplama
         this.availability = calculateAv();
     }
+    //Librarianların kitapları düzenleyebilmesi için Setter methodlar
+    public void setbookID(int newBookID){
+        this.bookID = newBookID;
+    }
+    public void setTittle(String newTittle){
+        this.title = newTittle;
+    }
+    public void setAuthor(String newAuthor){
+        this.author = newAuthor;
+    }
+    public void setCategory(String newCategory){
+        this.category = newCategory;
+    }
 }

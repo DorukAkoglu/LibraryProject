@@ -16,14 +16,20 @@ public class User {
     public String getName() {
         return name;
     }
-    
-    public void updateProfile(){
-        //TODO
+    public void updateUserID(int newUserID){
+        this.userID = newUserID;
     }
-
-    //database kısmı için getterların hepsi lazımdı.
+    public void updateName(String newName){
+        this.name = newName;
+    }
+    public void updateEmail(String newEmail){
+        this.email = newEmail;
+    }
+    public void updatePassword(String newPassword){
+        this.password = newPassword;
+    }
     public String getPassword() {
-        return null;
+        return password;
     }
 
     public String getEmail() {
