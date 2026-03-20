@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="900.0" prefWidth="1100.0" style="-fx-background-color: linear-gradient(to bottom right, #0f172a, #4c1d95);;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.StudyMateController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1100.0" style="-fx-background-color: linear-gradient(to bottom right, #0f172a, #4c1d95);;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.StudyMateController">
    <top>
       <HBox alignment="CENTER_LEFT" prefHeight="120.0" prefWidth="1100.0" BorderPane.alignment="CENTER">
          <children>
@@ -37,7 +37,7 @@
       </HBox>
    </top>
    <center>
-      <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="400.0" minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="0.0" spacing="20.0" style="-fx-background-color: rgba(30, 41, 59, 0.9); -fx-background-radius: 20; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 20, 0.3, 0, 10);" BorderPane.alignment="TOP_CENTER">
+      <VBox alignment="TOP_CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" spacing="15.0" style="-fx-background-color: rgba(30, 41, 59, 0.9); -fx-background-radius: 20; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 20, 0.3, 0, 10);" BorderPane.alignment="TOP_CENTER">
          <BorderPane.margin>
             <Insets left="290.0" right="300.0" />
          </BorderPane.margin>
@@ -69,22 +69,22 @@
                   <Image url="@images/defaultProfilePicture.png" />
                </image>
             </ImageView>
-            <Label minHeight="0.0" minWidth="0.0" text="Name" textFill="WHITE">
+            <Label minHeight="-Infinity" minWidth="-Infinity" text="Name" textFill="WHITE">
                <font>
                   <Font size="25.0" />
                </font>
             </Label>
-            <Label layoutX="262.0" layoutY="542.0" minHeight="0.0" minWidth="0.0" prefHeight="41.0" prefWidth="44.0" text="Age" textFill="WHITE">
+            <Label layoutX="262.0" layoutY="542.0" minHeight="-Infinity" minWidth="-Infinity" text="Age" textFill="WHITE">
                <font>
                   <Font size="25.0" />
                </font>
             </Label>
-            <Label layoutX="262.0" layoutY="542.0" minHeight="0.0" minWidth="0.0" text="Department" textFill="WHITE">
+            <Label layoutX="262.0" layoutY="542.0" minHeight="-Infinity" minWidth="-Infinity" text="Department" textFill="WHITE">
                <font>
                   <Font size="25.0" />
                </font>
             </Label>
-            <Label layoutX="144.0" layoutY="404.0" minHeight="0.0" minWidth="0.0" prefWidth="77.0" text="Course" textFill="WHITE">
+            <Label layoutX="144.0" layoutY="404.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="77.0" text="Course" textFill="WHITE">
                <font>
                   <Font size="25.0" />
                </font>
@@ -93,14 +93,17 @@
       </VBox>
    </center>
    <bottom>
-      <VBox alignment="TOP_CENTER" prefHeight="333.0" prefWidth="1080.0" spacing="20.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" minHeight="75.0" minWidth="400.0" prefHeight="333.0" prefWidth="1080.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <Button minHeight="0.0" minWidth="0.0" mnemonicParsing="false" style="-fx-background-color: linear-gradient(to right, #6366f1, #ec4899); -fx-text-fill: white; -fx-background-radius: 30;" stylesheets="@styles.css" text="Find StudyMate">
+            <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" style="-fx-background-color: linear-gradient(to right, #6366f1, #ec4899); -fx-text-fill: white; -fx-background-radius: 30;" stylesheets="@styles.css" text="Find StudyMate">
                <font>
                   <Font name="Dubai Medium" size="20.0" />
                </font>
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
             </Button>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="1100.0" spacing="20.0">
                <children>
                   <Button minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#displayRequests" prefHeight="50.0" prefWidth="200.0" style="-fx-background-radius: 20; -fx-background-color: rgba(30, 41, 59, 0.9);" text="View StudyRequests" textFill="WHITE">
                      <font>
@@ -118,11 +121,17 @@
                      </font>
                   </MenuButton>
                </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </HBox>
          </children>
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
+         <padding>
+            <Insets top="50.0" />
+         </padding>
       </VBox>
    </bottom>
 </BorderPane>
