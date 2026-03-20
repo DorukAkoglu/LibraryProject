@@ -1,7 +1,6 @@
 package studyLibrary.project;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class Message {
     private Student sender;
@@ -75,5 +74,9 @@ public class Message {
     }
     public boolean isRead(){ 
         return this.isRead; 
+    }
+    // Setter method for timestamp to allow setting it from the database
+    public void setTimestamp(String timestampStr) {
+        this.timestamp = LocalDateTime.parse(timestampStr);
     }
 }
