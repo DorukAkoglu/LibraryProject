@@ -196,3 +196,6 @@
     rgba(255, 255, 255, 0.2) 90%,
     transparent);
 }
+.login-button:hover{
+    -fx-opacity: 0.6;
+}

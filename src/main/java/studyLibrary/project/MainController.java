@@ -25,11 +25,8 @@ public class MainController {
     public void successfulLogin(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/student.fxml"));
         Parent root = loader.load();
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-
+        App.PRIMARY_STAGE = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        App.PRIMARY_STAGE.getScene().setRoot(root);
     }
 
     public boolean login (String email, String password) {

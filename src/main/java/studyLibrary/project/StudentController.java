@@ -42,14 +42,12 @@ public class StudentController {
     private void viewRequests(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/studyRequests.fxml"));
         Parent root = loader.load();
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
+        App.PRIMARY_STAGE = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        App.PRIMARY_STAGE.getScene().setRoot(root);
         String css2 = getClass().getResource("/style.css").toExternalForm();
-        scene.getStylesheets().add(css2);
-        stage.setScene(scene);
-        stage.setTitle("StudyLibrary");
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/programIcon.png")));
-        stage.show();
+        if(!App.PRIMARY_STAGE.getScene().getStylesheets().contains(css2)){
+            App.PRIMARY_STAGE.getScene().getStylesheets().add(css2);
+        }
     }
     @FXML
     private void updateProfile(ActionEvent event) throws IOException {
@@ -73,11 +71,9 @@ public class StudentController {
     private void changeScreen(ActionEvent event, String fxmlPath) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
         Parent root = loader.load();
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setMaximized(true); 
-        stage.show();
+        App.PRIMARY_STAGE = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        App.PRIMARY_STAGE.getScene().setRoot(root);
+        App.PRIMARY_STAGE.setMaximized(true);
     }
 }
 

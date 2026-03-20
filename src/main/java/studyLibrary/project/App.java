@@ -18,17 +18,20 @@ import javafx.stage.Stage;
 
 public class App extends Application
 {
+    public static Stage PRIMARY_STAGE;
+
     public void start(Stage stage) throws Exception{
+        PRIMARY_STAGE = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
         Parent root = loader.load();
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, 1100, 900);
         String css2 = getClass().getResource("/student.css").toExternalForm();
         scene.getStylesheets().add(css2);
-        stage.setScene(scene);
-        stage.setTitle("StudyLibrary");
-        stage.setResizable(false);
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/programIcon.png")));
-        stage.show();
+        PRIMARY_STAGE.setScene(scene);
+        PRIMARY_STAGE.setTitle("StudyLibrary");
+        PRIMARY_STAGE.setResizable(false);
+        PRIMARY_STAGE.getIcons().add(new Image(getClass().getResourceAsStream("/images/programIcon.png")));
+        PRIMARY_STAGE.show();
         
     }
     

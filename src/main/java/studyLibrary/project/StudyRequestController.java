@@ -172,15 +172,10 @@ public class StudyRequestController {
     }
 
     public void backToStudyMateMenu(ActionEvent event) throws IOException{
-        Stage stage;
-        Scene scene;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/studyMate.fxml"));
         Parent root = loader.load();
-        stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setMaximized(true);
-        stage.show();
+        App.PRIMARY_STAGE = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        App.PRIMARY_STAGE.getScene().setRoot(root);
     }
 
     private void displayTheInformation(String message) {

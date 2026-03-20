@@ -78,7 +78,7 @@
                   <Insets left="150.0" />
                </VBox.margin>
             </Hyperlink>
-            <Button mnemonicParsing="false" onAction="#successfulLogin" prefHeight="31.0" prefWidth="313.0" style="-fx-background-color: linear-gradient(to right, #6366f1, #ec4899); -fx-background-radius: 10;" text="Log In" textFill="WHITE">
+            <Button mnemonicParsing="false" onAction="#successfulLogin" prefHeight="30.0" prefWidth="300.0" style="-fx-background-color: linear-gradient(to right, #6366f1, #ec4899); -fx-background-radius: 10;" styleClass="login-button" stylesheets="@style.css" text="Log In" textFill="WHITE">
                <font>
                   <Font name="Dubai Medium" size="20.0" />
                </font>
