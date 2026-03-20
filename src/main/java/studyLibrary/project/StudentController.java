@@ -73,7 +73,6 @@ public class StudentController {
         Parent root = loader.load();
         App.PRIMARY_STAGE = (Stage) ((Node) event.getSource()).getScene().getWindow();
         App.PRIMARY_STAGE.getScene().setRoot(root);
-        App.PRIMARY_STAGE.setMaximized(true);
     }
 }
 

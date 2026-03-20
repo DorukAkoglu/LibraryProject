@@ -62,4 +62,11 @@ public class StudyMateController {
             App.PRIMARY_STAGE.getScene().getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         }
     }
+    public void switchToStudentDashboard(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/student.fxml"));
+        Parent root = loader.load();
+        App.PRIMARY_STAGE = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        App.PRIMARY_STAGE.getScene().setRoot(root);
+    }
+        
 }

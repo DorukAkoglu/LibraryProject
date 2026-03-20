@@ -18,7 +18,7 @@
    <top>
       <HBox alignment="CENTER_LEFT" prefHeight="120.0" prefWidth="1100.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="87.0" text="&lt;-Back">
+            <Button mnemonicParsing="false" onAction="#switchToStudentDashboard" prefHeight="35.0" prefWidth="87.0" text="&lt;-Back">
                <font>
                   <Font name="Dubai Medium" size="12.0" />
                </font>
