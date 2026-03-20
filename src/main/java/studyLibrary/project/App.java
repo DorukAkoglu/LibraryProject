@@ -24,12 +24,14 @@ public class App extends Application
         PRIMARY_STAGE = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
         Parent root = loader.load();
-        Scene scene = new Scene(root, 1100, 900);
+        Scene scene = new Scene(root, 900, 600);
         String css2 = getClass().getResource("/student.css").toExternalForm();
         scene.getStylesheets().add(css2);
         PRIMARY_STAGE.setScene(scene);
         PRIMARY_STAGE.setTitle("StudyLibrary");
-        PRIMARY_STAGE.setResizable(false);
+        PRIMARY_STAGE.setMinHeight(600);
+        PRIMARY_STAGE.setMinWidth(900);
+        PRIMARY_STAGE.setResizable(true);
         PRIMARY_STAGE.getIcons().add(new Image(getClass().getResourceAsStream("/images/programIcon.png")));
         PRIMARY_STAGE.show();
         
