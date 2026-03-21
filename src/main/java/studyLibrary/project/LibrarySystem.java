@@ -119,7 +119,7 @@ public class LibrarySystem {
         return chats;
     }
 
-    public User authorizeUser(String userID, String password) {
+    public User authorizeUser(int userID, String password) {
         User user = db.getUserByID(userID);
 
         if (user != null && user.getPassword().equals(password)) {

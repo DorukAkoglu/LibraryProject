@@ -34,6 +34,26 @@ public class DatabaseManager {
         return new User(doc.getInteger("userID"), doc.getString("name"),
                         doc.getString("email"),   doc.getString("password"));
     }
+     public User getUserByID(int userID) {
+        Document doc = database.getCollection("users")
+                            .find(new Document("userID", userID)).first();
+        if (doc == null) return null;
+
+        String role = doc.getString("role");
+        if (role.equals("student")) {
+            return new Student(doc.getInteger("userID"), doc.getString("name"),
+                            doc.getString("email"),   doc.getString("password"),
+                            doc.getInteger("age"),    doc.getInteger("grade"),
+                            doc.getString("department"));
+        } else if (role.equals("librarian")) {
+            return new Librarian(doc.getInteger("userID"), doc.getString("name"),
+                                doc.getString("email"),   doc.getString("password"));
+        } else if (role.equals("admin")) {
+            return new User(doc.getInteger("userID"), doc.getString("name"),
+                            doc.getString("email"),   doc.getString("password"));
+        }
+        return null;
+    }
     public void connect() {
         mongoClient = MongoClients.create("mongodb+srv://mehmetsamedtek_db_user:bilkent123@cluster0.nxfstjh.mongodb.net/?appName=Cluster0");
         database = mongoClient.getDatabase("LibraryDB");

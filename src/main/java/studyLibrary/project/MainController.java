@@ -7,10 +7,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class MainController {
@@ -29,9 +27,21 @@ public class MainController {
         system = new LibrarySystem();
     }   
     public void handleLogin(ActionEvent event) throws IOException {
-        String email = idField.getText();
+        String auserID = idField.getText();
+        int userID = -1;
+        if (auserID != null && !auserID.isEmpty()) {
+            try {
+                userID = Integer.parseInt(auserID);
+            } catch (NumberFormatException e) {
+                idField.setStyle("-fx-border-color: red;");
+                return;
+            }
+        } else {
+            idField.setStyle("-fx-border-color: red;");
+            return;
+        }
         String password = passwordField.getText();
-        if(checkLogin(email, password)){
+        if(checkLogin(userID, password)){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/student.fxml"));
             Parent root = loader.load();
             App.PRIMARY_STAGE = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -43,7 +53,7 @@ public class MainController {
         }
     }
 
-    public boolean checkLogin (String userID, String password) {
+    public boolean checkLogin (int userID, String password) {
         User user = system.authorizeUser(userID, password);
         if (user != null) {
             currentUser = user;
