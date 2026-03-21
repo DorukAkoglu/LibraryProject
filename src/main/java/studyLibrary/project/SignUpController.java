@@ -55,7 +55,7 @@ public class SignUpController {
     }
     private void displayInformation(String message) {
         Label information = new Label(message);
-        information.getStyleClass().add("toast-label");
+        information.getStyleClass().add("information-label");
         information.setOpacity(0);
         mainContainer.getChildren().add(0, information); 
         FadeTransition fadeIn = new FadeTransition(Duration.millis(400), information);
