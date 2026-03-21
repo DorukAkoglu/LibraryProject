@@ -26,16 +26,16 @@ public class Student extends User {
         this.incomingRequests = new ArrayList<>();
         this.availabilityStatus = "Available";
     }
-    /** 
+    
     public boolean borrowBook(Book b){
-        if (b != null && b.isAvailability()){
+        if (b != null && b.isAvailable()){
             this.borrowedBooks.add(b);
             b.setAvailability(false);
             return true;
         }
         return false;
     }
-        */
+        
 
     public void returnBook(Book b){
         if (this.borrowedBooks.contains(b)){
@@ -80,6 +80,7 @@ public class Student extends User {
         return null;
     }
         */
+    
     public boolean endStudySession(){
         if (this.availabilityStatus.equals("In Chat") || this.availabilityStatus.equals("Busy")) {
             this.availabilityStatus = "Available";
@@ -139,16 +140,6 @@ public class Student extends User {
     public void setName(String name) {
         this.name = name;
     }
-
-
-
-
-
-
-
-
-
-
     @Override
     public boolean equals(Object other) { //Buna studymate kısmında ihtiyacım olduğu için 
     // senden önce yapmam gerekti, classlarımız bağlı olduğu için arada küçük dokunuşlar yapmak zorunlu oluyor. Okuyunca silersin
