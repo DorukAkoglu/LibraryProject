@@ -8,10 +8,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class MainController {
+    @FXML private TextField idField;
+    @FXML private PasswordField passwordField;
     private boolean isLoggedIn;
     private static User currentUser;
     private LibrarySystem system;
@@ -24,14 +28,22 @@ public class MainController {
         isLoggedIn = false;
         system = new LibrarySystem();
     }   
-    public void successfulLogin(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/student.fxml"));
-        Parent root = loader.load();
-        App.PRIMARY_STAGE = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        App.PRIMARY_STAGE.getScene().setRoot(root);
+    public void handleLogin(ActionEvent event) throws IOException {
+        String email = idField.getText();
+        String password = passwordField.getText();
+        if(checkLogin(email, password)){
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/student.fxml"));
+            Parent root = loader.load();
+            App.PRIMARY_STAGE = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            App.PRIMARY_STAGE.getScene().setRoot(root);
+        }
+        else{
+            idField.setStyle("-fx-border-color: red;");
+            passwordField.setStyle("-fx-border-color: red;");
+        }
     }
 
-    public boolean login (String email, String password) {
+    public boolean checkLogin (String email, String password) {
         User user = system.authorizeUser(email, password);
         if (user != null) {
             currentUser = user;

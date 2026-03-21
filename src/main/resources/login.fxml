@@ -53,7 +53,7 @@
                      </image>
                   </ImageView>
                   <Label alignment="CENTER" prefHeight="36.0" prefWidth="52.0" style="-fx-text-fill: grey;" text="User ID" />
-                  <TextField prefHeight="25.0" prefWidth="139.0" />
+                  <TextField fx:id="idField" prefHeight="25.0" prefWidth="139.0" />
                </children>
             </HBox>
             <HBox alignment="CENTER" layoutX="230.0" layoutY="259.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="60.0" prefWidth="300.0" spacing="10.0" styleClass="login-Hbox" stylesheets="@style.css">
@@ -67,7 +67,7 @@
                      </image>
                   </ImageView>
                   <Label alignment="CENTER" prefHeight="36.0" prefWidth="89.0" style="-fx-text-fill: grey;" text="Password" />
-                  <TextField prefHeight="25.0" prefWidth="157.0" />
+                  <TextField fx:id="passwordField" prefHeight="25.0" prefWidth="157.0" />
                </children>
                <VBox.margin>
                   <Insets left="50.0" right="50.0" />
