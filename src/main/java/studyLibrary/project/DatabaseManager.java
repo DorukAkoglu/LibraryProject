@@ -35,7 +35,7 @@ public class DatabaseManager {
                         doc.getString("email"),   doc.getString("password"));
     }
     public void connect() {
-        mongoClient = MongoClients.create("mongodb://localhost:27017");
+        mongoClient = MongoClients.create("mongodb+srv://mehmetsamedtek_db_user:bilkent123@cluster0.nxfstjh.mongodb.net/?appName=Cluster0");
         database = mongoClient.getDatabase("LibraryDB");
 
     }
@@ -79,7 +79,7 @@ public class DatabaseManager {
         Document doc = new Document("userID",   u.getUserID())
                 .append("name",     u.getName())
                 .append("email",    u.getEmail())
-                .append("password", u.getPassword());
+                .append("password", u.getPassword());   
 
         if (u instanceof Student s) {
             doc.append("role", "student")
