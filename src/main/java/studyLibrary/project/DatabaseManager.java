@@ -81,10 +81,13 @@ public class DatabaseManager {
                 .append("email",    u.getEmail())
                 .append("password", u.getPassword());
 
-        if (u instanceof Student) {
+        if (u instanceof Student s) {
             doc.append("role", "student")
-            .append("availabilityStatus", ((Student) u).getAvailabilityStatus());
-        } else if (u instanceof Librarian) {
+            .append("age", s.getAge())      // Bu alanlar çok önemli!
+           .append("grade", s.getGrade())
+           .append("department", s.getDepartment())
+            .append("availabilityStatus", s.getAvailabilityStatus());
+        } else if (u instanceof Librarian l) {
             doc.append("role", "librarian");
         } else {
             doc.append("role", "admin");

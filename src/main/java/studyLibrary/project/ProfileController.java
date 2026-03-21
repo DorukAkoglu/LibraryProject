@@ -63,16 +63,23 @@ public class ProfileController {
     private void saveChanges(ActionEvent event) {
         User user = MainController.getCurrentUser();
         if (user != null) {
-            user.setName(txtName.getText());
-            user.setEmail(txtEmail.getText());
-            if (user instanceof Student student) {
-                student.setDepartment(txtDept.getText());
-                student.setAge(Integer.parseInt(txtAge.getText()));
-                
+            try {
+                user.setName(txtName.getText());
+                user.setEmail(txtEmail.getText());
+                if (user instanceof Student student) {
+                    student.setDepartment(txtDept.getText());
+                    String ageText = txtAge.getText();
+                    if(!ageText.isEmpty()) {
+                        student.setAge(Integer.parseInt(ageText));
+                    }
+                }
+                LibrarySystem.getInstance().updateUserDB(user); 
+                statusLabel.setText("Changes saved.");
+                statusLabel.setStyle("-fx-text-fill: #2ecc71;");
+            } catch (NumberFormatException e) {
+                statusLabel.setText("Age must be a number!");
+                statusLabel.setStyle("-fx-text-fill: #e74c3c;");
             }
-            system.updateUserDB(user); 
-            statusLabel.setText("Changes saved!");
-            statusLabel.setStyle("-fx-text-fill: #2ecc71;");
         }
     }
 

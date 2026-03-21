@@ -36,16 +36,7 @@ public class StudyRequestController {
     private ScrollPane myScrollPane;
     @FXML
     public void initialize(){
-        Student ali = new Student(1, "Ali", "ali@example.com", "password", 20, 85, "Computer Engineering");
-        Student ayse = new Student(2, "Ayşe", "ayse@example.com", "password", 21, 88, "Industrial Engineering");
-        activeRequests.add(new StudyRequest(ali, ayse, "Calculus II"));
-        Student a = new Student(3, "Ayşe", "ayse@example.com", "password", 21, 88, "Industrial Engineering");
-        activeRequests.add(new StudyRequest(a, ayse, "Calculus II"));
-        Student b = new Student(4, "Ayşe", "ayse@example.com", "password", 21, 88, "Industrial Engineering");
-        activeRequests.add(new StudyRequest(b, ayse, "Calculus II"));
-        Student c = new Student(5, "Ayşe", "ayse@example.com", "password", 21, 88, "Industrial Engineering");
-        activeRequests.add(new StudyRequest(c, ayse, "Calculus II"));
-        activeRequests.add(new StudyRequest(ayse, ali, "Java Programming"));
+        activeRequests = LibrarySystem.getInstance().getRequests();
         
         myScrollPane.setFitToWidth(true); 
         requestsBox.setFillWidth(true);
@@ -59,7 +50,12 @@ public class StudyRequestController {
             }
         }
         });
-        displayRequests();
+        if (activeRequests.isEmpty()) {
+            checkIfEmpty();
+        } 
+        else {
+            displayRequests();
+        }
     }
 
     private void displayRequests(){

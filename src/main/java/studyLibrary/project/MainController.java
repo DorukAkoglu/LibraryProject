@@ -3,10 +3,12 @@ package studyLibrary.project;
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class MainController {
@@ -49,5 +51,12 @@ public class MainController {
     }
     public static User getCurrentUser() {
         return currentUser;
+    }
+    @FXML
+    private void signUp(ActionEvent event) throws IOException {
+        // Kullanıcıyı kayıt ekranına uçuruyoruz
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/register.fxml"));
+        Parent root = loader.load();
+        App.PRIMARY_STAGE.getScene().setRoot(root);
     }
 }   

@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LibrarySystem {
+    private static LibrarySystem instance;
     private DatabaseManager db;
     private ArrayList<StudyRequest> requests;
     private ArrayList<StudyMatch> matches;
@@ -14,16 +15,22 @@ public class LibrarySystem {
 
 
     public LibrarySystem() {
-        db = new DatabaseManager();
-        db.connect();
-        requests = db.getStudyRequests();
-        matches = db.getStudyMatches();
-        books = db.getBooks();
-        activeStudents = db.getActiveStudents();
-        users = db.getUsers();
-        borrowedBooks = db.getBorrowedBooks();
-        chats = db.getChats();
+        this.db = new DatabaseManager();
+        this.db.connect();
+        this.requests = this.db.getStudyRequests();
+        this.matches = this.db.getStudyMatches();
+        this.books = this.db.getBooks();
+        this.activeStudents = this.db.getActiveStudents();
+        this.users = this.db.getUsers();
+        this.borrowedBooks = this.db.getBorrowedBooks();
+        this.chats = this.db.getChats();
         
+    }
+    public static LibrarySystem getInstance() {
+        if (instance == null) {
+            instance = new LibrarySystem();
+        }
+        return instance;
     }
     
     public void acceptRequest(StudyRequest request){
@@ -140,18 +147,18 @@ public class LibrarySystem {
     }
 
     public void addStudyRequest(StudyRequest r) {
-    if (!requests.contains(r)) {
-        requests.add(r);
-        db.saveStudyRequest(r);
+        if (!requests.contains(r)) {
+            requests.add(r);
+            db.saveStudyRequest(r);
+        }
     }
-}
 
     public void updateBook(Book b) {
         db.updateBook(b);
     }
     public void updateUserDB(User u) {
-    if (u != null) {
-        db.updateUser(u);
+        if (u != null) {
+            db.updateUser(u);
+        }
     }
-}
 }

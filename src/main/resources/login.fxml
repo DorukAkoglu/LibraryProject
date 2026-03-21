@@ -92,7 +92,7 @@
                </VBox.margin>
                <children>
                   <Label prefHeight="23.0" prefWidth="129.0" style="-fx-text-fill: grey;" text="Don't have an account?" />
-                  <Hyperlink prefHeight="22.0" prefWidth="67.0" text="Sign Up" />
+                  <Hyperlink onAction="#signUp" prefHeight="22.0" prefWidth="67.0" text="Sign Up" />
                </children>
             </HBox>
          </children>
