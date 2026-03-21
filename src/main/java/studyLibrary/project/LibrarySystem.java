@@ -149,4 +149,9 @@ public class LibrarySystem {
     public void updateBook(Book b) {
         db.updateBook(b);
     }
+    public void updateUserDB(User u) {
+    if (u != null) {
+        db.updateUser(u);
+    }
+}
 }

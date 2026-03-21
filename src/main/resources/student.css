@@ -80,3 +80,37 @@
     -fx-background-insets: 0;
     -fx-padding: 0;
 }
+.profile-text-field {
+    -fx-background-color: rgba(255, 255, 255, 0.03); /* Çok hafif şeffaf zemin */
+    -fx-border-color: transparent transparent rgba(243, 156, 18, 0.4) transparent;
+    -fx-border-width: 0 0 1 0; /* Sadece turuncu alt çizgi */
+    -fx-text-fill: white;
+}
+.dashboard-card .profile-text-field:focused {
+    -fx-border-color: transparent transparent #f39c12 transparent; 
+}
+.profile-pic {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 5);
+}
+.dashboard-button {
+    -fx-background-color: transparent; 
+    -fx-text-fill: #f39c12;
+    -fx-border-color: #f39c12;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-padding: 8 20;
+}
+.dashboard-button:hover {
+    -fx-background-color: #f39c12; 
+    -fx-text-fill: white;
+}
+.profileChange-image-view {
+    -fx-effect: dropshadow(three-pass-box, rgba(243, 156, 18, 0.5), 20, 0, 0, 0);
+    -fx-border-color: #f39c12;
+    -fx-border-width: 2;
+    -fx-border-radius: 100;
+}
