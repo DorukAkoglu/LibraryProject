@@ -81,9 +81,9 @@
     -fx-padding: 0;
 }
 .profile-text-field {
-    -fx-background-color: rgba(255, 255, 255, 0.03); /* Çok hafif şeffaf zemin */
+    -fx-background-color: rgba(255, 255, 255, 0.03); 
     -fx-border-color: transparent transparent rgba(243, 156, 18, 0.4) transparent;
-    -fx-border-width: 0 0 1 0; /* Sadece turuncu alt çizgi */
+    -fx-border-width: 0 0 1 0; 
     -fx-text-fill: white;
 }
 .dashboard-card .profile-text-field:focused {
@@ -114,8 +114,8 @@
     -fx-border-width: 2;
     -fx-border-radius: 100;
 }
-.toast-label {
-    -fx-background-color: rgba(243, 156, 18, 0.8); /* Senin turuncu rengin + şeffaflık */
+.information-label {
+    -fx-background-color: rgba(243, 156, 18, 0.8);
     -fx-text-fill: white;
     -fx-padding: 10 20;
     -fx-background-radius: 20;
