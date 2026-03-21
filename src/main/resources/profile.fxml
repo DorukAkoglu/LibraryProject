@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -12,28 +15,55 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="604.0" prefWidth="705.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.ProfileController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="676.0" prefWidth="826.0" stylesheets="@student.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.ProfileController">
    <left>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+      <VBox prefHeight="200.0" prefWidth="100.0" styleClass="sidemenu" BorderPane.alignment="CENTER">
+         <children>
+            <VBox fx:id="leftSideBar" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0" styleClass="sidemenu">
+               <children>
+                  <ImageView fx:id="profileImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/defaultProfilePicture.png" />
+                     </image>
+                  </ImageView>
+                  <Label text="Berat" textFill="#e9dfdf">
+                     <font>
+                        <Font name="Calibri Light" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label styleClass="accent-text" text="Computer Science" textFill="WHITE" />
+                  <Button mnemonicParsing="false" onAction="#returnDashboard" styleClass="nav-button" text="Dashboard" />
+               </children>
+               <padding>
+                  <Insets bottom="30.0" />
+               </padding>
+            </VBox>
+         </children></VBox>
    </left>
    <center>
       <ScrollPane prefHeight="588.0" prefWidth="597.0" styleClass="root" BorderPane.alignment="TOP_CENTER">
          <content>
-            <VBox alignment="CENTER" prefHeight="492.0" prefWidth="438.0" spacing="15.0">
+            <VBox alignment="CENTER" prefHeight="674.0" prefWidth="564.0" spacing="15.0">
                <padding>
                   <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
                </padding>
                <children>
-                  <ImageView fx:id="profileImageView" fitHeight="180.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="profileImageView" fitHeight="180.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" styleClass="profileChange-image-view">
+                     <image>
+                        <Image url="@images/defaultProfilePicture.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></ImageView>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                      <children>
-                        <Button mnemonicParsing="false" styleClass="dashboard-card .button" text="Upload Photo" />
-                        <Button mnemonicParsing="false" styleClass="nav-button" text="Remove Photo" />
+                        <Button mnemonicParsing="false" onAction="#uploadPhoto" styleClass="dashboard-button" text="Upload Photo" />
+                        <Button mnemonicParsing="false" styleClass="nav-button" stylesheets="@student.css" text="Remove Photo" />
                      </children>
                   </HBox>
-                  <GridPane hgap="20.0" prefWidth="600.0" styleClass="dashboard-card" vgap="15.0">
+                  <GridPane alignment="TOP_RIGHT" hgap="20.0" prefWidth="600.0" styleClass="dashboard-card" vgap="30.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -49,16 +79,39 @@
                         <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
                      </padding>
                      <children>
-                        <Label styleClass="info-label" text="Full Name" />
+                        <Label alignment="TOP_CENTER" styleClass="info-label" text="Full Name" />
                         <Label styleClass="info-label" text="Student ID" GridPane.rowIndex="1" />
                         <Label styleClass="info-label" text="Department" GridPane.rowIndex="2" />
                         <Label styleClass="info-label" text="E-mail" GridPane.rowIndex="3" />
                         <Label styleClass="info-label" text="Age" GridPane.rowIndex="4" />
-                        <TextField fx:id="txtName" styleClass="nav-button" GridPane.columnIndex="1" />
-                        <TextField fx:id="txtID" styleClass="nav-button" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextField fx:id="txtDept" styleClass="nav-button" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <TextField fx:id="txtEmail" styleClass="nav-button" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <TextField fx:id="txtAge" styleClass="nav-button" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <TextField fx:id="txtName" prefHeight="30.0" prefWidth="167.0" GridPane.columnIndex="1">
+                           <styleClass>
+                              <String fx:value="nav-button" />
+                              <String fx:value="profile-text-field" />
+                           </styleClass>
+                           <padding>
+                              <Insets bottom="10.0" left="100.0" right="10.0" top="10.0" />
+                           </padding></TextField>
+                        <TextField fx:id="txtID" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <styleClass>
+                              <String fx:value="nav-button" />
+                              <String fx:value="profile-text-field" />
+                           </styleClass></TextField>
+                        <TextField fx:id="txtDept" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <styleClass>
+                              <String fx:value="nav-button" />
+                              <String fx:value="profile-text-field" />
+                           </styleClass></TextField>
+                        <TextField fx:id="txtEmail" prefHeight="62.0" prefWidth="205.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <styleClass>
+                              <String fx:value="nav-button" />
+                              <String fx:value="profile-text-field" />
+                           </styleClass></TextField>
+                        <TextField fx:id="txtAge" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                           <styleClass>
+                              <String fx:value="nav-button" />
+                              <String fx:value="profile-text-field" />
+                           </styleClass></TextField>
                      </children>
                   </GridPane>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="15.0">
@@ -66,7 +119,7 @@
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </padding>
                      <children>
-                        <Button mnemonicParsing="false" styleClass="dashboard-card .button" text="Save Changes" />
+                        <Button mnemonicParsing="false" onAction="#saveChanges" styleClass="dashboard-button" text="Save Changes" />
                         <Button mnemonicParsing="false" styleClass="nav-button" text="Cancel" />
                      </children>
                   </HBox>

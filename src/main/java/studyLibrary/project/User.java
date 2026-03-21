@@ -39,7 +39,13 @@ public class User {
     public int getUserID() {
         return userID;
     }
-
-    
-    
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }
