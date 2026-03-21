@@ -43,8 +43,8 @@ public class MainController {
         }
     }
 
-    public boolean checkLogin (String email, String password) {
-        User user = system.authorizeUser(email, password);
+    public boolean checkLogin (String userID, String password) {
+        User user = system.authorizeUser(userID, password);
         if (user != null) {
             currentUser = user;
             isLoggedIn = true;

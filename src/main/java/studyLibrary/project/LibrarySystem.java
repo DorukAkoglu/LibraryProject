@@ -119,8 +119,8 @@ public class LibrarySystem {
         return chats;
     }
 
-    public User authorizeUser(String email, String password) {
-        User user = db.getUserByEmail(email);
+    public User authorizeUser(String userID, String password) {
+        User user = db.getUserByID(userID);
 
         if (user != null && user.getPassword().equals(password)) {
             return user;
