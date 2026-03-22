@@ -11,95 +11,135 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="900.0" prefHeight="600.0" prefWidth="900.0" styleClass="root-login-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.MainController">
-   <center>
-      <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="600.0" styleClass="login-Vbox" stylesheets="@style.css" BorderPane.alignment="CENTER">
+
+<StackPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.MainController">
+   <children>
+      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="900.0" prefHeight="600.0" prefWidth="900.0" styleClass="root-login-background" stylesheets="@style.css">
+         <center>
+            <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="600.0" styleClass="login-Vbox" stylesheets="@style.css" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fitHeight="83.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                     <image>
+                        <Image url="@images/book%20icon.png" />
+                     </image>
+                  </ImageView>
+                  <Label text="StudyLibrary" textFill="WHITE">
+                     <font>
+                        <Font name="Dubai Medium" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label text="Online Library Access + Find a study partner!" textFill="#6da9d4" />
+                  <Separator prefHeight="0.0" prefWidth="525.0" styleClass="login-seperator-fade" stylesheets="@style.css">
+                     <padding>
+                        <Insets left="100.0" right="100.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets left="50.0" right="50.0" />
+                     </VBox.margin>
+                  </Separator>
+                  <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="60.0" prefWidth="300.0" spacing="10.0" styleClass="login-Hbox" stylesheets="@style.css">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets left="50.0" right="50.0" />
+                     </VBox.margin>
+                     <children>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/defaultProfilePicture.png" />
+                           </image>
+                        </ImageView>
+                        <Label alignment="CENTER" prefHeight="36.0" prefWidth="52.0" style="-fx-text-fill: grey;" text="User ID" />
+                        <TextField fx:id="idField" prefHeight="25.0" prefWidth="139.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="230.0" layoutY="259.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="60.0" prefWidth="300.0" spacing="10.0" styleClass="login-Hbox" stylesheets="@style.css">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <children>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/lock.png" />
+                           </image>
+                        </ImageView>
+                        <Label alignment="CENTER" prefHeight="36.0" prefWidth="89.0" style="-fx-text-fill: grey;" text="Password" />
+                        <PasswordField fx:id="passwordField" />
+                     </children>
+                     <VBox.margin>
+                        <Insets left="50.0" right="50.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <Hyperlink onAction="#showForgotPassword" text="Forgot Password?">
+                     <VBox.margin>
+                        <Insets left="150.0" />
+                     </VBox.margin>
+                  </Hyperlink>
+                  <Button maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleLogin" prefHeight="30.0" prefWidth="300.0" style="-fx-background-color: linear-gradient(to right, #6366f1, #ec4899); -fx-background-radius: 10;" styleClass="login-button" stylesheets="@style.css" text="Log In" textFill="WHITE">
+                     <font>
+                        <Font name="Dubai Medium" size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Button>
+                  <HBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="20.0" prefWidth="300.0">
+                     <VBox.margin>
+                        <Insets left="50.0" right="50.0" />
+                     </VBox.margin>
+                     <children>
+                        <Label prefHeight="23.0" prefWidth="129.0" style="-fx-text-fill: grey;" text="Don't have an account?" />
+                        <Hyperlink onAction="#signUp" prefHeight="22.0" prefWidth="67.0" text="Sign Up" />
+                     </children>
+                  </HBox>
+               </children>
+               <BorderPane.margin>
+                  <Insets bottom="50.0" left="250.0" right="250.0" top="50.0" />
+               </BorderPane.margin>
+            </VBox>
+         </center>
+      </BorderPane>
+      <VBox fx:id="forgotPasswordBox" alignment="CENTER" maxHeight="400.0" maxWidth="300.0" prefWidth="100.0" spacing="5.0" style="-fx-background-color: #1e272e; -fx-background-radius: 20; -fx-border-color: #f39c12; -fx-border-width: 2; -fx-padding: 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0);" styleClass="forgot-password-popup" visible="false">
          <children>
-            <ImageView fitHeight="83.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-               <image>
-                  <Image url="@images/book%20icon.png" />
-               </image>
-            </ImageView>
-            <Label text="StudyLibrary" textFill="WHITE">
+            <Label styleClass="forgot-password-title" text="Set Password" textFill="WHITE">
                <font>
-                  <Font name="Dubai Medium" size="20.0" />
+                  <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <Label text="Online Library Access + Find a study partner!" textFill="#6da9d4" />
-            <Separator prefHeight="0.0" prefWidth="525.0" styleClass="login-seperator-fade" stylesheets="@style.css">
-               <padding>
-                  <Insets left="100.0" right="100.0" />
-               </padding>
-               <VBox.margin>
-                  <Insets left="50.0" right="50.0" />
-               </VBox.margin>
-            </Separator>
-            <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="60.0" prefWidth="300.0" spacing="10.0" styleClass="login-Hbox" stylesheets="@style.css">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <VBox.margin>
-                  <Insets left="50.0" right="50.0" />
-               </VBox.margin>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                <children>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/defaultProfilePicture.png" />
-                     </image>
-                  </ImageView>
-                  <Label alignment="CENTER" prefHeight="36.0" prefWidth="52.0" style="-fx-text-fill: grey;" text="User ID" />
-                  <TextField fx:id="idField" prefHeight="25.0" prefWidth="139.0" />
+                  <Label text="User ID:" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtID" prefWidth="150.0" styleClass="forgot-password-field" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" layoutX="230.0" layoutY="259.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="60.0" prefWidth="300.0" spacing="10.0" styleClass="login-Hbox" stylesheets="@style.css">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                <children>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/lock.png" />
-                     </image>
-                  </ImageView>
-                  <Label alignment="CENTER" prefHeight="36.0" prefWidth="89.0" style="-fx-text-fill: grey;" text="Password" />
-                  <PasswordField fx:id="passwordField" />
-               </children>
-               <VBox.margin>
-                  <Insets left="50.0" right="50.0" />
-               </VBox.margin>
-            </HBox>
-            <Hyperlink text="Forgot Password?">
-               <VBox.margin>
-                  <Insets left="150.0" />
-               </VBox.margin>
-            </Hyperlink>
-            <Button maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleLogin" prefHeight="30.0" prefWidth="300.0" style="-fx-background-color: linear-gradient(to right, #6366f1, #ec4899); -fx-background-radius: 10;" styleClass="login-button" stylesheets="@style.css" text="Log In" textFill="WHITE">
-               <font>
-                  <Font name="Dubai Medium" size="20.0" />
-               </font>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </Button>
-            <HBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="20.0" prefWidth="300.0">
-               <VBox.margin>
-                  <Insets left="50.0" right="50.0" />
-               </VBox.margin>
-               <children>
-                  <Label prefHeight="23.0" prefWidth="129.0" style="-fx-text-fill: grey;" text="Don't have an account?" />
-                  <Hyperlink onAction="#signUp" prefHeight="22.0" prefWidth="67.0" text="Sign Up" />
+                  <Label prefHeight="17.0" prefWidth="132.0" text="New Password:" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <PasswordField fx:id="txtPassword" prefWidth="150.0" styleClass="forgot-password-field" />
                </children>
             </HBox>
+            <Button mnemonicParsing="false" onAction="#updatePassword" styleClass="dashboard-button" text="Save" />
+            <Button mnemonicParsing="false" onAction="#hideForgotPassword" styleClass="dashboard-button" text="Cancel" />
          </children>
-         <BorderPane.margin>
-            <Insets bottom="50.0" left="250.0" right="250.0" top="50.0" />
-         </BorderPane.margin>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
       </VBox>
-   </center>
-</BorderPane>
+   </children>
+</StackPane>

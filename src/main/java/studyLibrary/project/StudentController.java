@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class StudentController {
 
-    @FXML private Label userNameLabel;
+    @FXML private Label userNameLabel, departmentLabel;
     @FXML private ImageView profileImage;
     @FXML private Button btnStudyMate, btnRequests;
 
@@ -31,6 +31,7 @@ public class StudentController {
         profileImage.getStyleClass().add("profile-pic");
         Student student = (Student) MainController.getCurrentUser();
         userNameLabel.setText(student.getName());
+        departmentLabel.setText(student.getDepartment());
     }
     @FXML
     private void backToStudyMateMenu(ActionEvent event) throws IOException {

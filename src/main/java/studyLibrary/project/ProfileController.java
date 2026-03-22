@@ -26,7 +26,7 @@ public class ProfileController {
 
     @FXML private TextField txtName, txtID, txtEmail, txtDept, txtAge;
     @FXML private ImageView profileImageView, profileImage;
-    @FXML private Label statusLabel;
+    @FXML private Label statusLabel, userNameLabel, departmentLabel;
     @FXML private VBox propertiesBox;
     private LibrarySystem system;
 
@@ -53,6 +53,10 @@ public class ProfileController {
         Circle clip2 = new Circle(25, 25, 25);
         profileImage.setClip(clip2);
         profileImage.getStyleClass().add("profile-pic");
+        Student student = (Student) MainController.getCurrentUser();
+        userNameLabel.setText(student.getName());
+        departmentLabel.setText(student.getDepartment());
+        txtID.setEditable(false);
     }
     @FXML
     private void uploadPhoto(ActionEvent event) {

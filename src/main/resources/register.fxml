@@ -20,12 +20,12 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="900.0" prefHeight="975.0" prefWidth="1020.0" styleClass="root-login-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.SignUpController">
    <center>
-      <ScrollPane BorderPane.alignment="TOP_LEFT">
+      <ScrollPane prefHeight="822.0" prefWidth="450.0" BorderPane.alignment="TOP_LEFT">
          <BorderPane.margin>
             <Insets bottom="50.0" left="250.0" right="250.0" top="50.0" />
          </BorderPane.margin>
          <content>
-            <VBox fx:id="mainContainer" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="800.0" prefWidth="444.0" styleClass="login-Vbox" stylesheets="@style.css">
+            <VBox fx:id="mainContainer" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="869.0" prefWidth="517.0" styleClass="login-Vbox" stylesheets="@style.css">
                <children>
                   <ImageView fitHeight="83.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
                      <VBox.margin>
@@ -71,7 +71,7 @@
                         <Insets left="50.0" right="50.0" />
                      </VBox.margin>
                      <children>
-                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="60.0" prefWidth="300.0" spacing="10.0" styleClass="login-Hbox" stylesheets="@style.css">
+                        <HBox alignment="CENTER" layoutX="39.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="60.0" prefWidth="300.0" spacing="10.0" styleClass="login-Hbox" stylesheets="@style.css">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
@@ -97,7 +97,7 @@
                         </HBox>
                      </children>
                   </AnchorPane>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="62.0" prefWidth="300.0" spacing="10.0" styleClass="login-Hbox" stylesheets="@style.css">
                            <opaqueInsets>
@@ -118,7 +118,7 @@
                         </HBox>
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="60.0" prefWidth="300.0" spacing="10.0" styleClass="login-Hbox" stylesheets="@style.css">
                            <opaqueInsets>
@@ -131,7 +131,7 @@
                                  </image>
                               </ImageView>
                               <Label prefHeight="15.0" prefWidth="54.0" style="-fx-text-fill: gray;" text="Age" />
-                              <TextField fx:id="txtAge" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #2c3e50; -fx-text-fill: white;" />
+                              <TextField fx:id="txtAge" prefHeight="25.0" prefWidth="114.0" style="-fx-background-color: #2c3e50; -fx-text-fill: white;" />
                            </children>
                            <HBox.margin>
                               <Insets left="50.0" right="50.0" />
@@ -139,7 +139,7 @@
                         </HBox>
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="60.0" prefWidth="300.0" spacing="10.0" styleClass="login-Hbox" stylesheets="@style.css">
                            <opaqueInsets>
@@ -160,7 +160,7 @@
                         </HBox>
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="60.0" prefWidth="300.0" spacing="10.0" styleClass="login-Hbox" stylesheets="@style.css">
                            <opaqueInsets>
@@ -175,9 +175,6 @@
                               <Label prefHeight="15.0" prefWidth="82.0" style="-fx-text-fill: gray;" text="Department" />
                               <ComboBox fx:id="comboBoxDept" prefWidth="120.0" style="-fx-mark-color: #ad9b7f; -fx-text-fill: white;" styleClass="combo-box" />
                            </children>
-                           <HBox.margin>
-                              <Insets left="50.0" right="50.0" />
-                           </HBox.margin>
                         </HBox>
                      </children>
                   </HBox>

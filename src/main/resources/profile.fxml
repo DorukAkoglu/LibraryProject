@@ -28,12 +28,12 @@
                         <Image url="@images/defaultProfilePicture.png" />
                      </image>
                   </ImageView>
-                  <Label text="Berat" textFill="#e9dfdf">
+                  <Label fx:id="userNameLabel" text="Berat" textFill="#e9dfdf">
                      <font>
                         <Font name="Calibri Light" size="18.0" />
                      </font>
                   </Label>
-                  <Label styleClass="accent-text" text="Computer Science" textFill="WHITE" />
+                  <Label fx:id="departmentLabel" styleClass="accent-text" text="Computer Science" textFill="WHITE" />
                   <Button mnemonicParsing="false" onAction="#returnDashboard" styleClass="nav-button" text="Dashboard" />
                </children>
                <padding>
@@ -45,7 +45,7 @@
    <center>
       <ScrollPane prefHeight="588.0" prefWidth="597.0" styleClass="root" BorderPane.alignment="TOP_CENTER">
          <content>
-            <VBox fx:id="propertiesBox" alignment="CENTER" prefHeight="674.0" prefWidth="564.0" spacing="15.0">
+            <VBox fx:id="propertiesBox" alignment="CENTER" prefHeight="676.0" prefWidth="565.0" spacing="15.0">
                <padding>
                   <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
                </padding>
@@ -63,7 +63,7 @@
                         <Button mnemonicParsing="false" styleClass="nav-button" stylesheets="@student.css" text="Remove Photo" />
                      </children>
                   </HBox>
-                  <GridPane alignment="TOP_RIGHT" hgap="20.0" prefWidth="600.0" styleClass="dashboard-card" vgap="30.0">
+                  <GridPane alignment="CENTER" hgap="20.0" prefWidth="600.0" styleClass="dashboard-card" vgap="30.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -92,7 +92,7 @@
                            <padding>
                               <Insets bottom="10.0" left="100.0" right="10.0" top="10.0" />
                            </padding></TextField>
-                        <TextField fx:id="txtID" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <TextField fx:id="txtID" prefHeight="22.0" prefWidth="205.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <styleClass>
                               <String fx:value="nav-button" />
                               <String fx:value="profile-text-field" />
