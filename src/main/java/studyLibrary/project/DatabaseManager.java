@@ -228,12 +228,13 @@ public class DatabaseManager {
 
                     lb.setProfilePicture(doc.getString("profilePhoto"));
                     users.add(lb);
-                }
+                } else {
                 Admin a =new Admin(doc.getInteger("userID"), doc.getString("name"),
                                 doc.getString("email"),   doc.getString("password"));
                                 
                 a.setProfilePicture(doc.getString("profilePhoto"));
                 users.add(a);
+                }
             }
         return users;
     }
