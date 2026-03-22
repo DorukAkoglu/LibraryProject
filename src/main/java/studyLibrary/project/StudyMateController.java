@@ -35,6 +35,7 @@ public class StudyMateController {
     @FXML private Label nameLabel;
     @FXML private Label ageLabel;
     @FXML private Label departmentLabel;
+    @FXML private Label courseLabel;
     @FXML private ImageView imageView;
 
     public void initialize(){
@@ -47,9 +48,9 @@ public class StudyMateController {
 
     private void displayStudyMateInfo(Student student) {
         if(student != null){
-            nameLabel.setText(student.getName());
-            ageLabel.setText(String.valueOf(student.getAge()));
-            departmentLabel.setText(student.getDepartment());
+            nameLabel.setText("Name: " + student.getName());
+            ageLabel.setText("Age: " + String.valueOf(student.getAge()));
+            departmentLabel.setText("Department: " + student.getDepartment());
         }
     }
     public void displayRequests(ActionEvent event) throws IOException {

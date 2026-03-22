@@ -19,7 +19,6 @@ public class StudentController {
     @FXML private Label userNameLabel;
     @FXML private ImageView profileImage;
     @FXML private Button btnStudyMate, btnRequests;
-    private User currentUser;
 
     @FXML
     public void initialize() {
@@ -30,9 +29,8 @@ public class StudentController {
         Circle clip = new Circle(25, 25, 25);
         profileImage.setClip(clip);
         profileImage.getStyleClass().add("profile-pic");
-        Student berat = new Student(1, "Berat", "berat@example.com", "password", 20, 85, "Computer Engineering");
-        currentUser = berat;
-        userNameLabel.setText(berat.getName());
+        Student student = (Student) MainController.getCurrentUser();
+        userNameLabel.setText(student.getName());
     }
     @FXML
     private void backToStudyMateMenu(ActionEvent event) throws IOException {
