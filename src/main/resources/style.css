@@ -156,13 +156,13 @@
     -fx-alignment: CENTER;
 }
 .toast-label {
-    -fx-background-color: rgba(30, 41, 59, 0.9); /* Arka planla uyumlu koyu lacivert */
+    -fx-background-color: rgba(30, 41, 59, 0.9); 
     -fx-text-fill: white;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-padding: 10 20;
     -fx-background-radius: 20;
-    -fx-border-color: #2ecc71; /* Neon yeşil başarı çizgisi */
+    -fx-border-color: #2ecc71;
     -fx-border-radius: 20;
     -fx-border-width: 1;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 5);

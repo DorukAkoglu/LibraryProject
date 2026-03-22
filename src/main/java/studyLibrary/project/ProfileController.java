@@ -1,6 +1,8 @@
 package studyLibrary.project;
 
+import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -10,17 +12,22 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
 import java.io.File;
 import java.io.IOException;
+
 
 public class ProfileController {
 
     @FXML private TextField txtName, txtID, txtEmail, txtDept, txtAge;
     @FXML private ImageView profileImageView, profileImage;
     @FXML private Label statusLabel;
+    @FXML private VBox propertiesBox;
     private LibrarySystem system;
 
     @FXML
@@ -66,21 +73,45 @@ public class ProfileController {
             try {
                 user.setName(txtName.getText());
                 user.setEmail(txtEmail.getText());
-                if (user instanceof Student student) {
+                if (user instanceof Student) {
+                    Student student = (Student) user;
                     student.setDepartment(txtDept.getText());
                     String ageText = txtAge.getText();
                     if(!ageText.isEmpty()) {
                         student.setAge(Integer.parseInt(ageText));
                     }
                 }
-                LibrarySystem.getInstance().updateUserDB(user); 
-                statusLabel.setText("Changes saved.");
-                statusLabel.setStyle("-fx-text-fill: #2ecc71;");
+                LibrarySystem.getInstance().updateUserDB(user);
+                displayTheInformation("Changes saved.");
             } catch (NumberFormatException e) {
-                statusLabel.setText("Age must be a number!");
-                statusLabel.setStyle("-fx-text-fill: #e74c3c;");
+                displayTheInformation("Age must be a number!");
             }
         }
+    }
+    private void displayTheInformation(String message) {
+        Label information = new Label(message);
+        information.getStyleClass().add("information-label");
+        propertiesBox.getChildren().add(0, information); 
+        FadeTransition startFade = new FadeTransition(Duration.millis(300), information);
+        startFade.setFromValue(0.0);
+        startFade.setToValue(1.0);
+        FadeTransition finishFade = new FadeTransition(Duration.millis(500), information);
+        finishFade.setFromValue(1.0);
+        finishFade.setToValue(0.0);
+        finishFade.setDelay(Duration.seconds(2)); 
+        finishFade.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                propertiesBox.getChildren().remove(information);
+            }
+        });
+        startFade.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                finishFade.play();
+            }
+        });
+        startFade.play();
     }
 
     @FXML

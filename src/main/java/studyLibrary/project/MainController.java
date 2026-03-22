@@ -76,7 +76,6 @@ public class MainController {
     }
     @FXML
     private void signUp(ActionEvent event) throws IOException {
-        // Kullanıcıyı kayıt ekranına uçuruyoruz
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/register.fxml"));
         Parent root = loader.load();
         App.PRIMARY_STAGE.getScene().setRoot(root);
