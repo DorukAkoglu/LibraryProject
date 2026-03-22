@@ -8,16 +8,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="948.0" prefWidth="1459.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.StudyRequestController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="948.0" prefWidth="1459.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.StudyRequestController">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="130.0" layoutY="14.0" prefHeight="0.0" prefWidth="209.0" styleClass="header-pane" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Label layoutX="406.0" layoutY="119.0" prefHeight="49.0" prefWidth="200.0" styleClass="header-title" text="Incoming Requests">
          <font>
             <Font size="21.0" />
          </font></Label>
-      <Separator layoutX="480.0" layoutY="168.0" prefHeight="38.0" prefWidth="360.0" styleClass="header-divider" />
+      <Separator layoutX="480.0" layoutY="168.0" prefHeight="11.0" prefWidth="360.0" styleClass="login-seperator-fade" />
       <Button fx:id="returnButton" layoutX="586.0" layoutY="751.0" mnemonicParsing="false" onAction="#backToStudyMateMenu" prefHeight="49.0" prefWidth="200.0" styleClass="return-button" text="Return to StudyMate Menu " AnchorPane.bottomAnchor="148.0" />
-      <ScrollPane fx:id="myScrollPane" fitToWidth="true" hbarPolicy="NEVER" layoutX="410.0" layoutY="206.0" prefHeight="319.0" prefWidth="551.0">
+      <ScrollPane fx:id="myScrollPane" fitToWidth="true" hbarPolicy="NEVER" layoutX="410.0" layoutY="206.0" prefHeight="319.0" prefWidth="551.0" stylesheets="@style.css">
          <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="298.0">
                <children>

@@ -28,7 +28,7 @@
                   <Font name="Calibri Light" size="18.0" />
                </font>
             </Label>
-            <Label styleClass="accent-text" text="Computer Science" textFill="WHITE" />
+            <Label fx:id="departmentLabel" styleClass="accent-text" text="Computer Science" textFill="WHITE" />
             <Button fx:id="btnStudyMate" mnemonicParsing="false" styleClass="nav-button" text="Dashboard" />
             <Button fx:id="btnRequests" mnemonicParsing="false" onAction="#backToStudyMateMenu" styleClass="nav-button" text="Find Study Partner" />
             <Button mnemonicParsing="false" onAction="#updateProfile" styleClass="nav-button" text="Update Profile" />
