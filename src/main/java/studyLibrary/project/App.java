@@ -36,7 +36,6 @@ public class App extends Application
         PRIMARY_STAGE.show();
         
     }
-    
     public static void main(String[] args)
     {
         launch();

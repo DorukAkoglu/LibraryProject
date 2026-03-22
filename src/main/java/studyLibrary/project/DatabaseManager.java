@@ -103,7 +103,7 @@ public class DatabaseManager {
 
         if (u instanceof Student s) {
             doc.append("role", "student")
-            .append("age", s.getAge())      // Bu alanlar çok önemli!
+            .append("age", s.getAge())     
            .append("grade", s.getGrade())
            .append("department", s.getDepartment())
             .append("availabilityStatus", s.getAvailabilityStatus());

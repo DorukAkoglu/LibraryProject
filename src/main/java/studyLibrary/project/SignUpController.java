@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -17,19 +19,45 @@ import java.io.IOException;
 
 public class SignUpController {
     @FXML private VBox mainContainer;
-    @FXML private TextField txtEmail, txtFullName, txtID, txtAge, txtDept;
+    @FXML private TextField txtEmail, txtFullName, txtID, txtAge, txtPasswordVisible;
+    @FXML private ComboBox<String> comboBoxDept;
     @FXML private PasswordField txtPassword;
+    @FXML private CheckBox checkShowPassword;
+    @FXML
+    public void initialize() {
+        comboBoxDept.getItems().addAll("Computer Science", "Mathematics", "Chemistry", "Biology");
+        checkShowPassword.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (checkShowPassword.isSelected()) {
+                    txtPasswordVisible.setText(txtPassword.getText());
+                    txtPasswordVisible.setVisible(true);
+                    txtPasswordVisible.setManaged(true);
+                    txtPassword.setVisible(false);
+                    txtPassword.setManaged(false);
+                } 
+                else {
+                    txtPassword.setText(txtPasswordVisible.getText());
+                    txtPassword.setVisible(true);
+                    txtPassword.setManaged(true);
+                    txtPasswordVisible.setVisible(false);
+                    txtPasswordVisible.setManaged(false);
+                }
+            }
+        });
+    }
     @FXML
     private void handleRegister(ActionEvent event) {
         try {
-            if (isFormEmpty()) {
+            if (!isFormEmpty()) {
                 displayInformation("Please fill in all fields!");
                 return;
             }
             String name = txtFullName.getText();
             String email = txtEmail.getText();
             String pass = txtPassword.getText();
-            String dept = txtDept.getText();
+            String dept = comboBoxDept.getValue();
+
             int id = Integer.parseInt(txtID.getText());
             int age = Integer.parseInt(txtAge.getText());
             Student newStudent = new Student(id, name, email, pass, age, 1, dept);
@@ -79,11 +107,34 @@ public class SignUpController {
         });
         fadeIn.play();
     }
-
     private boolean isFormEmpty() {
-        return txtEmail.getText().isEmpty() || txtFullName.getText().isEmpty() || 
-               txtPassword.getText().isEmpty() || txtID.getText().isEmpty();
+        boolean isValid = true;
+        TextField[] fields = {txtEmail, txtFullName, txtID, txtAge};
+        for (TextField field : fields) {
+            if (field.getText().trim().isEmpty()) {
+                field.setStyle( "-fx-border-color: red;");
+                isValid = false;
+            } 
+            else {
+                field.setStyle(""); 
+            }
+        }
+        if (comboBoxDept.getValue() == null) {
+            comboBoxDept.setStyle("-fx-border-color: red;");
+            isValid = false;
+        }
+        TextField activePassField = checkShowPassword.isSelected() ? txtPasswordVisible : txtPassword;
+        if (activePassField.getText().trim().isEmpty()) {
+            activePassField.setStyle("-fx-border-color: red;");
+            isValid = false;
+        } 
+        else {
+            txtPassword.setStyle("");
+            txtPasswordVisible.setStyle("");
+        }
+        return isValid;
     }
+    
 
     @FXML
     private void backToLogin(ActionEvent event) throws IOException {

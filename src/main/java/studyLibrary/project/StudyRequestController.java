@@ -176,7 +176,7 @@ public class StudyRequestController {
 
     private void displayTheInformation(String message) {
         Label information = new Label(message);
-        information.getStyleClass().add("toast-label");
+        information.getStyleClass().add("information-label");
         requestsBox.getChildren().add(0, information); 
         FadeTransition startFade = new FadeTransition(Duration.millis(300), information);
         startFade.setFromValue(0.0);
