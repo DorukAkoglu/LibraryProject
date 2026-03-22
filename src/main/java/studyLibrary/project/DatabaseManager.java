@@ -169,11 +169,15 @@ public class DatabaseManager {
     public void updateUser(User u) {
         Document update = new Document("$set", new Document("name", u.getName())
                 .append("email",    u.getEmail())
-                .append("password", u.getPassword()).append("profilePhoto", u.getProfilePhoto()));
+                .append("password", u.getPassword())
+                .append("profilePhoto", u.getProfilePhoto()));
 
-        if (u instanceof Student) {
+        if (u instanceof Student s) {
             update.get("$set", Document.class)
-                .append("availabilityStatus", ((Student) u).getAvailabilityStatus());
+                .append("availabilityStatus", s.getAvailabilityStatus())
+                .append("age",        s.getAge())
+                .append("grade",      s.getGrade())
+                .append("department", s.getDepartment());
         }
         database.getCollection("users")
                 .updateOne(new Document("userID", u.getUserID()), update);
