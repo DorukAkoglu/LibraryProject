@@ -6,6 +6,9 @@ module studyLibrary.project {
     requires org.mongodb.driver.sync.client;
     requires org.mongodb.driver.core;
     requires org.mongodb.bson;
+    requires cloudinary.core;
+    requires cloudinary.http44;
+    
 
     opens studyLibrary.project to javafx.fxml, javafx.graphics;
     exports studyLibrary.project;

@@ -1,4 +1,5 @@
 package studyLibrary.project;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.bson.Document;
@@ -8,13 +9,20 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
+
 public class DatabaseManager {
     private MongoClient mongoClient;
+    private CloudinaryManager cloudinaryManager;
     private MongoDatabase database;
     
     public DatabaseManager() {
         mongoClient = null;
         database = null;
+        try {
+            this.cloudinaryManager = new CloudinaryManager();
+        } catch (IOException e) {
+            System.err.println("Cloudinary network error: " + e.getMessage());
+        }
     }
     public User getUserByEmail(String email) {
         Document doc = database.getCollection("users")
@@ -23,16 +31,22 @@ public class DatabaseManager {
 
         String role = doc.getString("role");
         if ("student".equals(role)) {
-            return new Student(doc.getInteger("userID"), doc.getString("name"),
+            Student s = new Student(doc.getInteger("userID"), doc.getString("name"),
                             doc.getString("email"),   doc.getString("password"),
                             doc.getInteger("age"),    doc.getInteger("grade"),
                             doc.getString("department"));
+            s.setProfilePicture(doc.getString("profilePhoto"));
+            return s;
         } else if ("librarian".equals(role)) {
-            return new Librarian(doc.getInteger("userID"), doc.getString("name"),
+            Librarian lb = new Librarian(doc.getInteger("userID"), doc.getString("name"),
                                 doc.getString("email"),   doc.getString("password"));
+            lb.setProfilePicture(doc.getString("profilePhoto"));
+            return lb;
         }
-        return new User(doc.getInteger("userID"), doc.getString("name"),
+        Admin a =new Admin(doc.getInteger("userID"), doc.getString("name"),
                         doc.getString("email"),   doc.getString("password"));
+        a.setProfilePicture(doc.getString("profilePhoto"));
+        return a;
     }
      public User getUserByID(int userID) {
         Document doc = database.getCollection("users")
@@ -40,20 +54,25 @@ public class DatabaseManager {
         if (doc == null) return null;
 
         String role = doc.getString("role");
-        if (role.equals("student")) {
-            return new Student(doc.getInteger("userID"), doc.getString("name"),
+        if ("student".equals(role)) {
+            Student s = new Student(doc.getInteger("userID"), doc.getString("name"),
                             doc.getString("email"),   doc.getString("password"),
                             doc.getInteger("age"),    doc.getInteger("grade"),
                             doc.getString("department"));
-        } else if (role.equals("librarian")) {
-            return new Librarian(doc.getInteger("userID"), doc.getString("name"),
+            s.setProfilePicture(doc.getString("profilePhoto"));
+            return s;
+        } else if ("librarian".equals(role)) {
+            Librarian lb = new Librarian(doc.getInteger("userID"), doc.getString("name"),
                                 doc.getString("email"),   doc.getString("password"));
-        } else if (role.equals("admin")) {
-            return new User(doc.getInteger("userID"), doc.getString("name"),
-                            doc.getString("email"),   doc.getString("password"));
+            lb.setProfilePicture(doc.getString("profilePhoto"));
+            return lb;
         }
-        return null;
+        Admin a =new Admin(doc.getInteger("userID"), doc.getString("name"),
+                        doc.getString("email"),   doc.getString("password"));
+        a.setProfilePicture(doc.getString("profilePhoto"));
+        return a;
     }
+
     public void connect() {
         mongoClient = MongoClients.create("mongodb+srv://mehmetsamedtek_db_user:bilkent123@cluster0.nxfstjh.mongodb.net/?appName=Cluster0");
         database = mongoClient.getDatabase("LibraryDB");
@@ -106,7 +125,8 @@ public class DatabaseManager {
             .append("age", s.getAge())     
            .append("grade", s.getGrade())
            .append("department", s.getDepartment())
-            .append("availabilityStatus", s.getAvailabilityStatus());
+            .append("availabilityStatus", s.getAvailabilityStatus())
+            .append("profilePhoto", s.getProfilePhoto());
         } else if (u instanceof Librarian l) {
             doc.append("role", "librarian");
         } else {
@@ -149,7 +169,7 @@ public class DatabaseManager {
     public void updateUser(User u) {
         Document update = new Document("$set", new Document("name", u.getName())
                 .append("email",    u.getEmail())
-                .append("password", u.getPassword()));
+                .append("password", u.getPassword())).append("profilePhoto", u.getProfilePhoto());
 
         if (u instanceof Student) {
             update.get("$set", Document.class)
@@ -173,6 +193,7 @@ public class DatabaseManager {
                 .append("course", m.getCourse());
         collection.insertOne(doc);
     }
+
     public void removeStudyMatch(StudyMatch m) {
         database.getCollection("studyMatches")
             .deleteOne(new Document("student1Email", m.getStudent1().getEmail())
@@ -193,18 +214,27 @@ public class DatabaseManager {
         ArrayList<User> users = new ArrayList<>();
         for (Document doc : database.getCollection("users").find()) {
             String role = doc.getString("role");
-            if ("student".equals(role)) {
-                users.add(new Student(doc.getInteger("userID"), doc.getString("name"),
-                                    doc.getString("email"),   doc.getString("password"), doc.getInteger("age"),
-                                    doc.getInteger("grade"), doc.getString("department")));
-            } else if ("librarian".equals(role)) {
-                users.add(new Librarian(doc.getInteger("userID"), doc.getString("name"),
-                                        doc.getString("email"),   doc.getString("password")));
-            } else {
-                users.add(new User(doc.getInteger("userID"), doc.getString("name"),
-                                doc.getString("email"),   doc.getString("password")));
+                if ("student".equals(role)) {
+                    Student s = new Student(doc.getInteger("userID"), doc.getString("name"),
+                                    doc.getString("email"),   doc.getString("password"),
+                                    doc.getInteger("age"),    doc.getInteger("grade"),
+                                    doc.getString("department"));
+
+                    s.setProfilePicture(doc.getString("profilePhoto"));
+                    users.add(s);
+                } else if ("librarian".equals(role)) {
+                    Librarian lb = new Librarian(doc.getInteger("userID"), doc.getString("name"),
+                                        doc.getString("email"),   doc.getString("password"));
+
+                    lb.setProfilePicture(doc.getString("profilePhoto"));
+                    users.add(lb);
+                }
+                Admin a =new Admin(doc.getInteger("userID"), doc.getString("name"),
+                                doc.getString("email"),   doc.getString("password"));
+                                
+                a.setProfilePicture(doc.getString("profilePhoto"));
+                users.add(a);
             }
-        }
         return users;
     }
     public ArrayList<Book> getBooks() {

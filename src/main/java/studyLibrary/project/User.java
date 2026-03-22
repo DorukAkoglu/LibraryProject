@@ -6,6 +6,7 @@ public class User {
     protected String name;
     protected String email;
     protected String password;
+    protected String profilePhoto;
 
     public User(int userID, String name, String email, String password){
         this.userID = userID;
@@ -32,6 +33,14 @@ public class User {
         return password;
     }
 
+    public void setProfilePicture(String url) {
+        this.profilePhoto = url;
+    }
+
+    public String getProfilePhoto() {
+        return profilePhoto;
+    }  
+     
     public String getEmail() {
         return email;
     }
