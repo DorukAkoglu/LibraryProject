@@ -55,16 +55,27 @@ public class ProfileController {
         profileImage.getStyleClass().add("profile-pic");
     }
     @FXML
-    private void uploadPhoto(ActionEvent event) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
-        File file = fileChooser.showOpenDialog(((Node)event.getSource()).getScene().getWindow());
+private void uploadPhoto(ActionEvent event) {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.getExtensionFilters().add(
+        new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+    File file = fileChooser.showOpenDialog(((Node)event.getSource()).getScene().getWindow());
 
-        if (file != null) {
-            Image image = new Image(file.toURI().toString());
-            profileImageView.setImage(image);
+    if (file != null) {
+        try {
+            CloudinaryManager cloudinaryManager = new CloudinaryManager();
+            String url = cloudinaryManager.uploadImage(file);
+            
+            User user = MainController.getCurrentUser();
+            user.setProfilePicture(url);
+            LibrarySystem.getInstance().updateUserDB(user);
+            
+            profileImageView.setImage(new Image(url));
+        } catch (IOException e) {
+            displayTheInformation("Photo upload failed!");
         }
     }
+}
 
     @FXML
     private void saveChanges(ActionEvent event) {
@@ -72,14 +83,12 @@ public class ProfileController {
         if (user != null) {
             try {
                 user.setName(txtName.getText());
-                user.setEmail(txtEmail.getText());
-                if (user instanceof Student) {
-                    Student student = (Student) user;
-                    student.setDepartment(txtDept.getText());
-                    String ageText = txtAge.getText();
-                    if(!ageText.isEmpty()) {
-                        student.setAge(Integer.parseInt(ageText));
-                    }
+                user.setEmail(txtEmail.getText());               
+                Student student = (Student) user;
+                student.setDepartment(txtDept.getText());
+                String ageText = txtAge.getText();
+                if(!ageText.isEmpty()) {
+                    student.setAge(Integer.parseInt(ageText));
                 }
                 LibrarySystem.getInstance().updateUserDB(user);
                 displayTheInformation("Changes saved.");

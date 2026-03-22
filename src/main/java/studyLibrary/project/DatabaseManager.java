@@ -169,7 +169,7 @@ public class DatabaseManager {
     public void updateUser(User u) {
         Document update = new Document("$set", new Document("name", u.getName())
                 .append("email",    u.getEmail())
-                .append("password", u.getPassword())).append("profilePhoto", u.getProfilePhoto());
+                .append("password", u.getPassword()).append("profilePhoto", u.getProfilePhoto()));
 
         if (u instanceof Student) {
             update.get("$set", Document.class)
