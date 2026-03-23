@@ -18,7 +18,6 @@ public class BookController {
 
     private LibrarySystem system;
     private static final int BORROW_DURATION = 14;
-
     private User currentUser;
 
     @FXML
@@ -32,19 +31,35 @@ public class BookController {
         String searchWord = searchField.getText();
         List<Book> results = searchBook(searchWord);
         
-        // Bulunan kitapları ekrandaki listeye (ListView) bas
+        // Bulunan kitapları ekrandaki listeye  bas
         bookListView.getItems().clear();
         bookListView.getItems().addAll(results);
     }
 
-    private void showAlert(String baslik, String mesaj, Alert.AlertType tip) {
-        Alert alert = new Alert(tip);
-        alert.setTitle(baslik);
+    private void showAlert(String title, String message, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
         alert.setHeaderText(null);
-        alert.setContentText(mesaj);
+        alert.setContentText(message);
         alert.showAndWait();
     }
 
+    @FXML
+    public void handleBorrowAction(){
+        Book selectedBook = bookListView.getSelectionModel().getSelectedItem();
+        if (selectedBook == null){
+            showAlert("Warning", "Please select a book from the list!", Alert.AlertType.WARNING);
+            return;
+        }
+
+        boolean isSuccessful = borrowBook(currentUser, selectedBook);
+        if (isSuccessful){
+            showAlert("Success", "Book successfully borrowed!", Alert.AlertType.INFORMATION);
+            handleSearchAction(); // Listeyi güncelle
+        }else{
+            showAlert("Error", "This book is currently out of stock!", Alert.AlertType.ERROR);
+        }
+    }
 
     public List<Book> searchBook(String title){
         List<Book> foundBooks = new ArrayList<>();
@@ -56,6 +71,7 @@ public class BookController {
         }
         return foundBooks;
     }
+
     public boolean borrowBook(User u, Book book){
         if (book.isAvailable()) {
             book.setNumCopies(book.getNumCopies() - 1);
