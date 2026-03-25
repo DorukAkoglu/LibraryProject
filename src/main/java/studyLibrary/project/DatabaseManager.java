@@ -12,17 +12,19 @@ import com.mongodb.client.MongoDatabase;
 
 public class DatabaseManager {
     private MongoClient mongoClient;
-    private CloudinaryManager cloudinaryManager;
+    // private CloudinaryManager cloudinaryManager;
     private MongoDatabase database;
     
     public DatabaseManager() {
         mongoClient = null;
         database = null;
+        /** 
         try {
             this.cloudinaryManager = new CloudinaryManager();
         } catch (IOException e) {
             System.err.println("Cloudinary network error: " + e.getMessage());
         }
+        */
     }
     public User getUserByEmail(String email) {
         Document doc = database.getCollection("users")

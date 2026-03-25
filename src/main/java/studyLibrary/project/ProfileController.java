@@ -64,7 +64,7 @@ private void uploadPhoto(ActionEvent event) {
     fileChooser.getExtensionFilters().add(
         new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
     File file = fileChooser.showOpenDialog(((Node)event.getSource()).getScene().getWindow());
-
+        /** 
     if (file != null) {
         try {
             CloudinaryManager cloudinaryManager = new CloudinaryManager();
@@ -79,6 +79,7 @@ private void uploadPhoto(ActionEvent event) {
             displayTheInformation("Photo upload failed!");
         }
     }
+        */
 }
 
     @FXML
