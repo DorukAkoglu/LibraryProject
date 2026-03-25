@@ -1,5 +1,5 @@
 package studyLibrary.project;
-import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.bson.Document;
@@ -212,7 +212,7 @@ public class DatabaseManager {
         for (Review r : b.getReviews()) {
             reviewDocs.add(new Document("userEmail", r.getUser().getEmail()).append("bookID", r.getBook().getBookID()).append("content", r.getContent()) .append("ratings", r.getRating()));
         }
-        database.getCollection("books").updateOne(new Document("bookID", b.getBookID()),new Document("$set", new Document("reviews", reviewDocs).append("available", b.isAvailable()).append("averageRating", b.getAverageRating()).append("numofCopies", b.getNumCopies())));
+        database.getCollection("books").updateOne(new Document("bookID", b.getBookID()),new Document("$set", new Document("reviews", reviewDocs).append("available", b.isAvailable()).append("averagerating", b.getAverageRating()).append("numofCopies", b.getNumCopies())));
         
     }
 
@@ -260,6 +260,7 @@ public class DatabaseManager {
                         b.addReview(new Review(getUserByEmail(reviewDoc.getString("userEmail")), b,reviewDoc.getString("content"), reviewDoc.getInteger("ratings")));
                     }
                 }
+                if (doc.get("duetime") != null) b.setDueTime(LocalDate.parse(doc.get("duetime").toString()));
             books.add(b);
         }
         return books;    
@@ -278,10 +279,13 @@ public class DatabaseManager {
     public ArrayList<StudyRequest> getStudyRequests() {
         ArrayList<StudyRequest> requests = new ArrayList<>();
         for (Document doc: database.getCollection("studyRequests").find()) {
+            RequestStatus status = RequestStatus.valueOf(doc.getString("status"));
             User sender = getUserByEmail(doc.getString("senderEmail"));
             User receiver = getUserByEmail(doc.getString("receiverEmail"));
             if (sender instanceof Student && receiver instanceof Student) {
-                requests.add(new StudyRequest((Student)sender, (Student)receiver, doc.getString("course")));                
+                StudyRequest sr = new StudyRequest((Student)sender, (Student)receiver, doc.getString("course"));
+                sr.setStatus(status);
+                requests.add(sr);                
             }
         }
         return requests;
