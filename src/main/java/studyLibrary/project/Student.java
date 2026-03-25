@@ -7,13 +7,14 @@ import java.util.Objects;
 public class Student extends User {
     
     private int age;
-    private String name;
+    private String name;2240
     private List<String> courses;
     private List<Book> borrowedBooks;
     private int grade;
     private String availabilityStatus;
     private List<StudyRequest> incomingRequests;
     private String department;
+    private String courseSelected = "No Course selected"; 
 
     public Student(int userID, String name, String email, String password, int age, int grade, String department) {
         super(userID, name, email, password);
@@ -136,6 +137,12 @@ public class Student extends User {
     }
     public String getName() {
         return name;
+    }
+    public String getSelectedCourse(){
+        return courseSelected;
+    }
+    public void setSelectedCourse(String course){
+        courseSelected = course;
     }
     public void setName(String name) {
         this.name = name;

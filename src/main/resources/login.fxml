@@ -82,7 +82,7 @@
                         <Insets left="150.0" />
                      </VBox.margin>
                   </Hyperlink>
-                  <Button maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleLogin" prefHeight="30.0" prefWidth="300.0" style="-fx-background-color: linear-gradient(to right, #6366f1, #ec4899); -fx-background-radius: 10;" styleClass="login-button" stylesheets="@style.css" text="Log In" textFill="WHITE">
+                  <Button defaultButton="true" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleLogin" prefHeight="30.0" prefWidth="300.0" style="-fx-background-color: linear-gradient(to right, #6366f1, #ec4899); -fx-background-radius: 10;" styleClass="login-button" stylesheets="@style.css" text="Log In" textFill="WHITE">
                      <font>
                         <Font name="Dubai Medium" size="20.0" />
                      </font>

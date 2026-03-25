@@ -1,6 +1,7 @@
 package studyLibrary.project;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.bson.Document;
 
@@ -273,6 +274,16 @@ public class DatabaseManager {
             }
         }
         return students;    
+    }
+
+    public List<Student> getStudentsByCourse(){
+        Student student = (Student) MainController.getCurrentUser();
+        List<Student> students = new ArrayList<>();
+        for (Student otherStudent : getActiveStudents()) {
+            if(student.getUserID() == otherStudent.getUserID()) continue;
+            if(student.getSelectedCourse().equals(otherStudent.getSelectedCourse())) students.add(otherStudent);
+        }
+        return students;
     }
 
     public ArrayList<StudyRequest> getStudyRequests() {
