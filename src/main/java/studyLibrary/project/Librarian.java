@@ -25,11 +25,15 @@ public class Librarian extends User{
     public void setCategory(String newCategory, Book b){
         b.setCategory(newCategory);
     }
-    public Book searchBook(ArrayList<Book> booklist, Book b){
-        if(booklist.contains(b)){
-            return b;
+    public ArrayList<Book> searchBook(ArrayList<Book> booklist, String keyword){
+        ArrayList<Book> results = new ArrayList<>();
+        for (Book book : booklist) {
+        if (book.getTitle().toLowerCase().contains(keyword.toLowerCase())) {
+            results.add(book);
         }
-        return null;
+    }
+
+    return results;
     }
     public boolean approveRes(Book b){
         if(b.isAvailable() == true){
