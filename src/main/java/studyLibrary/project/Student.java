@@ -7,7 +7,7 @@ import java.util.Objects;
 public class Student extends User {
     
     private int age;
-    private String name;2240
+    private String name;
     private List<String> courses;
     private List<Book> borrowedBooks;
     private int grade;

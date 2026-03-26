@@ -207,6 +207,12 @@ public class DatabaseManager {
             .append("student2Email", m.getStudent2().getEmail())
             .append("course",     m.getCourse()));
     }
+    public User validateUser(int ID, String password){
+        Document query = new Document("userID", ID).append("password", password);
+        Document userDoc = database.getCollection("users").find(query).first();
+        if(userDoc == null) return null;
+        return getUserByID(ID);
+    }
 
     public void updateBook(Book b) {
         ArrayList <Document> reviewDocs = new ArrayList<>();

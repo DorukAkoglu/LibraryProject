@@ -120,12 +120,7 @@ public class LibrarySystem {
     }
 
     public User authorizeUser(int userID, String password) {
-        User user = db.getUserByID(userID);
-
-        if (user != null && user.getPassword().equals(password)) {
-            return user;
-        }
-        return null;
+        return db.validateUser(userID, password);
     }
 
     public void addActiveStudent(Student s) {
