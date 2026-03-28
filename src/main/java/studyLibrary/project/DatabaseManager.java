@@ -62,6 +62,7 @@ public class DatabaseManager {
                             doc.getString("email"),   doc.getString("password"),
                             doc.getInteger("age"),    doc.getInteger("grade"),
                             doc.getString("department"));
+            s.setSelectedCourse(doc.getString("selectedCourse"));
             s.setProfilePicture(doc.getString("profilePhoto"));
             return s;
         } else if ("librarian".equals(role)) {
@@ -129,7 +130,8 @@ public class DatabaseManager {
            .append("grade", s.getGrade())
            .append("department", s.getDepartment())
             .append("availabilityStatus", s.getAvailabilityStatus())
-            .append("profilePhoto", s.getProfilePhoto());
+            .append("profilePhoto", s.getProfilePhoto())
+            .append("selectedCourse", s.getSelectedCourse());
         } else if (u instanceof Librarian l) {
             doc.append("role", "librarian");
         } else {
@@ -180,7 +182,8 @@ public class DatabaseManager {
                 .append("availabilityStatus", s.getAvailabilityStatus())
                 .append("age",        s.getAge())
                 .append("grade",      s.getGrade())
-                .append("department", s.getDepartment());
+                .append("department", s.getDepartment())
+                .append("selectedCourse", s.getSelectedCourse());
         }
         database.getCollection("users")
                 .updateOne(new Document("userID", u.getUserID()), update);
@@ -234,6 +237,7 @@ public class DatabaseManager {
                                     doc.getString("department"));
 
                     s.setProfilePicture(doc.getString("profilePhoto"));
+                    s.setSelectedCourse(doc.getString("selectedCourse"));
                     users.add(s);
                 } else if ("librarian".equals(role)) {
                     Librarian lb = new Librarian(doc.getInteger("userID"), doc.getString("name"),
