@@ -8,13 +8,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
@@ -67,6 +64,7 @@ public class StudyMateController {
         courseLabel.setText("Course: " + courseComboBox.getValue());
         Student student = (Student) MainController.getCurrentUser();
         student.setSelectedCourse(courseComboBox.getValue());
+        dbManager.updateUser(student);
     }
 
     public void displayRequests(ActionEvent event) throws IOException {
