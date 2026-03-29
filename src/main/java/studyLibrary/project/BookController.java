@@ -7,6 +7,8 @@ import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
@@ -15,6 +17,9 @@ public class BookController {
     @FXML private ListView<Book> bookListView;
     @FXML private Button borrowButton;
     @FXML private Button returnButton;
+    @FXML private ComboBox<String> categoryFilter;
+    @FXML private ComboBox<String> pagesFilter;
+    @FXML private CheckBox availabilityFilter;
 
     private LibrarySystem system;
     private static final int BORROW_DURATION = 14;
@@ -23,17 +28,22 @@ public class BookController {
     @FXML
     public void initialize(){
         this.system = LibrarySystem.getInstance();
+        pagesFilter.getItems().addAll("Max 100", "Max 300", "Max 500", "No Limit");
 
     }
 
     @FXML
     public void handleSearchAction(){
         String searchWord = searchField.getText();
-        List<Book> results = searchBook(searchWord);
-        
+        String category = categoryFilter.getValue();
+        String maxPages = pagesFilter.getValue();
+        boolean onlyAv = availabilityFilter.isSelected();
+
+        //List<Book> results = searchBook(searchWord, category, maxPages, onlyAv);
+
         // Bulunan kitapları ekrandaki listeye  bas
         bookListView.getItems().clear();
-        bookListView.getItems().addAll(results);
+        //bookListView.getItems().addAll(results);
     }
 
     private void showAlert(String title, String message, Alert.AlertType type) {
@@ -61,16 +71,7 @@ public class BookController {
         }
     }
 
-    public List<Book> searchBook(String title){
-        List<Book> foundBooks = new ArrayList<>();
-
-        for (Book book : system.getBooks()){
-            if (book.getTitle().toLowerCase().contains(title.toLowerCase())) {
-                foundBooks.add(book); 
-            }
-        }
-        return foundBooks;
-    }
+    
 
     public boolean borrowBook(User u, Book book){
         if (book.isAvailable()) {
