@@ -35,7 +35,7 @@ public class StudentController {
     }
     @FXML
     private void backToStudyMateMenu(ActionEvent event) throws IOException {
-        changeScreen(event, "/studyMate.fxml");
+        changeScreen(event, "/studyMateMenu(improved).fxml");
     }
     @FXML
     private void viewRequests(ActionEvent event) throws IOException {

@@ -148,8 +148,7 @@ public class Student extends User {
         this.name = name;
     }
     @Override
-    public boolean equals(Object other) { //Buna studymate kısmında ihtiyacım olduğu için 
-    // senden önce yapmam gerekti, classlarımız bağlı olduğu için arada küçük dokunuşlar yapmak zorunlu oluyor. Okuyunca silersin
+    public boolean equals(Object other) { 
         if(this == other) return true;
         if(!(other instanceof Student)) return false;
         Student otherStudent = (Student) other;
@@ -159,7 +158,7 @@ public class Student extends User {
         return true;
     }
     @Override
-    public int hashCode() { // Equals metodunu UserID ve Email üzerinden karşılaştırır, her kullanıcının kendine has ID ve emaili olduğunu düşünürsek
+    public int hashCode() { 
         return Objects.hash(userID, email); 
     }
 }

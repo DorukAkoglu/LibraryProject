@@ -93,9 +93,10 @@ public class StudyMateController {
                 showAlert("No Mates Found", "There are no available study mates around you.");
                 return;
             }
-            Collections.shuffle(potentialMates);
-            Student matchedStudent = potentialMates.get(0);
-            displayStudyMateInfo(matchedStudent);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mateMatchResult.fxml"));
+            Parent root = loader.load();
+            App.PRIMARY_STAGE = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            App.PRIMARY_STAGE.getScene().setRoot(root);
         }
     }
 
