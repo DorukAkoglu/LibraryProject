@@ -159,7 +159,16 @@ public class DatabaseManager {
                 .append("password", u.getPassword());   
 
         if (u instanceof Student s) {
+            Student a = (Student) u;
+            
+            ArrayList <Document> requestDocs = new ArrayList<>();
+            for (StudyRequest sr : a.getStudyRequest()){
+                requestDocs.add(new Document("receiverEmail",a.getEmail()).append("senderEmail", sr.getSender().getEmail()).append("course", sr.getCourse()));
+            }
+            
+
             doc.append("role", "student")
+            .append("requests", requestDocs)
             .append("age", s.getAge())     
            .append("grade", s.getGrade())
            .append("department", s.getDepartment())
@@ -212,7 +221,14 @@ public class DatabaseManager {
                 .append("profilePhoto", u.getProfilePhoto()));
 
         if (u instanceof Student s) {
+            ArrayList<Document> requestDocs = new ArrayList<>();
+            for (StudyRequest sr : s.getStudyRequest()) {
+                requestDocs.add(new Document("senderEmail", sr.getSender().getEmail())
+                    .append("course", sr.getCourse()));
+            }
+
             update.get("$set", Document.class)
+                .append("requests", requestDocs)
                 .append("availabilityStatus", s.getAvailabilityStatus())
                 .append("age",        s.getAge())
                 .append("grade",      s.getGrade())
@@ -275,6 +291,16 @@ public class DatabaseManager {
                                     doc.getInteger("age"),    doc.getInteger("grade"),
                                     doc.getString("department"));
 
+                    ArrayList<Document> requestDocs = (ArrayList<Document>) doc.getList("requests", Document.class);
+                    if (requestDocs != null) {
+                        for (Document reqDoc : requestDocs) {
+                            User sender = getUserByEmail(reqDoc.getString("senderEmail"));
+                            if (sender instanceof Student) {
+                                StudyRequest sr = new StudyRequest((Student) sender, s, reqDoc.getString("course"));
+                                s.addStudyRequest(sr);
+                            }
+                        }
+                    }
                     s.setProfilePicture(doc.getString("profilePhoto"));
                     s.setSelectedCourse(doc.getString("selectedCourse"));
                     users.add(s);
