@@ -89,19 +89,53 @@ public class DatabaseManager {
         }
     }
     public Book getBookByBookID(int bookID) {
-        MongoCollection<Document> collection = database.getCollection("books");
-        Document doc = collection.find(new Document("bookID", bookID)).first();
+       Document doc = database.getCollection("books")
+                    .find(new Document("bookID", bookID)).first();
+    if (doc == null) return null;
 
-        if (doc == null) {
-            return null;
+    Book b = new Book(
+        doc.getInteger("bookID"),
+        doc.getString("title"),
+        doc.getString("author"),
+        doc.getString("category"),
+        doc.getInteger("numofCopies"));
+
+    b.setAvailability(doc.getBoolean("available"));
+    
+    if (doc.get("duetime") != null) 
+        b.setDueTime(LocalDate.parse(doc.get("duetime").toString()));
+
+    ArrayList<Document> reviewDocs = (ArrayList<Document>) doc.getList("reviews", Document.class);
+    if (reviewDocs != null) {
+        for (Document reviewDoc : reviewDocs) {
+            Review r = new Review(
+                getUserByEmail(reviewDoc.getString("userEmail")),
+                b,
+                reviewDoc.getString("content"),
+                reviewDoc.getInteger("ratings"));
+
+            ArrayList<Document> commentDocs = (ArrayList<Document>) reviewDoc.getList("comments", Document.class);
+            if (commentDocs != null) {
+                for (Document commentDoc : commentDocs) {
+                    r.addComment(new Comment(
+                        getUserByEmail(commentDoc.getString("userEmail")),
+                        commentDoc.getString("comment")));
+                }
+            }
+            b.addReview(r);
         }
-
-        return new Book(doc.getInteger("bookID"), doc.getString("title"), doc.getString("author"), doc.getString("category"),doc.getInteger("numofCopies"));    
+    }
+    return b;   
     }
     public void saveBook(Book b) {
         ArrayList <Document> reviewDocs = new ArrayList<>();
         for (Review r : b.getReviews()) {
-            reviewDocs.add(new Document("userEmail", r.getUser().getEmail()).append("bookID", r.getBook().getBookID()).append("content", r.getContent()) .append("ratings", r.getRating()));
+            ArrayList<Document> commentDocs = new ArrayList<>();
+            for (Comment c : r.getComments()) {
+                commentDocs.add(new Document("userEmail", c.getUser()).append("comment", c.getContent()));
+            }
+            reviewDocs.add(new Document("userEmail", r.getUser().getEmail()).append("bookID", r.getBook().getBookID()).append("content", r.getContent()) .append("ratings", r.getRating()).append("comments", commentDocs));
+
         }
 
         MongoCollection<Document> collection = database.getCollection("books");
@@ -220,7 +254,12 @@ public class DatabaseManager {
     public void updateBook(Book b) {
         ArrayList <Document> reviewDocs = new ArrayList<>();
         for (Review r : b.getReviews()) {
-            reviewDocs.add(new Document("userEmail", r.getUser().getEmail()).append("bookID", r.getBook().getBookID()).append("content", r.getContent()) .append("ratings", r.getRating()));
+            ArrayList <Document> commentDocs = new ArrayList<>();
+            for(Comment c : r.getComments()) {
+                commentDocs.add(new Document("userEmail", c.getUser()).append("comment", c.getContent()));
+            }
+            reviewDocs.add(new Document("userEmail", r.getUser().getEmail()).append("bookID", r.getBook().getBookID()).append("content", r.getContent()) .append("ratings", r.getRating()).append("comments", commentDocs));
+
         }
         database.getCollection("books").updateOne(new Document("bookID", b.getBookID()),new Document("$set", new Document("reviews", reviewDocs).append("available", b.isAvailable()).append("averagerating", b.getAverageRating()).append("numofCopies", b.getNumCopies())));
         
@@ -268,8 +307,15 @@ public class DatabaseManager {
                 ArrayList <Document> reviewDocs = (ArrayList<Document>) doc.getList("reviews", Document.class);
                 if (reviewDocs != null) {
                     for (Document reviewDoc : reviewDocs) {
-                        b.addReview(new Review(getUserByEmail(reviewDoc.getString("userEmail")), b,reviewDoc.getString("content"), reviewDoc.getInteger("ratings")));
-                    }
+                        Review r = new Review(getUserByEmail(reviewDoc.getString("userEmail")), b,reviewDoc.getString("content"), reviewDoc.getInteger("ratings"));
+                        ArrayList <Document> commentDocs = (ArrayList<Document>)reviewDoc.getList("comments", Document.class);
+                        if (commentDocs != null) {
+                            for (Document commentDoc : commentDocs){
+                                r.addComment(new Comment (getUserByEmail(commentDoc.getString("userEmail")), commentDoc.getString("comment")));
+                            }
+                        }
+                        b.addReview(r);
+                    }   
                 }
                 if (doc.get("duetime") != null) b.setDueTime(LocalDate.parse(doc.get("duetime").toString()));
             books.add(b);
