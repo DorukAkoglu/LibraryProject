@@ -117,6 +117,9 @@ public class Student extends User {
     public int getGrade(){
         return grade; 
     }
+    public List<StudyRequest> getStudyRequest() {
+        return this.incomingRequests;
+    }
     public void setGrade(int grade){
         this.grade = grade; 
     }
@@ -157,6 +160,10 @@ public class Student extends User {
         }
         return true;
     }
+    public void addStudyRequest(StudyRequest sr) {
+        incomingRequests.add(sr);
+    }
+
     @Override
     public int hashCode() { 
         return Objects.hash(userID, email); 
