@@ -78,7 +78,7 @@ public class DatabaseManager {
     }
 
     public void connect() {
-        mongoClient = MongoClients.create("mongodb+srv://mehmetsamedtek_db_user:bilkent123@cluster0.nxfstjh.mongodb.net/?appName=Cluster0");
+        mongoClient = MongoClients.create("mongodb+srv://mehmetsamedtek_db_user:bilkent123@cluster0.fdhw2wq.mongodb.net/");
         database = mongoClient.getDatabase("LibraryDB");
 
     }
