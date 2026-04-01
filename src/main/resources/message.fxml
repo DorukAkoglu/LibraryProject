@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@student.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.MessageController">
+   <left>
+      <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Friends">
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </Label>
+            <ListView fx:id="friendList" prefHeight="200.0" prefWidth="200.0" />
+         </children>
+      </VBox>
+   </left>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <ScrollPane fx:id="chatPane" fitToWidth="true" prefHeight="200.0" prefWidth="200.0">
+               <content>
+                  <VBox fx:id="chatBox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" />
+               </content>
+            </ScrollPane>
+            <HBox alignment="BASELINE_CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <TextField fx:id="messageField" />
+                  <Button fx:id="sendButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#sendMessage" text="Send" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

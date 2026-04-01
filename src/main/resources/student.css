@@ -129,3 +129,41 @@
 .combo-box .list-view {
     -fx-background-color: #2c3e50;
 }
+
+.my-message-bubble {
+    -fx-background-color: #f39c12; 
+    -fx-text-fill: white;
+    -fx-background-radius: 15 15 2 15; 
+    -fx-padding: 10 15;
+    -fx-font-size: 14px;
+    -fx-effect: dropshadow(three-pass-box, rgba(243, 156, 18, 0.4), 10, 0, 0, 0);
+}
+.other-message-bubble {
+    -fx-background-color: #34495e;
+    -fx-text-fill: white;
+    -fx-background-radius: 15 15 15 2; 
+    -fx-padding: 10 15;
+    -fx-font-size: 14px;
+}
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+.list-view {
+    -fx-background-color: rgba(30, 39, 46, 0.6);
+    -fx-background-radius: 10;
+    -fx-border-color: #34495e;
+    -fx-border-radius: 10;
+}
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #bdc3c7;
+    -fx-padding: 10;
+}
+.list-cell:selected {
+    -fx-background-color: #f39c12;
+    -fx-text-fill: white;
+}
