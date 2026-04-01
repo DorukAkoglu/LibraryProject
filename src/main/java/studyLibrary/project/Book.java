@@ -1,10 +1,10 @@
 package studyLibrary.project;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
-public class Book {
+public class Book implements Comparable<Book> {
     private int bookID;
     private String title;
     private String author;
@@ -60,7 +60,7 @@ public class Book {
     public void setAvailability(boolean availability) {
         this.availability = availability;
     }
-
+    
     public List<Review> getReviews() {
         return reviews;
     }
@@ -113,5 +113,10 @@ public class Book {
     }
     public void setCategory(String newCategory){
         this.category = newCategory;
+    }
+
+    @Override
+    public int compareTo(Book b) {
+        return Integer.compare(bookID, b.getBookID());
     }
 }
