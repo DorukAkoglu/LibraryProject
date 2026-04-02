@@ -9,18 +9,21 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@student.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.MessageController">
    <left>
-      <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="200.0" spacing="15.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Friends">
+            <Label alignment="CENTER" prefHeight="44.0" prefWidth="80.0" text="Friends">
                <padding>
                   <Insets top="10.0" />
                </padding>
+               <font>
+                  <Font name="System Italic" size="17.0" />
+               </font>
             </Label>
-            <ListView fx:id="friendList" prefHeight="200.0" prefWidth="200.0" />
+            <ListView fx:id="friendList" prefHeight="365.0" prefWidth="200.0" />
          </children>
       </VBox>
    </left>
@@ -32,9 +35,9 @@
                   <VBox fx:id="chatBox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" />
                </content>
             </ScrollPane>
-            <HBox alignment="BASELINE_CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="BASELINE_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <TextField fx:id="messageField" />
+                  <TextField fx:id="messageField" style="-fx-background-color: Color.GREY;" />
                   <Button fx:id="sendButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#sendMessage" text="Send" />
                </children>
             </HBox>
