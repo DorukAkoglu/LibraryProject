@@ -1,7 +1,9 @@
 package studyLibrary.project;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bson.Document;
 
@@ -383,7 +385,43 @@ public class DatabaseManager {
         }
         return requests;
     }
+    public ArrayList<Message> getChatsForUser(String userEmail) {
+        ArrayList<Message> chats = new ArrayList<>();
+        
+        Document query = new Document("$or", List.of(
+            new Document("senderEmail", userEmail),
+            new Document("receiverEmail", userEmail)
+        ));
+        
+        for (Document doc : database.getCollection("chats").find(query).sort(new Document("timestamp", 1))) {
+            User sender = getUserByEmail(doc.getString("senderEmail"));
+            User receiver = getUserByEmail(doc.getString("receiverEmail"));
+            if (sender != null && receiver != null) {
+                Message m = new Message((Student) sender, (Student) receiver, doc.getString("content"));
+                m.setTimestamp(doc.getString("timestamp"));
+                chats.add(m);
+            }
+        }
+        return chats;
+    }
 
+    public Map<String, ArrayList<Message>> getChatsByPerson(String userEmail) {
+        Map<String, ArrayList<Message>> chatsByPerson = new HashMap<>();
+        
+        for (Message m : getChatsForUser(userEmail)) {
+            String otherEmail;
+                if (m.getSender().getEmail().equals(userEmail)) {
+                    otherEmail = m.getReceiver().getEmail();
+                } else {
+                    otherEmail = m.getSender().getEmail();
+                }
+                if (!chatsByPerson.containsKey(otherEmail)) {
+                    chatsByPerson.put(otherEmail, new ArrayList<>());
+                }
+                chatsByPerson.get(otherEmail).add(m);        
+            }
+        return chatsByPerson;
+    }
     public ArrayList<StudyMatch> getStudyMatches() {
         ArrayList<StudyMatch> matches = new ArrayList<>();
         for (Document doc: database.getCollection("studyMatches").find()) {

@@ -1,5 +1,8 @@
 package studyLibrary.project;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -46,6 +49,7 @@ public class MessageController {
             @Override
             public void handle(ActionEvent event) {
                 if (selectedFriend != null) {
+                    system.refreshChats();
                     refreshChatArea();
                 }
             }
@@ -77,12 +81,11 @@ public class MessageController {
         chatBox.getChildren().clear();
         Student me = (Student) MainController.getCurrentUser();
 
-        for (Message message : system.getChats()) {
-            boolean isBetweenUs = 
-                (message.getSender().getUserID() == me.getUserID() && message.getReceiver().getUserID() == selectedFriend.getUserID()) ||
-                (message.getSender().getUserID() == selectedFriend.getUserID() && message.getReceiver().getUserID() == me.getUserID());
-
-            if (isBetweenUs) {
+        Map<String, ArrayList<Message>> chatsByPerson = system.getChatsByPerson(me.getEmail());
+        ArrayList<Message> messages = chatsByPerson.get(selectedFriend.getEmail());
+        
+        if (messages != null) {
+            for (Message message : messages) {
                 displayMessage(message, message.getSender().getUserID() == me.getUserID());
             }
         }
