@@ -29,6 +29,7 @@ public class StudyMateSessionController {
     @FXML private Label matchedDepartmentLabel;
     @FXML private Label matchedCourseLabel;
     @FXML private ImageView matchedImageView;
+    private Student matchedStudent;
 
     Student student = (Student) MainController.getCurrentUser();
 
@@ -56,7 +57,7 @@ public class StudyMateSessionController {
     private void handleFindMatch(){
         List<Student> potentialMates = dbManager.getStudentsByCourse();
         Collections.shuffle(potentialMates);
-        Student matchedStudent = potentialMates.get(0);
+        matchedStudent = potentialMates.get(0);
         displayStudyMateInfo(student);
         displayStudyMateMatchedInfo(matchedStudent);
     }
@@ -67,6 +68,12 @@ public class StudyMateSessionController {
 
     public void goNext(ActionEvent event) throws IOException {
         handleFindMatch();
+    }
+    public void sendRequest(ActionEvent event){
+        StudyRequest studyRequest = new StudyRequest(student, matchedStudent, student.getSelectedCourse());
+        dbManager.saveStudyRequest(studyRequest);
+        matchedStudent.addStudyRequest(studyRequest);
+        
     }
 
     private void changeScreen(ActionEvent event, String fxmlPath) throws IOException {

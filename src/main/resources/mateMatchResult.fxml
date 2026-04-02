@@ -46,7 +46,7 @@
                      </font>
                   </Button>
                   <Region layoutX="411.0" layoutY="10.0" prefHeight="100.0" prefWidth="38.0" />
-                  <Button alignment="CENTER" layoutX="430.0" layoutY="35.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="229.0" style="-fx-background-radius: 20; -fx-background-color: lime;" text="Add" textFill="WHITE">
+                  <Button alignment="CENTER" layoutX="430.0" layoutY="35.0" mnemonicParsing="false" onAction="#sendRequest" prefHeight="50.0" prefWidth="229.0" style="-fx-background-radius: 20; -fx-background-color: lime;" text="Send Study Request" textFill="WHITE">
                      <font>
                         <Font size="20.0" />
                      </font>

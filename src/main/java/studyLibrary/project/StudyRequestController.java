@@ -25,18 +25,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudyRequestController {
+    DatabaseManager db = new DatabaseManager();
     
     // private LibrarySystem librarySystem = new LibrarySystem();
     @FXML
     private VBox requestsBox; 
     @FXML
     private Button returnButton;
-    private List<StudyRequest> activeRequests = new ArrayList<>(); // for testing purposes, replace with actual data retrieval from librarySystem
+    private List<StudyRequest> activeRequests; // for testing purposes, replace with actual data retrieval from librarySystem
     @FXML
     private ScrollPane myScrollPane;
     @FXML
     public void initialize(){
-        activeRequests = LibrarySystem.getInstance().getRequests();
+        db.connect();
+        //activeRequests = LibrarySystem.getInstance().getRequests();
+        activeRequests = db.getStudyRequests();
         
         myScrollPane.setFitToWidth(true); 
         requestsBox.setFillWidth(true);

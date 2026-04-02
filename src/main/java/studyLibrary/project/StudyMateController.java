@@ -57,7 +57,7 @@ public class StudyMateController {
             nameLabel.setText("Name: " + student.getName());
             ageLabel.setText("Age: " + String.valueOf(student.getAge()));
             departmentLabel.setText("Department: " + student.getDepartment());
-            courseLabel.setText(student.getSelectedCourse());
+            courseLabel.setText("Course: "+ student.getSelectedCourse());
         }
     }
     public void setCourse(ActionEvent event){
