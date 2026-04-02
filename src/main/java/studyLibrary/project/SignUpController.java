@@ -11,7 +11,9 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -23,9 +25,12 @@ public class SignUpController {
     @FXML private ComboBox<String> comboBoxDept;
     @FXML private PasswordField txtPassword;
     @FXML private CheckBox checkShowPassword;
-    @FXML
+    @FXML private ScrollPane scrollPane;
+    @FXML 
     public void initialize() {
-        comboBoxDept.getItems().addAll("Computer Science", "Mathematics", "Chemistry", "Biology");
+        comboBoxDept.getItems().addAll("Computer Science", "Electrical Engineering", 
+        "Industrial Engineering", "Machine Engineering", "Mathematics", "Chemistry", "Biology");
+        comboBoxDept.getStyleClass().add("combo-box");
         checkShowPassword.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -45,6 +50,15 @@ public class SignUpController {
                 }
             }
         });
+        scrollPane.getContent().setOnScroll(new EventHandler<ScrollEvent>() {
+        @Override
+        public void handle(ScrollEvent event) {
+            double deltaY = event.getDeltaY() * 2; 
+            double width = scrollPane.getContent().getBoundsInLocal().getWidth();
+            double vValue = scrollPane.getVvalue();
+            scrollPane.setVvalue(vValue + -deltaY / width); 
+        }
+    });
     }
     @FXML
     private void handleRegister(ActionEvent event) {
@@ -138,6 +152,12 @@ public class SignUpController {
 
     @FXML
     private void backToLogin(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.getScene().setRoot(root);
+    }
+    @FXML
+    private void cancelToLogin(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.getScene().setRoot(root);
