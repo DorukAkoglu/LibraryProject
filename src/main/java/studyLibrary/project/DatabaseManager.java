@@ -163,14 +163,8 @@ public class DatabaseManager {
         if (u instanceof Student s) {
             Student a = (Student) u;
             
-            ArrayList <Document> requestDocs = new ArrayList<>();
-            for (StudyRequest sr : a.getStudyRequest()){
-                requestDocs.add(new Document("receiverEmail",a.getEmail()).append("senderEmail", sr.getSender().getEmail()).append("course", sr.getCourse()));
-            }
-            
 
             doc.append("role", "student")
-            .append("requests", requestDocs)
             .append("age", s.getAge())     
            .append("grade", s.getGrade())
            .append("department", s.getDepartment())
@@ -209,12 +203,27 @@ public class DatabaseManager {
     }
 
     public void saveStudyRequest(StudyRequest r) {
-        MongoCollection<Document> collection = database.getCollection("studyRequests");
-        Document doc = new Document("senderEmail", r.getSender().getEmail())
-                .append("receiverEmail", r.getReceiver().getEmail())
-                .append("course", r.getCourse())
-                .append("status", r.getStatus().toString());
-        collection.insertOne(doc);
+        MongoCollection<Document> collection = database.getCollection("users");
+        
+        Document filter = new Document("email", r.getReceiver().getEmail());
+        
+        Document requestDoc = new Document("senderEmail", r.getSender().getEmail())
+                                    .append("course", r.getCourse())
+                                    .append("status", r.getStatus().toString())
+                                    .append("timestamp", r.getTimestamp().toString());
+
+        collection.updateOne(filter, new Document("$push", new Document("requests", requestDoc)));
+    }
+    public void updateStudyRequestStatus(StudyRequest r) {
+        MongoCollection<Document> collection = database.getCollection("users");
+
+        Document filter = new Document("email", r.getReceiver().getEmail())
+                            .append("requests.senderEmail", r.getSender().getEmail())
+                            .append("requests.course", r.getCourse());
+
+        Document update = new Document("$set", new Document("requests.$.status", r.getStatus().toString()));
+
+        collection.updateOne(filter, update);
     }
     public void updateUser(User u) {
         Document update = new Document("$set", new Document("name", u.getName())
@@ -223,14 +232,7 @@ public class DatabaseManager {
                 .append("profilePhoto", u.getProfilePhoto()));
 
         if (u instanceof Student s) {
-            ArrayList<Document> requestDocs = new ArrayList<>();
-            for (StudyRequest sr : s.getStudyRequest()) {
-                requestDocs.add(new Document("senderEmail", sr.getSender().getEmail())
-                    .append("course", sr.getCourse()));
-            }
-
             update.get("$set", Document.class)
-                .append("requests", requestDocs)
                 .append("availabilityStatus", s.getAvailabilityStatus())
                 .append("age",        s.getAge())
                 .append("grade",      s.getGrade())
@@ -242,10 +244,15 @@ public class DatabaseManager {
     }
 
     public void removeStudyRequest(StudyRequest r) {
-        database.getCollection("studyRequests")
-            .deleteOne(new Document("senderEmail",   r.getSender().getEmail())
-            .append("receiverEmail", r.getReceiver().getEmail())
-            .append("course",     r.getCourse()));
+        MongoCollection<Document> collection = database.getCollection("users");
+
+        Document filter = new Document("email", r.getReceiver().getEmail());
+
+        Document pullValue = new Document("senderEmail", r.getSender().getEmail())
+                                    .append("course", r.getCourse());
+
+        Document update = new Document("$pull", new Document("requests", pullValue));
+        collection.updateOne(filter, update);
     }
 
     public void saveStudyMatch(StudyMatch m) {
@@ -293,16 +300,6 @@ public class DatabaseManager {
                                     doc.getInteger("age"),    doc.getInteger("grade"),
                                     doc.getString("department"));
 
-                    ArrayList<Document> requestDocs = (ArrayList<Document>) doc.getList("requests", Document.class);
-                    if (requestDocs != null) {
-                        for (Document reqDoc : requestDocs) {
-                            User sender = getUserByEmail(reqDoc.getString("senderEmail"));
-                            if (sender instanceof Student) {
-                                StudyRequest sr = new StudyRequest((Student) sender, s, reqDoc.getString("course"));
-                                s.addStudyRequest(sr);
-                            }
-                        }
-                    }
                     s.setProfilePicture(doc.getString("profilePhoto"));
                     s.setSelectedCourse(doc.getString("selectedCourse"));
                     users.add(s);
@@ -373,15 +370,20 @@ public class DatabaseManager {
 
     public ArrayList<StudyRequest> getStudyRequestsForUser(String userEmail) {
         ArrayList<StudyRequest> requests = new ArrayList<>();
-        Document query = new Document("receiverEmail", userEmail);
-        for (Document doc: database.getCollection("studyRequests").find(query)) {
-            RequestStatus status = RequestStatus.valueOf(doc.getString("status"));
-            User sender = getUserByEmail(doc.getString("senderEmail"));
-            User receiver = getUserByEmail(doc.getString("receiverEmail"));
-            if (sender instanceof Student && receiver instanceof Student) {
-                StudyRequest sr = new StudyRequest((Student)sender, (Student)receiver, doc.getString("course"));
-                sr.setStatus(status);
-                requests.add(sr);                
+        Document userDoc = database.getCollection("users").find(new Document("email", userEmail)).first();
+
+        if (userDoc != null && userDoc.get("requests") != null) {
+            List<Document> requestDocs = (List<Document>) userDoc.get("requests");
+            for (Document doc : requestDocs) {
+                RequestStatus status = RequestStatus.valueOf(doc.getString("status"));
+                User sender = getUserByEmail(doc.getString("senderEmail"));
+                User receiver = getUserByEmail(userEmail);
+
+                if (sender instanceof Student && receiver instanceof Student) {
+                    StudyRequest sr = new StudyRequest((Student)sender, (Student)receiver, doc.getString("course"));
+                    sr.setStatus(status);
+                    requests.add(sr);
+                }
             }
         }
         return requests;

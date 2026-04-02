@@ -18,7 +18,7 @@ public class LibrarySystem {
     public LibrarySystem() {
         this.db = new DatabaseManager();
         this.db.connect();
-        this.requests = this.db.getStudyRequests();
+        //this.requests = this.db.getStudyRequests();
         this.matches = this.db.getStudyMatches();
         this.books = this.db.getBooks();
         this.activeStudents = this.db.getActiveStudents();

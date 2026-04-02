@@ -100,31 +100,17 @@ public class StudyRequestController {
         Button acceptButton = new Button("✓ Accept");
         acceptButton.getStyleClass().add("accept-button");
         acceptButton.setMinWidth(110);
-        acceptButton.setOnAction(new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent event){
-                if (request.acceptRequest()){
-                    removeCardWithAnimation(card, request);
-                }
-            }
-        });
 
         Button rejectButton = new Button("✗ Reject");
         rejectButton.getStyleClass().add("reject-button");
         rejectButton.setMinWidth(110);
-        rejectButton.setOnAction(new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent event) {
-                if (request.rejectRequest()) {
-                    removeCardWithAnimation(card, request);
-                }
-            }
-        });
         
         acceptButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 if (request.acceptRequest()) {
+                    db.updateStudyRequestStatus(request);
+                    db.removeStudyRequest(request);
                     displayTheInformation("Success: Request accepted. You can now chat with " + request.getSender().getName() + ".");
                     removeCardWithAnimation(card, request);
                 }
@@ -135,6 +121,8 @@ public class StudyRequestController {
             @Override
             public void handle(ActionEvent event) {
                 if (request.rejectRequest()) {
+                    db.updateStudyRequestStatus(request);
+                    db.removeStudyRequest(request);
                     displayTheInformation("Request rejected.");
                     removeCardWithAnimation(card, request);
                 }
