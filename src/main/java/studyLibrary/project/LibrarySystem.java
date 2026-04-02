@@ -1,6 +1,7 @@
 package studyLibrary.project;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class LibrarySystem {
     private static LibrarySystem instance;
@@ -155,5 +156,12 @@ public class LibrarySystem {
         if (u != null) {
             db.updateUser(u);
         }
+    }
+    public Map<String, ArrayList<Message>> getChatsByPerson(String userEmail) {
+        return db.getChatsByPerson(userEmail);
+    }
+
+    public void refreshChats() {
+        this.chats = db.getChats();
     }
 }

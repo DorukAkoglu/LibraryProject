@@ -1,18 +1,18 @@
 package studyLibrary.project;
 
+import java.io.IOException;
+
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import javafx.scene.Node;
-import java.io.IOException;
 
 public class StudentController {
 
@@ -54,7 +54,7 @@ public class StudentController {
     }
     @FXML
     private void startChat(ActionEvent event) throws IOException {
-        changeScreen(event, "/chatScene.fxml");
+        changeScreen(event, "/message.fxml");
     }
     
     @FXML

@@ -11,6 +11,7 @@ public class Student extends User {
     private List<String> courses;
     private List<Book> borrowedBooks;
     private int grade;
+    private List <Message> messages;
     private String availabilityStatus;
     private List<StudyRequest> incomingRequests;
     private String department;
