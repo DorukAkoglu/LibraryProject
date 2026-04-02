@@ -371,9 +371,10 @@ public class DatabaseManager {
         return students;
     }
 
-    public ArrayList<StudyRequest> getStudyRequests() {
+    public ArrayList<StudyRequest> getStudyRequestsForUser(String userEmail) {
         ArrayList<StudyRequest> requests = new ArrayList<>();
-        for (Document doc: database.getCollection("studyRequests").find()) {
+        Document query = new Document("receiverEmail", userEmail);
+        for (Document doc: database.getCollection("studyRequests").find(query)) {
             RequestStatus status = RequestStatus.valueOf(doc.getString("status"));
             User sender = getUserByEmail(doc.getString("senderEmail"));
             User receiver = getUserByEmail(doc.getString("receiverEmail"));

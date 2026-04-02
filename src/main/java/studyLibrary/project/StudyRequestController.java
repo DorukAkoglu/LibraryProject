@@ -39,7 +39,7 @@ public class StudyRequestController {
     public void initialize(){
         db.connect();
         //activeRequests = LibrarySystem.getInstance().getRequests();
-        activeRequests = db.getStudyRequests();
+        activeRequests = db.getStudyRequestsForUser(MainController.getCurrentUser().getEmail());
         
         myScrollPane.setFitToWidth(true); 
         requestsBox.setFillWidth(true);
