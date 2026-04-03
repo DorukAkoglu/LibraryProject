@@ -13,7 +13,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@student.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.MessageController">
    <left>
-      <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="200.0" spacing="15.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="250.0" spacing="15.0" BorderPane.alignment="CENTER">
          <children>
             <Label alignment="CENTER" prefHeight="44.0" prefWidth="80.0" text="Friends">
                <padding>
@@ -28,17 +28,29 @@
       </VBox>
    </left>
    <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane fx:id="chatPane" fitToWidth="true" prefHeight="200.0" prefWidth="200.0">
+            <HBox alignment="BOTTOM_LEFT" prefHeight="88.0" prefWidth="350.0" styleClass="chat-header">
+               <children>
+                  <Label fx:id="friendName" styleClass="friend-name-label">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <ScrollPane fx:id="chatPane" fitToWidth="true" prefHeight="250.0" prefWidth="300.0">
                <content>
-                  <VBox fx:id="chatBox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" />
+                  <VBox fx:id="chatBox" prefHeight="250.0" prefWidth="337.0" spacing="10.0" />
                </content>
             </ScrollPane>
-            <HBox alignment="BASELINE_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+            <HBox alignment="BASELINE_CENTER" prefHeight="109.0" prefWidth="350.0" spacing="10.0">
                <children>
-                  <TextField fx:id="messageField" style="-fx-background-color: Color.GREY;" />
-                  <Button fx:id="sendButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#sendMessage" text="Send" />
+                  <TextField fx:id="messageField" styleClass="message-input-field" />
+                  <Button fx:id="sendButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#sendMessage" styleClass="send-button" text="Send" />
                </children>
             </HBox>
          </children>

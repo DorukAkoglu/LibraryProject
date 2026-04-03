@@ -109,6 +109,8 @@ public class StudyRequestController {
             @Override
             public void handle(ActionEvent event) {
                 if (request.acceptRequest()) {
+                    StudyMatch match = new StudyMatch(request.getSender(), request.getReceiver(), request.getCourse());
+                    db.saveStudyMatch(match);
                     db.updateStudyRequestStatus(request);
                     db.removeStudyRequest(request);
                     displayTheInformation("Success: Request accepted. You can now chat with " + request.getSender().getName() + ".");
