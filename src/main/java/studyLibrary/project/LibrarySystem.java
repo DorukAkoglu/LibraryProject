@@ -93,7 +93,7 @@ public class LibrarySystem {
     }
 
     public ArrayList <Message> getChatsBetween(String email1, String email2) {
-        return db.getChatsBetween(email1, email2, 5);
+        return db.getChatsBetween(email1, email2, 100);
     }
 
     public ArrayList<StudyRequest> getRequests() {
