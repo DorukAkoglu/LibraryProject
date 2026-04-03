@@ -178,6 +178,9 @@ public class DatabaseManager {
             if (sender != null && receiver != null) {
                 Message m = new Message((Student) sender, (Student) receiver, doc.getString("content"));
                 m.setTimestamp(doc.getString("timestamp"));
+                if (doc.containsKey("isEdited")) {
+                    m.setEdited(doc.getBoolean("isEdited"));
+                }
                 chats.add(m);
             }
         }
@@ -224,7 +227,8 @@ public class DatabaseManager {
         Document doc = new Document("senderEmail", m.getSender().getEmail())
                 .append("receiverEmail", m.getReceiver().getEmail())
                 .append("content", m.getContent())
-                .append("timestamp", m.getTimestamp().toString());
+                .append("timestamp", m.getTimestamp().toString())
+                .append("isEdited", m.isEdited());
         collection.insertOne(doc);
     }
 
@@ -461,6 +465,9 @@ public class DatabaseManager {
             if (sender != null && receiver != null) {
                 Message m = new Message((Student) sender, (Student) receiver, doc.getString("content"));
                 m.setTimestamp(doc.getString("timestamp"));
+                if (doc.containsKey("isEdited")) {
+                    m.setEdited(doc.getBoolean("isEdited"));
+                }
                 chats.add(m);
             }
         }
