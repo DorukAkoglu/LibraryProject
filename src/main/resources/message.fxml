@@ -15,12 +15,12 @@
    <left>
       <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="250.0" spacing="15.0" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" prefHeight="44.0" prefWidth="80.0" text="Friends">
+            <Label alignment="CENTER" prefHeight="44.0" prefWidth="80.0" text="Friends" textFill="#b0a8a8">
                <padding>
                   <Insets top="10.0" />
                </padding>
                <font>
-                  <Font name="System Italic" size="17.0" />
+                  <Font name="System Italic" size="19.0" />
                </font>
             </Label>
             <ListView fx:id="friendList" prefHeight="365.0" prefWidth="200.0" />
@@ -56,4 +56,11 @@
          </children>
       </VBox>
    </center>
+   <top>
+      <Label alignment="CENTER" prefHeight="62.0" prefWidth="602.0" text="MESSAGING PAGE" textFill="#d0cbcb" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+   </top>
 </BorderPane>

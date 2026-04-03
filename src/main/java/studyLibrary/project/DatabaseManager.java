@@ -392,12 +392,39 @@ public class DatabaseManager {
 
     public List<Student> getStudentsByCourse(){
         Student student = (Student) MainController.getCurrentUser();
-        List<Student> students = new ArrayList<>();
-        for (Student otherStudent : getActiveStudents()) {
-            if(student.getUserID() == otherStudent.getUserID()) continue;
-            if(student.getSelectedCourse().equals(otherStudent.getSelectedCourse())) students.add(otherStudent);
+        List<Student> studyMates = new ArrayList<>();
+        ArrayList<StudyMatch> allMatches = getStudyMatches();
+        List<String> myFriendEmails = new ArrayList<>();
+        for (StudyMatch match : allMatches) {
+            if (match.getStudent1().getEmail().equals(student.getEmail())) {
+                myFriendEmails.add(match.getStudent2().getEmail());
+            } 
+            else if (match.getStudent2().getEmail().equals(student.getEmail())) {
+                myFriendEmails.add(match.getStudent1().getEmail());
+            }
         }
-        return students;
+        for (Student other : getActiveStudents()) {
+            if (other.getEmail().equals(student.getEmail()) || 
+                !other.getSelectedCourse().equals(student.getSelectedCourse())) {
+                continue;
+            }
+            if (myFriendEmails.contains(other.getEmail())) {
+                continue;
+            }
+            boolean alreadySent = false;
+            ArrayList<StudyRequest> othersIncoming = getStudyRequestsForUser(other.getEmail());
+            for (StudyRequest sr : othersIncoming) {
+                if (sr.getSender().getEmail().equals(student.getEmail())) {
+                    alreadySent = true;
+                    break;
+                }
+            }
+            if (alreadySent) {
+                continue;
+            }
+            studyMates.add(other);
+        }
+        return studyMates;
     }
 
     public ArrayList<StudyRequest> getStudyRequestsForUser(String userEmail) {
