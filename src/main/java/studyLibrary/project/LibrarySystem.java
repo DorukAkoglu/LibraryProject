@@ -92,6 +92,10 @@ public class LibrarySystem {
         db.removeChat(m);
     }
 
+    public ArrayList <Message> getChatsBetween(String email1, String email2) {
+        return db.getChatsBetween(email1, email2, 5);
+    }
+
     public ArrayList<StudyRequest> getRequests() {
         return requests;
     }

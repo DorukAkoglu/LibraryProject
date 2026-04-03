@@ -17,7 +17,8 @@ public class DatabaseManager {
     private MongoClient mongoClient;
     // private CloudinaryManager cloudinaryManager;
     private MongoDatabase database;
-    
+    private HashMap<String, User> userCacheByEmail = new HashMap<>();
+    private HashMap<Integer, User> userCacheByID = new HashMap<>();
     public DatabaseManager() {
         mongoClient = null;
         database = null;
@@ -30,9 +31,13 @@ public class DatabaseManager {
         */
     }
     public User getUserByEmail(String email) {
+        if (userCacheByEmail.containsKey(email)) {
+            return userCacheByEmail.get(email);
+        }
         Document doc = database.getCollection("users")
-                            .find(new Document("email", email)).first();
-    if (doc == null) return null;
+        .find(new Document("email", email)).first();
+
+        if (doc == null) return null;
 
         String role = doc.getString("role");
         if ("student".equals(role)) {
@@ -41,16 +46,19 @@ public class DatabaseManager {
                             doc.getInteger("age"),    doc.getInteger("grade"),
                             doc.getString("department"));
             s.setProfilePicture(doc.getString("profilePhoto"));
+            userCacheByEmail.put(email, s);
             return s;
         } else if ("librarian".equals(role)) {
             Librarian lb = new Librarian(doc.getInteger("userID"), doc.getString("name"),
                                 doc.getString("email"),   doc.getString("password"));
             lb.setProfilePicture(doc.getString("profilePhoto"));
+            userCacheByEmail.put(email, lb);
             return lb;
         }
         Admin a =new Admin(doc.getInteger("userID"), doc.getString("name"),
                         doc.getString("email"),   doc.getString("password"));
         a.setProfilePicture(doc.getString("profilePhoto"));
+        userCacheByEmail.put(email, a);
         return a;
     }
      public User getUserByID(int userID) {
@@ -66,16 +74,19 @@ public class DatabaseManager {
                             doc.getString("department"));
             s.setSelectedCourse(doc.getString("selectedCourse"));
             s.setProfilePicture(doc.getString("profilePhoto"));
+            userCacheByID.put(userID,s);
             return s;
         } else if ("librarian".equals(role)) {
             Librarian lb = new Librarian(doc.getInteger("userID"), doc.getString("name"),
                                 doc.getString("email"),   doc.getString("password"));
             lb.setProfilePicture(doc.getString("profilePhoto"));
+            userCacheByID.put(userID,lb);
             return lb;
         }
         Admin a =new Admin(doc.getInteger("userID"), doc.getString("name"),
                         doc.getString("email"),   doc.getString("password"));
         a.setProfilePicture(doc.getString("profilePhoto"));
+        userCacheByID.put(userID,a);
         return a;
     }
 
@@ -151,6 +162,27 @@ public class DatabaseManager {
                         .append("duetime", b.getDueTime().toString())
                         .append("available", b.isAvailable());
         collection.insertOne(doc);
+    }
+    public ArrayList<Message> getChatsBetween(String email1, String email2, int limit) {
+        ArrayList<Message> chats = new ArrayList<>();
+        Document query = new Document("$or", List.of(
+            new Document("senderEmail", email1).append("receiverEmail", email2),
+            new Document("senderEmail", email2).append("receiverEmail", email1)
+        ));
+        for (Document doc : database.getCollection("chats")
+                .find(query)
+                .sort(new Document("timestamp", -1))
+                .limit(limit)) {
+            User sender = getUserByEmail(doc.getString("senderEmail"));
+            User receiver = getUserByEmail(doc.getString("receiverEmail"));
+            if (sender != null && receiver != null) {
+                Message m = new Message((Student) sender, (Student) receiver, doc.getString("content"));
+                m.setTimestamp(doc.getString("timestamp"));
+                chats.add(m);
+            }
+        }
+        java.util.Collections.reverse(chats);
+        return chats;
     }
 
     public void saveUser(User u) {

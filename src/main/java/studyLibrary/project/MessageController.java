@@ -3,7 +3,6 @@ package studyLibrary.project;
 import java.util.ArrayList;
 import java.util.Map;
 
-
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -57,11 +56,10 @@ public class MessageController {
                 }
             }
         });
-        autoRefresh = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
+        autoRefresh = new Timeline(new KeyFrame(Duration.seconds(10), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 if (selectedFriend != null) {
-                    system.refreshChats();
                     refreshChatArea();
                 }
             }
@@ -128,8 +126,7 @@ public class MessageController {
     }
     private void refreshChatArea() {
         Student me = (Student) MainController.getCurrentUser();
-        Map<String, ArrayList<Message>> chatsByPerson = system.getChatsByPerson(me.getEmail());
-        ArrayList<Message> allMessages = chatsByPerson.get(selectedFriend.getEmail());
+        ArrayList<Message> allMessages = system.getChatsBetween(me.getEmail(), selectedFriend.getEmail());
         if (allMessages != null) {
             if (allMessages.size() > displayedMessageCount) {
                 for (int i = displayedMessageCount; i < allMessages.size(); i++) {
