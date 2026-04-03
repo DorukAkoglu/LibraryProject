@@ -48,7 +48,7 @@ public class MainController {
         }
         String password = passwordField.getText();
         if(checkLogin(userID, password)){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/student.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(resolveDashboardFxml(currentUser)));
             Parent root = loader.load();
             App.PRIMARY_STAGE = (Stage) ((Node) event.getSource()).getScene().getWindow();
             App.PRIMARY_STAGE.getScene().setRoot(root);
@@ -79,6 +79,16 @@ public class MainController {
     }
     public static User getCurrentUser() {
         return currentUser;
+    }
+
+    private String resolveDashboardFxml(User user) {
+        if (user instanceof Admin) {
+            return "/admin.fxml";
+        }
+        if (user instanceof Librarian) {
+            return "/librarian.fxml";
+        }
+        return "/student.fxml";
     }
     @FXML
     private void signUp(ActionEvent event) throws IOException {
