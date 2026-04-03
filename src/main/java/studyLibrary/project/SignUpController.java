@@ -30,7 +30,7 @@ public class SignUpController {
     public void initialize() {
         comboBoxDept.getItems().addAll("Computer Science", "Electrical Engineering", 
         "Industrial Engineering", "Machine Engineering", "Mathematics", "Chemistry", "Biology");
-        comboBoxDept.getStyleClass().add("combo-box");
+        
         checkShowPassword.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -148,16 +148,8 @@ public class SignUpController {
         }
         return isValid;
     }
-    
-
     @FXML
     private void backToLogin(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.getScene().setRoot(root);
-    }
-    @FXML
-    private void cancelToLogin(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.getScene().setRoot(root);

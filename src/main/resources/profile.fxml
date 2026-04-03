@@ -60,7 +60,7 @@
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#uploadPhoto" styleClass="dashboard-button" text="Upload Photo" />
-                        <Button mnemonicParsing="false" styleClass="nav-button" stylesheets="@student.css" text="Remove Photo" />
+                        <Button mnemonicParsing="false" onAction="#removePhoto" styleClass="nav-button" stylesheets="@student.css" text="Remove Photo" />
                      </children>
                   </HBox>
                   <GridPane alignment="CENTER" hgap="20.0" prefWidth="600.0" styleClass="dashboard-card" vgap="30.0">
@@ -120,7 +120,7 @@
                      </padding>
                      <children>
                         <Button mnemonicParsing="false" onAction="#saveChanges" styleClass="dashboard-button" text="Save Changes" />
-                        <Button mnemonicParsing="false" styleClass="nav-button" text="Cancel" />
+                        <Button mnemonicParsing="false" onAction="#returnDashboard" styleClass="nav-button" text="Cancel" />
                      </children>
                   </HBox>
                </children>

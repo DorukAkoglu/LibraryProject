@@ -19,7 +19,6 @@ import javafx.stage.Stage;
 public class App extends Application
 {
     public static Stage PRIMARY_STAGE;
-
     public void start(Stage stage) throws Exception{
         PRIMARY_STAGE = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
@@ -34,7 +33,6 @@ public class App extends Application
         PRIMARY_STAGE.setResizable(true);
         PRIMARY_STAGE.getIcons().add(new Image(getClass().getResourceAsStream("/images/programIcon.png")));
         PRIMARY_STAGE.show();
-        
     }
     public static void main(String[] args)
     {

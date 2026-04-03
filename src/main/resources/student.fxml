@@ -91,7 +91,7 @@
                                        </image>
                                     </ImageView>
                                     <Label text="Study Requests" />
-                                    <Label styleClass="accent-text" text="2 New Requests">
+                                    <Label fx:id="requestLabel" styleClass="accent-text" text="2 New Requests">
                                        <font>
                                           <Font size="10.0" />
                                        </font>

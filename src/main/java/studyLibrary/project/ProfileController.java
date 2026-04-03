@@ -57,30 +57,29 @@ public class ProfileController {
         userNameLabel.setText(student.getName());
         departmentLabel.setText(student.getDepartment());
         txtID.setEditable(false);
+        txtDept.setEditable(false); 
     }
     @FXML
-private void uploadPhoto(ActionEvent event) {
-    FileChooser fileChooser = new FileChooser();
-    fileChooser.getExtensionFilters().add(
-        new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
-    File file = fileChooser.showOpenDialog(((Node)event.getSource()).getScene().getWindow());
-        /** 
-    if (file != null) {
-        try {
-            CloudinaryManager cloudinaryManager = new CloudinaryManager();
-            String url = cloudinaryManager.uploadImage(file);
+    private void uploadPhoto(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(
+            new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+        File file = fileChooser.showOpenDialog(((Node)event.getSource()).getScene().getWindow());
+        if (file != null) {
+            try {
+                String url = file.toURI().toURL().toString();
+                
+                User user = MainController.getCurrentUser();
+                user.setProfilePicture(url);
+                LibrarySystem.getInstance().updateUserDB(user);
+                
+                profileImageView.setImage(new Image(url));
+            } catch (IOException e) {
+                displayTheInformation("Photo upload failed!");
             
-            User user = MainController.getCurrentUser();
-            user.setProfilePicture(url);
-            LibrarySystem.getInstance().updateUserDB(user);
-            
-            profileImageView.setImage(new Image(url));
-        } catch (IOException e) {
-            displayTheInformation("Photo upload failed!");
+            }
         }
     }
-        */
-}
 
     @FXML
     private void saveChanges(ActionEvent event) {
@@ -134,5 +133,14 @@ private void uploadPhoto(ActionEvent event) {
         Parent root = loader.load();
         App.PRIMARY_STAGE = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         App.PRIMARY_STAGE.getScene().setRoot(root);
+    }
+    @FXML
+    private void removePhoto(ActionEvent event) {
+        User user = MainController.getCurrentUser();
+        if (user != null) {
+            user.setProfilePicture(null);
+            LibrarySystem.getInstance().updateUserDB(user);
+            profileImageView.setImage(new Image(getClass().getResourceAsStream("/images/defaultProfilePicture.png")));
+        }
     }
 }

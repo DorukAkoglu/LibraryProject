@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 
 public class StudentController {
 
-    @FXML private Label userNameLabel, departmentLabel;
+    @FXML private Label userNameLabel, departmentLabel, requestLabel;
     @FXML private ImageView profileImage;
     @FXML private Button btnStudyMate, btnRequests;
 
@@ -32,6 +32,7 @@ public class StudentController {
         Student student = (Student) MainController.getCurrentUser();
         userNameLabel.setText(student.getName());
         departmentLabel.setText(student.getDepartment());
+        requestLabel.setText("You have " + student.getStudyRequest().size() +" study requests.");
     }
     @FXML
     private void backToStudyMateMenu(ActionEvent event) throws IOException {
