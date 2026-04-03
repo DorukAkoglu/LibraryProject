@@ -1,0 +1,198 @@
+.librarian-root {
+    -fx-background-color: linear-gradient(to bottom right, #f4efe6, #d8e2dc 45%, #b8c9d6 100%);
+    -fx-font-family: "Segoe UI";
+}
+
+.top-shell {
+    -fx-background-color: linear-gradient(to right, rgba(24, 40, 37, 0.92), rgba(41, 62, 74, 0.9));
+    -fx-background-radius: 0 0 28 28;
+    -fx-effect: dropshadow(gaussian, rgba(18, 28, 28, 0.18), 30, 0.2, 0, 10);
+}
+
+.eyebrow-text {
+    -fx-text-fill: #d0e4de;
+    -fx-font-size: 12px;
+    -fx-font-weight: 700;
+    -fx-letter-spacing: 1px;
+}
+
+.page-title {
+    -fx-text-fill: #fffdf7;
+    -fx-font-size: 30px;
+    -fx-font-weight: 800;
+}
+
+.page-subtitle {
+    -fx-text-fill: #d9e6e1;
+    -fx-font-size: 13px;
+}
+
+.status-card {
+    -fx-background-color: rgba(241, 236, 223, 0.15);
+    -fx-border-color: rgba(255, 255, 255, 0.16);
+    -fx-border-radius: 22;
+    -fx-background-radius: 22;
+}
+
+.status-number {
+    -fx-text-fill: #fff4cf;
+    -fx-font-size: 24px;
+    -fx-font-weight: 800;
+}
+
+.status-caption {
+    -fx-text-fill: #d8e2dc;
+    -fx-font-size: 12px;
+}
+
+.metric-card {
+    -fx-background-color: rgba(255, 248, 238, 0.92);
+    -fx-background-radius: 22;
+    -fx-padding: 18;
+    -fx-spacing: 8;
+}
+
+.accent-card {
+    -fx-background-color: rgba(217, 230, 224, 0.95);
+}
+
+.metric-title {
+    -fx-text-fill: #5f6f65;
+    -fx-font-size: 12px;
+    -fx-font-weight: 700;
+}
+
+.metric-value {
+    -fx-text-fill: #20312f;
+    -fx-font-size: 17px;
+    -fx-font-weight: 800;
+}
+
+.metric-note {
+    -fx-text-fill: #687a73;
+    -fx-font-size: 12px;
+}
+
+.panel-card {
+    -fx-background-color: rgba(255, 252, 246, 0.94);
+    -fx-background-radius: 26;
+    -fx-border-color: rgba(34, 54, 54, 0.08);
+    -fx-border-radius: 26;
+    -fx-effect: dropshadow(gaussian, rgba(43, 55, 55, 0.12), 22, 0.15, 0, 8);
+}
+
+.form-panel {
+    -fx-background-color: rgba(251, 247, 240, 0.98);
+}
+
+.section-title {
+    -fx-text-fill: #213331;
+    -fx-font-size: 21px;
+    -fx-font-weight: 800;
+}
+
+.section-subtitle {
+    -fx-text-fill: #70817a;
+    -fx-font-size: 12px;
+}
+
+.field-label {
+    -fx-text-fill: #4d5d58;
+    -fx-font-size: 12px;
+    -fx-font-weight: 700;
+}
+
+.text-field {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 14;
+    -fx-border-color: #d6dfdb;
+    -fx-border-radius: 14;
+    -fx-padding: 12 14;
+    -fx-font-size: 13px;
+}
+
+.text-field:focused {
+    -fx-border-color: #6f8f87;
+    -fx-background-color: #fffefa;
+}
+
+.search-field {
+    -fx-font-size: 14px;
+}
+
+.book-list {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.book-list .list-cell {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 16;
+    -fx-border-color: #e3e8e5;
+    -fx-border-radius: 16;
+    -fx-padding: 14 16;
+    -fx-text-fill: #223330;
+    -fx-font-size: 13px;
+}
+
+.book-list .list-cell:filled {
+    -fx-background-insets: 6 0 6 0;
+}
+
+.book-list .list-cell:filled:selected {
+    -fx-background-color: linear-gradient(to right, #355c56, #466e76);
+    -fx-border-color: transparent;
+    -fx-text-fill: white;
+}
+
+.button {
+    -fx-cursor: hand;
+    -fx-font-weight: 700;
+    -fx-background-radius: 16;
+    -fx-padding: 11 18;
+}
+
+.primary-button {
+    -fx-background-color: linear-gradient(to right, #3e665e, #547a72);
+    -fx-text-fill: white;
+}
+
+.secondary-button {
+    -fx-background-color: #e6ece8;
+    -fx-text-fill: #2d423f;
+}
+
+.danger-button {
+    -fx-background-color: linear-gradient(to right, #b65f4b, #c97860);
+    -fx-text-fill: white;
+}
+
+.success-button {
+    -fx-background-color: linear-gradient(to right, #8c9f5a, #aab86c);
+    -fx-text-fill: #1f2c1c;
+}
+
+.button:hover {
+    -fx-opacity: 0.92;
+}
+
+.tip-card {
+    -fx-background-color: linear-gradient(to bottom right, #f0e5d4, #e6efe5);
+    -fx-background-radius: 20;
+    -fx-padding: 18;
+}
+
+.tip-title {
+    -fx-text-fill: #3f5045;
+    -fx-font-size: 14px;
+    -fx-font-weight: 800;
+}
+
+.tip-text {
+    -fx-text-fill: #5c6b66;
+    -fx-font-size: 12px;
+}
+
+.separator .line {
+    -fx-border-color: rgba(69, 89, 83, 0.15);
+}

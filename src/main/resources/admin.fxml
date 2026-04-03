@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="720.0" prefWidth="1180.0" styleClass="admin-root" stylesheets="@admin.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.AdminController">
+   <top>
+      <VBox spacing="18.0" styleClass="admin-top-shell" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="24.0" left="28.0" right="28.0" top="28.0" />
+         </padding>
+         <children>
+            <HBox alignment="CENTER_LEFT" spacing="18.0">
+               <children>
+                  <VBox HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label styleClass="admin-eyebrow" text="System Administration" />
+                        <Label styleClass="admin-title" text="Admin Dashboard" />
+                        <Label styleClass="admin-subtitle" text="Kullanicilari yonetin, rolleri denetleyin ve sistem organizasyonunu tek panelden duzenleyin." wrapText="true" />
+                     </children>
+                  </VBox>
+                  <StackPane minHeight="72.0" minWidth="180.0" prefHeight="72.0" prefWidth="180.0" styleClass="admin-status-card">
+                     <children>
+                        <VBox alignment="CENTER" spacing="4.0">
+                           <children>
+                              <Label styleClass="admin-status-number" text="Secure" />
+                              <Label styleClass="admin-status-caption" text="Role Based Access" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </StackPane>
+               </children>
+            </HBox>
+            <HBox spacing="16.0">
+               <children>
+                  <VBox prefHeight="98.0" prefWidth="210.0" styleClass="admin-metric-card" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label styleClass="admin-metric-title" text="User Control" />
+                        <Label styleClass="admin-metric-value" text="Create and maintain accounts" />
+                        <Label styleClass="admin-metric-note" text="Students, librarians and admins in one flow." />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="98.0" prefWidth="210.0" styleClass="admin-metric-card admin-metric-accent" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label styleClass="admin-metric-title" text="Quick Review" />
+                        <Label styleClass="admin-metric-value" text="Search roles and user IDs" />
+                        <Label styleClass="admin-metric-note" text="Use the explorer panel to filter instantly." />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="98.0" prefWidth="210.0" styleClass="admin-metric-card" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label styleClass="admin-metric-title" text="Data Hygiene" />
+                        <Label styleClass="admin-metric-value" text="Keep profiles consistent" />
+                        <Label styleClass="admin-metric-note" text="Selected users populate the editor automatically." />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <HBox spacing="22.0" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="28.0" left="28.0" right="28.0" />
+         </padding>
+         <children>
+            <VBox prefWidth="470.0" spacing="18.0" styleClass="admin-panel-card" HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="12.0">
+                     <children>
+                        <VBox HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label styleClass="admin-section-title" text="User Explorer" />
+                              <Label styleClass="admin-section-subtitle" text="Kullanicilari isim, email, rol veya ID ile filtreleyin." />
+                           </children>
+                        </VBox>
+                        <Button mnemonicParsing="false" onAction="#handleRefreshAction" styleClass="admin-secondary-button" text="Refresh" />
+                     </children>
+                  </HBox>
+                  <HBox spacing="12.0">
+                     <children>
+                        <TextField fx:id="searchField" promptText="Search users..." styleClass="admin-search-field" HBox.hgrow="ALWAYS" />
+                        <Button mnemonicParsing="false" onAction="#handleSearchAction" styleClass="admin-primary-button" text="Find" />
+                     </children>
+                  </HBox>
+                  <Separator />
+                  <ListView fx:id="userListView" prefHeight="460.0" styleClass="admin-list" VBox.vgrow="ALWAYS" />
+               </children>
+               <padding>
+                  <Insets bottom="22.0" left="22.0" right="22.0" top="22.0" />
+               </padding>
+            </VBox>
+            <VBox prefWidth="560.0" spacing="18.0" styleClass="admin-panel-card admin-form-panel" HBox.hgrow="ALWAYS">
+               <children>
+                  <VBox spacing="4.0">
+                     <children>
+                        <Label styleClass="admin-section-title" text="User Editor" />
+                        <Label styleClass="admin-section-subtitle" text="Yeni kullanici ekleyin ya da secilen kullanicinin temel bilgilerini duzenleyin." />
+                     </children>
+                  </VBox>
+                  <GridPane hgap="16.0" vgap="14.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
+                     </columnConstraints>
+                     <children>
+                        <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                           <children>
+                              <Label styleClass="admin-field-label" text="User ID" />
+                              <TextField fx:id="userIDField" promptText="2001" />
+                           </children>
+                        </VBox>
+                        <VBox spacing="6.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                           <children>
+                              <Label styleClass="admin-field-label" text="Role" />
+                              <ComboBox fx:id="roleComboBox" promptText="Select role" />
+                           </children>
+                        </VBox>
+                        <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                           <children>
+                              <Label styleClass="admin-field-label" text="Full Name" />
+                              <TextField fx:id="nameField" promptText="User name" />
+                           </children>
+                        </VBox>
+                        <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                           <children>
+                              <Label styleClass="admin-field-label" text="Email" />
+                              <TextField fx:id="emailField" promptText="name@example.com" />
+                           </children>
+                        </VBox>
+                        <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                           <children>
+                              <Label styleClass="admin-field-label" text="Password" />
+                              <TextField fx:id="passwordField" promptText="Temporary password" />
+                           </children>
+                        </VBox>
+                        <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                           <children>
+                              <Label styleClass="admin-field-label" text="Age" />
+                              <TextField fx:id="ageField" promptText="Only for students" />
+                           </children>
+                        </VBox>
+                        <VBox spacing="6.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                           <children>
+                              <Label styleClass="admin-field-label" text="Grade" />
+                              <TextField fx:id="gradeField" promptText="Only for students" />
+                           </children>
+                        </VBox>
+                        <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="5">
+                           <children>
+                              <Label styleClass="admin-field-label" text="Department" />
+                              <TextField fx:id="departmentField" promptText="Only for students" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </GridPane>
+                  <Separator />
+                  <HBox spacing="12.0">
+                     <children>
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleAddUserAction" styleClass="admin-primary-button" text="Add User" HBox.hgrow="ALWAYS" />
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleUpdateUserAction" styleClass="admin-secondary-button" text="Update" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <HBox spacing="12.0">
+                     <children>
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRemoveUserAction" styleClass="admin-danger-button" text="Remove" HBox.hgrow="ALWAYS" />
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRefreshAction" styleClass="admin-success-button" text="Reload List" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <VBox spacing="10.0" styleClass="admin-tip-card" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label styleClass="admin-tip-title" text="Workflow Tip" />
+                        <Label styleClass="admin-tip-text" text="Role alani Student oldugunda yas, sinif ve bolum alanlari aktif olur. Librarian ve Admin icin bu alanlar pasif kalir." wrapText="true" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="8.0" />
+                     </VBox.margin>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="22.0" left="22.0" right="22.0" top="22.0" />
+               </padding>
+            </VBox>
+         </children>
+      </HBox>
+   </center>
+</BorderPane>
