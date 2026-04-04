@@ -35,6 +35,7 @@ public class StudyMateSessionController {
     @FXML private ImageView matchedImageView;
     @FXML private StackPane rootPane; 
     private Student matchedStudent;
+    private Student previousStudent;
 
     Student student = (Student) MainController.getCurrentUser();
 
@@ -70,8 +71,12 @@ public class StudyMateSessionController {
         }
         Collections.shuffle(potentialMates);
         matchedStudent = potentialMates.get(0);
+        if(matchedStudent != null && matchedStudent.equals(previousStudent) && potentialMates.size() > 1){
+            matchedStudent = potentialMates.get(1);
+        }
         displayStudyMateInfo(student);
         displayStudyMateMatchedInfo(matchedStudent);
+        previousStudent = matchedStudent;
     }
 
     public void endSession(ActionEvent event) throws IOException {

@@ -52,7 +52,10 @@ public class StudyMateController {
         dbManager.connect();
         Student student = (Student) MainController.getCurrentUser();
         displayStudyMateInfo(student);
-        courseComboBox.getItems().addAll("CS", "MATH", "MGB");
+        courseComboBox.getItems().addAll("CS", "MATH", "MBG");
+        if (student != null && student.getSelectedCourse() != null) {
+            courseComboBox.setValue(student.getSelectedCourse());
+    }
         errorMessage.setVisible(false);
     }
 

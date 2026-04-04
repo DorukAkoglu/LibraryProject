@@ -16,6 +16,7 @@ public class Student extends User {
     private List<StudyRequest> incomingRequests;
     private String department;
     private Table reservedTable;
+    private int reservedTableNo = 0;
     private String courseSelected = "No Course selected"; 
 
     public Student(int userID, String name, String email, String password, int age, int grade, String department) {
@@ -170,6 +171,12 @@ public class Student extends User {
     }
     public void addStudyRequest(StudyRequest sr) {
         incomingRequests.add(sr);
+    }
+    public int getReservedTableNo() {
+        return reservedTableNo;
+    }
+    public void setReservedTableNo(int reservedTableNo) {
+        this.reservedTableNo = reservedTableNo;
     }
 
     @Override

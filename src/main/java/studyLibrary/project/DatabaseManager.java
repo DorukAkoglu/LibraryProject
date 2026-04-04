@@ -74,6 +74,7 @@ public class DatabaseManager {
                             doc.getString("department"));
             s.setSelectedCourse(doc.getString("selectedCourse"));
             s.setProfilePicture(doc.getString("profilePhoto"));
+            s.setReservedTableNo(doc.getInteger("reservedTableNo"));
             userCacheByID.put(userID,s);
             return s;
         } else if ("librarian".equals(role)) {
@@ -533,6 +534,12 @@ public class DatabaseManager {
             Table table = new Table();
             table.setTableNo(doc.getInteger("tableNo"));
             table.setAvailability(doc.getString("availability"));
+            if (doc.containsKey("reservedBy") && doc.get("reservedBy") != null) {
+                table.setReservedBy(doc.getInteger("reservedBy"));
+            } 
+            else {
+                table.setReservedBy(0); 
+            }
             tables.add(table);
         }
         return tables;
@@ -540,7 +547,8 @@ public class DatabaseManager {
     public void updateTable(Table table){
         MongoCollection<Document> collection = database.getCollection("Tables");
         Document filter = new Document("tableNo", table.getTableNo());
-        Document availabilityUpdate = new Document("$set", new Document("availability", table.getAvailability()));
+        Document availabilityUpdate = new Document("$set", new Document("availability", table.getAvailability())
+                                                        .append("reservedBy", table.getReservedBy()));
         collection.updateOne(filter, availabilityUpdate);
     }
     public void updateStudentReservedTable(Student student, int tableNo){
