@@ -29,21 +29,43 @@ public class BookController {
     public void initialize(){
         this.system = LibrarySystem.getInstance();
         pagesFilter.getItems().addAll("Max 100", "Max 300", "Max 500", "No Limit");
+        ArrayList<Book> allBooks = system.getBooks();
+        ArrayList<String> uniqueCategories = new ArrayList<>();
+        for (Book b : allBooks) {
+            String cat = b.getCategory();
+            if (cat != null && !cat.trim().isEmpty() && !uniqueCategories.contains(cat)) {
+                uniqueCategories.add(cat);
+            }
+        }
+        categoryFilter.getItems().add("All");
+        categoryFilter.getItems().addAll(uniqueCategories);
+        categoryFilter.getSelectionModel().selectFirst();
 
     }
 
     @FXML
     public void handleSearchAction(){
-        String searchWord = searchField.getText();
+       String searchWord = "";
+        if (searchField.getText() != null) {
+        searchWord = searchField.getText().toLowerCase();
+        }
         String category = categoryFilter.getValue();
-        String maxPages = pagesFilter.getValue();
-        boolean onlyAv = availabilityFilter.isSelected();
+        boolean onlyAvailable = availabilityFilter.isSelected();
 
-        //List<Book> results = searchBook(searchWord, category, maxPages, onlyAv);
+        ArrayList<Book> allBooks = system.getBooks();
+        List<Book> results = new ArrayList<>();
 
-        // Bulunan kitapları ekrandaki listeye  bas
+        for (Book b : allBooks){
+            boolean titleMatches = searchWord.isEmpty() || b.getTitle().toLowerCase().contains(searchWord);
+            boolean categoryMatches = category == null || category.equals("All") || b.getCategory().equals(category);
+            boolean availabilityMatches = !onlyAvailable || b.isAvailable();
+            if (titleMatches && categoryMatches && availabilityMatches){
+                results.add(b);
+            } 
+        }
         bookListView.getItems().clear();
-        //bookListView.getItems().addAll(results);
+        bookListView.getItems().addAll(results);
+
     }
 
     private void showAlert(String title, String message, Alert.AlertType type) {
@@ -77,6 +99,10 @@ public class BookController {
         if (book.isAvailable()) {
             book.setNumCopies(book.getNumCopies() - 1);
             book.setDueTime(LocalDate.now().plusDays(BORROW_DURATION));
+            
+            if (book.getNumCopies() == 0) {
+                book.setAvailability(false);
+            }
             
             if (!system.getBorrowedBooks().contains(book)) {
                 system.getBorrowedBooks().add(book);
