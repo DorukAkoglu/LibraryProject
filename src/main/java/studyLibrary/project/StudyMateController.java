@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import javafx.animation.FadeTransition;
-import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,7 +14,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 /** 
 public class StudyMateController {
@@ -45,7 +41,6 @@ public class StudyMateController {
     @FXML private Label nameLabel;
     @FXML private Label ageLabel;
     @FXML private Label departmentLabel;
-    @FXML private Label errorMessage;
     @FXML private ComboBox<String> courseComboBox;
     @FXML private Label courseLabel;
     @FXML private ImageView imageView;
@@ -55,7 +50,6 @@ public class StudyMateController {
         Student student = (Student) MainController.getCurrentUser();
         displayStudyMateInfo(student);
         courseComboBox.getItems().addAll("CS", "MATH", "MGB");
-        errorMessage.setVisible(false);
     }
 
     private void displayStudyMateInfo(Student student) {
@@ -91,33 +85,14 @@ public class StudyMateController {
     }
     public void handleFindMatchButton(ActionEvent event) throws IOException{
         if(courseComboBox.getValue() == null){
-            errorMessage.setText("No course selected.");
-            errorMessage.setVisible(true);
+            showAlert("Course not selected", "Choose a course to use this feature.");
         }
         else{
             List<Student> potentialMates = dbManager.getStudentsByCourse();
             if(potentialMates == null || potentialMates.isEmpty()){
-                errorMessage.setText("No Available Study Mates Within Your Preferences.");
-                errorMessage.setVisible(true);
-                PauseTransition pause = new PauseTransition(Duration.seconds(3));
-                pause.setOnFinished(new EventHandler<ActionEvent>() {
-                    public void handle(ActionEvent event){
-                        FadeTransition fade = new FadeTransition(Duration.seconds(3), errorMessage);
-                        fade.setFromValue(1.0);
-                        fade.setToValue(0.0);
-                        fade.setOnFinished(new EventHandler<ActionEvent>() {
-                            public void handle(ActionEvent event){
-                                errorMessage.setVisible(false);
-                                errorMessage.setOpacity(1);
-                            }
-                        });
-                        fade.play();
-                    }
-                });
-                pause.play();
+                showAlert("No Mates Found", "There are no available study mates around you.");
                 return;
             }
-            errorMessage.setVisible(false);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/mateMatchResult.fxml"));
             Parent root = loader.load();
             App.PRIMARY_STAGE = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
