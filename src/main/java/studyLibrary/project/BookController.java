@@ -125,23 +125,6 @@ public class BookController {
         return false;
     }
 
-    public boolean returnBook(User u, Book b){
-        b.setNumCopies(b.getNumCopies() + 1);
-        b.setDueTime(null);
-        system.getBorrowedBooks().remove(b);
-        system.updateBook(b);
-        return true;
-    }
-
-    public boolean extendBook(User u, Book b){
-        if (b.getDueTime() != null) {
-            b.setDueTime(b.getDueTime().plusDays(7));
-            system.updateBook(b); 
-            return true;
-        }
-        return false;
-    }
-
     public boolean reserveBook(User u, Book b){
         if (!b.isAvailable()) {
             return true;

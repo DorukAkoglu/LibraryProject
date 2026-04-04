@@ -550,4 +550,134 @@ public class DatabaseManager {
         collection.updateOne(filter, update);
     }
 
+    public ArrayList<Book> getBorrowedBooksByUser(User u) {
+        ArrayList<Book> list = new ArrayList<>();
+        org.bson.Document userDoc = database.getCollection("users").find(new org.bson.Document("userID", u.getUserID())).first();
+        
+        if (userDoc != null && userDoc.containsKey("borrowedBooks")) {
+            List<org.bson.Document> borrowed = (List<org.bson.Document>) userDoc.get("borrowedBooks");
+            for (org.bson.Document doc : borrowed) {
+                Book b = getBookByBookID(doc.getInteger("bookID"));
+                if (b != null) {
+                    b.setDueTime(LocalDate.parse(doc.getString("dueDate"))); 
+                    list.add(b);
+                }
+            }
+        }
+        return list;
+    }
+
+    public ArrayList<Book> getReservedBooksByUser(User u) {
+        ArrayList<Book> list = new ArrayList<>();
+        org.bson.Document userDoc = database.getCollection("users").find(new org.bson.Document("userID", u.getUserID())).first();
+        
+        if (userDoc != null && userDoc.containsKey("reservedBooks")) {
+            List<org.bson.Document> reserved = (List<org.bson.Document>) userDoc.get("reservedBooks");
+            for (org.bson.Document doc : reserved) {
+                Book b = getBookByBookID(doc.getInteger("bookID"));
+                if (b != null) {
+                    list.add(b);
+                }
+            }
+        }
+        return list;
+    }
+
+    public ArrayList<Book> getHistoryBooksByUser(User u) {
+        ArrayList<Book> list = new ArrayList<>();
+        org.bson.Document userDoc = database.getCollection("users").find(new org.bson.Document("userID", u.getUserID())).first();
+        
+        if (userDoc != null && userDoc.containsKey("history")) {
+            List<org.bson.Document> history = (List<org.bson.Document>) userDoc.get("history");
+            for (org.bson.Document doc : history) {
+                Book b = getBookByBookID(doc.getInteger("bookID"));
+                if (b != null) {
+                    // Tarihi ekranda göstermek için Book nesnesindeki dueTime alanına geçici yazıyoruz
+                    b.setDueTime(LocalDate.parse(doc.getString("returnDate")));
+                    list.add(b);
+                }
+            }
+        }
+        return list;
+    }
+
+    public boolean borrowBookDB(User u, Book b) {
+        if (!b.isAvailable() || b.getNumCopies() <= 0) return false;
+        MongoCollection<org.bson.Document> usersCollection = database.getCollection("users");
+        org.bson.Document borrowedInfo = new org.bson.Document("bookID", b.getBookID())
+                                             .append("dueDate", LocalDate.now().plusDays(14).toString());
+        usersCollection.updateOne(
+                new org.bson.Document("userID", u.getUserID()),
+                new org.bson.Document("$push", new org.bson.Document("borrowedBooks", borrowedInfo))
+        );
+        usersCollection.updateOne(
+                new org.bson.Document("userID", u.getUserID()),
+                new org.bson.Document("$pull", new org.bson.Document("reservedBooks", new org.bson.Document("bookID", b.getBookID())))
+        );
+        b.setNumCopies(b.getNumCopies() - 1);
+        if(b.getNumCopies() <= 0) b.setAvailability(false);
+        updateBook(b);
+        
+        return true;
+    }
+
+    public boolean returnBookDB(User u, Book b) {
+        MongoCollection<org.bson.Document> usersCollection = database.getCollection("users");
+
+        usersCollection.updateOne(
+                new org.bson.Document("userID", u.getUserID()),
+                new org.bson.Document("$pull", new org.bson.Document("borrowedBooks", new org.bson.Document("bookID", b.getBookID())))
+        );
+
+        
+        org.bson.Document historyInfo = new org.bson.Document("bookID", b.getBookID())
+                                            .append("returnDate", LocalDate.now().toString());
+        usersCollection.updateOne(
+                new org.bson.Document("userID", u.getUserID()),
+                new org.bson.Document("$push", new org.bson.Document("history", historyInfo))
+        );
+        b.setNumCopies(b.getNumCopies() + 1);
+        b.setAvailability(true);
+        b.setDueTime(null);
+        updateBook(b);
+        
+        return true;
+    }
+
+    public boolean extendBookDB(User u, Book b) {
+        if (b.getDueTime() == null) return false;
+        
+        LocalDate newDate = b.getDueTime().plusDays(7);
+        
+        database.getCollection("users").updateOne(
+                new org.bson.Document("userID", u.getUserID()).append("borrowedBooks.bookID", b.getBookID()),
+                new org.bson.Document("$set", new org.bson.Document("borrowedBooks.$.dueDate", newDate.toString()))
+        );
+        return true;
+    }
+
+    public boolean reserveBookDB(User u, Book b) {
+        // Kitap zaten dışarıdaysa rezerve edilebilir
+        if (b.isAvailable()) return false; 
+        
+        org.bson.Document reserveInfo = new org.bson.Document("bookID", b.getBookID())
+                                            .append("status", "Waiting");
+        
+        database.getCollection("users").updateOne(
+                new org.bson.Document("userID", u.getUserID()),
+                new org.bson.Document("$push", new org.bson.Document("reservedBooks", reserveInfo))
+        );
+        return true;
+    }
+
+    public boolean cancelReserveDB(User u, Book b) {
+        database.getCollection("users").updateOne(
+                new org.bson.Document("userID", u.getUserID()),
+                new org.bson.Document("$pull", new org.bson.Document("reservedBooks", new org.bson.Document("bookID", b.getBookID())))
+        );
+        return true;
+    }
+
+
+
 }
