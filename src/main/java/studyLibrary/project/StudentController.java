@@ -18,7 +18,7 @@ public class StudentController {
 
     @FXML private Label userNameLabel, departmentLabel, requestLabel;
     @FXML private ImageView profileImage;
-    @FXML private Button btnStudyMate, btnRequests;
+    @FXML private Button btnStudyMate, btnLibrary;
 
     @FXML
     public void initialize() {
@@ -33,6 +33,10 @@ public class StudentController {
         userNameLabel.setText(student.getName());
         departmentLabel.setText(student.getDepartment());
         requestLabel.setText("You have " + student.getStudyRequest().size() +" study requests.");
+    }
+    @FXML
+    private void backToLibrary(ActionEvent event) throws IOException {
+        changeScreen(event, "/library.fxml");
     }
     @FXML
     private void backToStudyMateMenu(ActionEvent event) throws IOException {

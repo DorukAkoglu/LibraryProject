@@ -30,7 +30,7 @@
             </Label>
             <Label fx:id="departmentLabel" styleClass="accent-text" text="Computer Science" textFill="WHITE" />
             <Button fx:id="btnStudyMate" mnemonicParsing="false" styleClass="nav-button" text="Dashboard" />
-            <Button fx:id="btnRequests" mnemonicParsing="false" onAction="#backToStudyMateMenu" styleClass="nav-button" text="Find Study Partner" />
+            <Button fx:id="btnLibrary" mnemonicParsing="false" onAction="#backToLibrary" styleClass="nav-button" text="Library" />
             <Button mnemonicParsing="false" onAction="#switchToDeskReservation" styleClass="nav-button" stylesheets="@student.css" text="Desk Reservation" />
             <Button mnemonicParsing="false" onAction="#updateProfile" styleClass="nav-button" text="Update Profile" />
             <Button mnemonicParsing="false" onAction="#logout" styleClass="nav-button" text="Logout" />
