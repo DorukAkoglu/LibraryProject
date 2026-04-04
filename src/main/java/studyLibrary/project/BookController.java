@@ -1,16 +1,21 @@
 package studyLibrary.project;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class BookController {
     @FXML private TextField searchField;
@@ -41,6 +46,13 @@ public class BookController {
         categoryFilter.getItems().addAll(uniqueCategories);
         categoryFilter.getSelectionModel().selectFirst();
 
+    }
+    @FXML
+    private void goBackToDashboard(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/student.fxml"));
+        Parent root = loader.load();
+        App.PRIMARY_STAGE = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        App.PRIMARY_STAGE.getScene().setRoot(root);
     }
 
     @FXML
