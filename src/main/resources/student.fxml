@@ -76,9 +76,9 @@
                                           <Image url="@images/download.jpg" />
                                        </image>
                                     </ImageView>
-                                    <Label text="Borrowed Books" />
+                                    <Label text="My Books" />
                                     <Label styleClass="accent-text" text="3 Books Active" />
-                                    <Button mnemonicParsing="false" onAction="#displayBorrowedBooks" text="View List" />
+                                    <Button mnemonicParsing="false" onAction="#displayBorrowedBooks" text="Menage Books" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER" minHeight="200.0" prefWidth="100.0" spacing="15.0" styleClass="dashboard-card" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
