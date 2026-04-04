@@ -477,5 +477,11 @@ public class DatabaseManager {
         Document availabilityUpdate = new Document("$set", new Document("availability", table.getAvailability()));
         collection.updateOne(filter, availabilityUpdate);
     }
+    public void updateStudentReservedTable(Student student, int tableNo){
+        MongoCollection<Document> collection = database.getCollection("users");
+        Document filter = new Document("userID", student.getUserID()); // Öğrenciyi email ile bul
+        Document update = new Document("$set", new Document("reservedTableNo", tableNo));
+        collection.updateOne(filter, update);
+    }
 
 }

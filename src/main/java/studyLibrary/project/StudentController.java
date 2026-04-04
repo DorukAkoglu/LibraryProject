@@ -67,6 +67,10 @@ public class StudentController {
     private void logout(ActionEvent event) throws IOException {
         changeScreen(event, "/login.fxml");
     }
+    @FXML 
+    private void switchToDeskReservation(ActionEvent event) throws IOException{
+        changeScreen(event, "/reservation.fxml");
+    }
 
     private void changeScreen(ActionEvent event, String fxmlPath) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
