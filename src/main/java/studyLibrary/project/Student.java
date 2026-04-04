@@ -15,6 +15,7 @@ public class Student extends User {
     private String availabilityStatus;
     private List<StudyRequest> incomingRequests;
     private String department;
+    private Table reservedTable;
     private String courseSelected = "No Course selected"; 
 
     public Student(int userID, String name, String email, String password, int age, int grade, String department) {
@@ -160,6 +161,12 @@ public class Student extends User {
             return false;
         }
         return true;
+    }
+    public Table getReservedTable(){
+        return reservedTable;
+    }
+    public void setreservedTable(Table table){
+        reservedTable = table;
     }
     public void addStudyRequest(StudyRequest sr) {
         incomingRequests.add(sr);
