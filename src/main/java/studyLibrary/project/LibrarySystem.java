@@ -168,4 +168,36 @@ public class LibrarySystem {
     public void refreshChats() {
         this.chats = db.getChats();
     }
+
+    public ArrayList<Book> getBorrowedBooksByUser(User u) {
+        return db.getBorrowedBooksByUser(u);
+    }
+
+    public ArrayList<Book> getReservedBooksByUser(User u) {
+        return db.getReservedBooksByUser(u);
+    }
+
+    public ArrayList<Book> getHistoryBooksByUser(User u) {
+        return db.getHistoryBooksByUser(u);
+    }
+
+    public boolean borrowBook(User u, Book b) {
+        return db.borrowBookDB(u, b);
+    }
+
+    public boolean returnBook(User u, Book b) {
+        return db.returnBookDB(u, b);
+    }
+
+    public boolean extendBook(User u, Book b) {
+        return db.extendBookDB(u, b);
+    }
+
+    public boolean reserveBook(User u, Book b) {
+        return db.reserveBookDB(u, b);
+    }
+
+    public boolean cancelReserve(User u, Book b) {
+        return db.cancelReserveDB(u, b);
+    }
 }
