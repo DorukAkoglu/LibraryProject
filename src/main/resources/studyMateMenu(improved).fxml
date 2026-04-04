@@ -13,9 +13,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="root-bg" stylesheets="@studymate.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.StudyMateController">
+<StackPane styleClass="root-bg" stylesheets="@studymate.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.StudyMateController">
    <children>
-      <BorderPane prefHeight="605.0" prefWidth="885.0">
+      <BorderPane>
          <top>
             <HBox alignment="CENTER" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
@@ -54,38 +54,39 @@
             </HBox>
          </bottom>
          <center>
-            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" prefWidth="400.0" styleClass="profile-card" stylesheets="@studymate.css" BorderPane.alignment="CENTER">
+            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="400.0" styleClass="profile-card" stylesheets="@studymate.css" BorderPane.alignment="CENTER">
                <children>
                   <ImageView fitHeight="98.0" fitWidth="103.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/defaultProfilePicture.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="nameLabel" alignment="CENTER" prefHeight="36.0" prefWidth="355.0" text="Name" textFill="WHITE">
+                  <Label fx:id="nameLabel" alignment="CENTER" maxWidth="-Infinity" text="Name" textFill="WHITE">
                      <font>
                         <Font size="25.0" />
                      </font>
                   </Label>
-                  <Label fx:id="ageLabel" alignment="CENTER" prefHeight="36.0" prefWidth="471.0" text="Age" textFill="WHITE">
+                  <Label fx:id="ageLabel" alignment="CENTER" maxWidth="-Infinity" text="Age" textFill="WHITE">
                      <font>
                         <Font size="25.0" />
                      </font>
                   </Label>
-                  <Label fx:id="departmentLabel" alignment="CENTER" prefHeight="36.0" prefWidth="514.0" text="Department" textFill="WHITE">
+                  <Label fx:id="departmentLabel" alignment="CENTER" maxWidth="-Infinity" text="Department" textFill="WHITE">
                      <font>
                         <Font size="25.0" />
                      </font>
                   </Label>
-                  <Label fx:id="courseLabel" alignment="CENTER" prefHeight="36.0" prefWidth="483.0" text="Course" textFill="WHITE">
+                  <Label fx:id="courseLabel" alignment="CENTER" maxWidth="-Infinity" text="Course" textFill="WHITE">
                      <font>
                         <Font size="25.0" />
                      </font>
                   </Label>
-                  <Button alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleFindMatchButton" prefHeight="20.0" prefWidth="285.0" styleClass="find-btn" stylesheets="@studymate.css" text="Find StudyMate">
+                  <Button alignment="CENTER" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleFindMatchButton" styleClass="find-btn" stylesheets="@studymate.css" text="Find StudyMate">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
                   </Button>
+                  <Label fx:id="errorMessage" style="-fx-text-fill: red;" text="No Study Mates Are Available Within Your Preferences" />
                </children>
                <BorderPane.margin>
                   <Insets />

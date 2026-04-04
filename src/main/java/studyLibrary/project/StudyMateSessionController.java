@@ -21,7 +21,7 @@ import javafx.util.Duration;
 public class StudyMateSessionController {
     DatabaseManager dbManager = new DatabaseManager();
 
-
+    private Student previousStudent;
     @FXML private Label nameLabel;
     @FXML private Label ageLabel;
     @FXML private Label departmentLabel;
@@ -70,8 +70,12 @@ public class StudyMateSessionController {
         }
         Collections.shuffle(potentialMates);
         matchedStudent = potentialMates.get(0);
+        if(matchedStudent != null && matchedStudent.equals(previousStudent) && potentialMates.size() > 1){
+            matchedStudent = potentialMates.get(1);
+        }
         displayStudyMateInfo(student);
         displayStudyMateMatchedInfo(matchedStudent);
+        previousStudent = matchedStudent;
     }
 
     public void endSession(ActionEvent event) throws IOException {

@@ -525,4 +525,23 @@ public class DatabaseManager {
         }
         return borrowedBooks;    
     }
+    
+    public ArrayList<Table> getTables(){
+        ArrayList<Table> tables = new ArrayList<>();
+        MongoCollection<Document> collection = database.getCollection("Tables");
+        for(Document doc : collection.find()){
+            Table table = new Table();
+            table.setTableNo(doc.getInteger("tableNo"));
+            table.setAvailability(doc.getString("availability"));
+            tables.add(table);
+        }
+        return tables;
+    }
+    public void updateTable(Table table){
+        MongoCollection<Document> collection = database.getCollection("Tables");
+        Document filter = new Document("tableNo", table.getTableNo());
+        Document availabilityUpdate = new Document("$set", new Document("availability", table.getAvailability()));
+        collection.updateOne(filter, availabilityUpdate);
+    }
+
 }
