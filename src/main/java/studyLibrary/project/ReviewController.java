@@ -14,22 +14,49 @@ public class ReviewController {
     @FXML private ListView<org.bson.Document> reviewsListView; 
     @FXML private TextField commentTextField;
     @FXML private ComboBox<Integer> ratingComboBox;
+    @FXML private Label bookStarsLabel;
 
     private Book currentBook;
     private User currentUser;
     private DatabaseManager dbManager = new DatabaseManager();
     private String targetReviewIdToReply = null;
 
+    @FXML
+    public void initialize() {
+        if (ratingComboBox != null) {
+            ratingComboBox.getItems().setAll(1, 2, 3, 4, 5);
+            ratingComboBox.getSelectionModel().selectFirst();
+        }
+    }
+
     public void initializeBookData(Book book) {
         this.currentBook = book;
         this.currentUser = MainController.getCurrentUser(); 
         
-        bookTitleLabel.setText(book.getTitle());
-        bookAuthorLabel.setText("Author: " + book.getAuthor());
-        ratingComboBox.getItems().addAll(1, 2, 3, 4, 5);
-        
-        setupCellFactory();
-        loadReviews();
+        if (book != null) {
+            if (bookTitleLabel == null) {
+                System.out.println("KRİTİK HATA: bookTitleLabel could not be linked to Java! Check the fx:id in the FXML file.");
+            } else {
+                bookTitleLabel.setText(book.getTitle());
+                bookAuthorLabel.setText("Author: " + book.getAuthor());
+            }
+            
+            int rating = 0;
+            StringBuilder stars = new StringBuilder();
+            for(int i=0; i<5; i++) { stars.append(i < rating ? "★" : "☆"); }
+            if (bookStarsLabel != null) {
+                bookStarsLabel.setText(stars.toString());
+            }
+
+            if (bookCoverImage != null) {
+                try {
+                    javafx.scene.image.Image img = new javafx.scene.image.Image(getClass().getResourceAsStream("/books.png"));
+                    bookCoverImage.setImage(img);
+                } catch (Exception e) {
+                    System.out.println("Hata: \"Image upload failed.\"");
+                }
+            }
+        }
     }
 
     private void setupCellFactory() {
@@ -77,8 +104,8 @@ public class ReviewController {
                         root.getChildren().add(repliesBox);
                     }
 
-                    Button replyBtn = new Button("Yanıtla");
-                    replyBtn.getStyleClass().add("reply-button"); // CSS Sınıfı eklendi
+                    Button replyBtn = new Button("reply");
+                    replyBtn.getStyleClass().add("reply-button");
                     
                     replyBtn.setOnAction(e -> {
                         targetReviewIdToReply = review.getString("reviewID");
@@ -131,7 +158,7 @@ public class ReviewController {
     @FXML
     private void goBackAction(javafx.event.ActionEvent event) {
         try {
-            javafx.scene.Parent root = javafx.fxml.FXMLLoader.load(getClass().getResource("book.fxml"));
+            javafx.scene.Parent root = javafx.fxml.FXMLLoader.load(getClass().getResource("/book.fxml"));
             javafx.stage.Stage stage = (javafx.stage.Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             
             stage.setScene(new javafx.scene.Scene(root));
@@ -142,5 +169,18 @@ public class ReviewController {
             e.printStackTrace();
         }
     }
+
+    public void setBook(Book selectedBook) {
+        this.currentBook = selectedBook; 
+        
+        if (bookTitleLabel != null) {
+            bookTitleLabel.setText(selectedBook.getTitle());
+        }
+        
+        if (bookAuthorLabel != null) {
+            bookAuthorLabel.setText("Author: " + selectedBook.getAuthor());
+        }
+    }
+
    
 }

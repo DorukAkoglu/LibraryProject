@@ -90,7 +90,7 @@ public class BookController {
                     authorLabel.getStyleClass().add("cell-author");
 
                     // Yıldızlar
-                    int rating = 4; // Kendi sisteminde varsa book.getRating() yap
+                    int rating = 0;
                     StringBuilder starText = new StringBuilder();
                     for(int i=0; i<5; i++) { starText.append((i < rating) ? "★" : "☆"); }
                     Label starsLabel = new Label(starText.toString());
@@ -115,13 +115,30 @@ public class BookController {
                     Button detailsBtn = new Button("Show Details");
                     detailsBtn.getStyleClass().add("cell-details-button");
                     
-                    // Tıklama Olayları
                     detailsBtn.setOnAction(e -> {
-                         System.out.println(book.getTitle() + " detay sayfasına gidiliyor...");
+                        System.out.println("Navigating to details page for: " + book.getTitle());
+                        try {
+                            
+                            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/review.fxml")); 
+                            javafx.scene.Parent reviewRoot = loader.load();
+
+                            ReviewController controller = loader.getController();
+                            if (controller != null) {
+                                controller.initializeBookData(book); 
+                            }
+
+                            javafx.stage.Stage stage = (javafx.stage.Stage) ((javafx.scene.Node) e.getSource()).getScene().getWindow();
+                            stage.setScene(new javafx.scene.Scene(reviewRoot));
+                            stage.show();
+                            
+                        } catch (java.io.IOException ex) {
+                            System.out.println("Error: Review page FXML not found!");
+                            ex.printStackTrace();
+                        }
                     });
                     
                     borrowBtn.setOnAction(e -> {
-                         System.out.println(book.getTitle() + " ödünç alınmak istendi.");
+                         System.out.println("Borrow requested for: " + book.getTitle());
                     });
 
                     buttonsBox.getChildren().addAll(borrowBtn, reserveBtn, detailsBtn);
@@ -175,22 +192,7 @@ public class BookController {
         alert.showAndWait();
     }
 
-    @FXML
-    public void handleBorrowAction(){
-        Book selectedBook = bookListView.getSelectionModel().getSelectedItem();
-        if (selectedBook == null){
-            showAlert("Warning", "Please select a book from the list!", Alert.AlertType.WARNING);
-            return;
-        }
-
-        boolean isSuccessful = borrowBook(currentUser, selectedBook);
-        if (isSuccessful){
-            showAlert("Success", "Book successfully borrowed!", Alert.AlertType.INFORMATION);
-            handleSearchAction(); // Listeyi güncelle
-        }else{
-            showAlert("Error", "This book is currently out of stock!", Alert.AlertType.ERROR);
-        }
-    }
+    
 
     
 
