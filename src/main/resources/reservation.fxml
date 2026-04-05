@@ -19,8 +19,8 @@
                   <Image url="@images/defaultProfilePicture.png" />
                </image>
             </ImageView>
-            <Label styleClass="student-name" stylesheets="@student.css" text="Name" />
-            <Label styleClass="accent-text" stylesheets="@student.css" text="Department" />
+            <Label fx:id="nameLabel" styleClass="student-name" stylesheets="@student.css" text="Name" />
+            <Label fx:id="departmentLabel" styleClass="accent-text" stylesheets="@student.css" text="Department" />
             <Button mnemonicParsing="false" onAction="#returnToDashboard" styleClass="nav-button" stylesheets="@student.css" text="Return to Dashboard" />
             <Button mnemonicParsing="false" styleClass="nav-button" stylesheets="@student.css" text="Desk Reservation" />
          </children>
