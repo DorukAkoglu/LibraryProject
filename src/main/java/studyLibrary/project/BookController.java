@@ -33,6 +33,7 @@ public class BookController {
     @FXML
     public void initialize(){
         this.system = LibrarySystem.getInstance();
+        this.currentUser = MainController.getCurrentUser();
         pagesFilter.getItems().addAll("Max 100", "Max 300", "Max 500", "No Limit");
         ArrayList<Book> allBooks = system.getBooks();
         ArrayList<String> uniqueCategories = new ArrayList<>();
@@ -119,6 +120,7 @@ public class BookController {
             if (!system.getBorrowedBooks().contains(book)) {
                 system.getBorrowedBooks().add(book);
             }
+            system.borrowBook(u, book);
             system.updateBook(book);
             return true;
         }

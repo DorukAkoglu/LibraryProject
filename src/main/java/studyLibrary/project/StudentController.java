@@ -64,7 +64,7 @@ public class StudentController {
     
     @FXML
     private void displayBorrowedBooks(ActionEvent event) throws IOException {
-        changeScreen(event, "/borrowedBooks.fxml");
+        changeScreen(event, "/MyBooks.fxml");
     }
     
     @FXML
