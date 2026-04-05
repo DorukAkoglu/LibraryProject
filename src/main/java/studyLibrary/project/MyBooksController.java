@@ -164,7 +164,7 @@ public class MyBooksController {
     @FXML
     public void goBackToDashboard(ActionEvent event) {
         try {
-            javafx.scene.Parent root = javafx.fxml.FXMLLoader.load(getClass().getResource("student.fxml"));
+            javafx.scene.Parent root = javafx.fxml.FXMLLoader.load(getClass().getResource("/student.fxml"));
             javafx.stage.Stage stage = (javafx.stage.Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             stage.setScene(new javafx.scene.Scene(root));
         } catch (Exception e) {

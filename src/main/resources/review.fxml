@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="15" stylesheets="@review.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.ReviewController">
+    
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    <Button text="← Back" styleClass="back-button" onAction="#goBackAction" />
+    
+    <HBox spacing="20" alignment="CENTER_LEFT">
+        <ImageView fx:id="bookCoverImage" fitHeight="150" fitWidth="100" />
+        <VBox spacing="10" alignment="CENTER_LEFT">
+            <Label fx:id="bookTitleLabel" styleClass="book-title" text="Book Title" />
+            <Label fx:id="bookAuthorLabel" styleClass="book-author" text="Author: Unknown" />
+        </VBox>
+    </HBox>
+
+    <Separator /> 
+
+    <Label text="Reviews &amp; Comments" styleClass="book-title" />
+    <ListView fx:id="reviewsListView" prefHeight="400" VBox.vgrow="ALWAYS" />
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <TextField fx:id="commentTextField" promptText="Write your review here..." HBox.hgrow="ALWAYS" />
+        <ComboBox fx:id="ratingComboBox" promptText="Rating" prefWidth="100" />
+        <Button text="Submit Review" styleClass="submit-button" onAction="#submitReviewAction" />
+    </HBox>
+</VBox>

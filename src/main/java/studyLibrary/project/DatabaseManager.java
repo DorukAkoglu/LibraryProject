@@ -12,6 +12,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import studyLibrary.project.Comment;
 
 
 public class DatabaseManager {
@@ -718,6 +719,45 @@ public class DatabaseManager {
                 new org.bson.Document("$pull", new org.bson.Document("reservedBooks", new org.bson.Document("bookID", b.getBookID())))
         );
         return true;
+    }
+
+    public ArrayList<org.bson.Document> getReviewsForBook(int bookID) {
+        ArrayList<org.bson.Document> reviewList = new ArrayList<>();
+        org.bson.Document bookDoc = database.getCollection("books").find(new org.bson.Document("bookID", bookID)).first();
+        
+        if (bookDoc != null && bookDoc.containsKey("reviews")) {
+            java.util.List<org.bson.Document> reviews = (java.util.List<org.bson.Document>) bookDoc.get("reviews");
+            reviewList.addAll(reviews);
+        }
+        return reviewList;
+    }
+
+    public boolean addReviewToBook(int bookID, String senderName, String reviewText, int rating) {
+        String uniqueReviewID = java.util.UUID.randomUUID().toString(); 
+
+        org.bson.Document newReview = new org.bson.Document("reviewID", uniqueReviewID) 
+                                            .append("senderName", senderName)
+                                            .append("comment", reviewText) 
+                                            .append("rating", rating)
+                                            .append("date", java.time.LocalDate.now().toString())
+                                            .append("comments", new java.util.ArrayList<org.bson.Document>()); 
+
+        com.mongodb.client.result.UpdateResult result = database.getCollection("books").updateOne(
+                new org.bson.Document("bookID", bookID),
+                new org.bson.Document("$push", new org.bson.Document("reviews", newReview))
+        );
+        return result.getModifiedCount() > 0;
+    }
+
+    public boolean addCommentToReview(int bookID, String targetReviewID, Comment reply) {
+        org.bson.Document commentDoc = new org.bson.Document("userID", reply.getUser().getUserID())
+                                             .append("text", reply.getContent());
+
+        com.mongodb.client.result.UpdateResult result = database.getCollection("books").updateOne(
+                new org.bson.Document("bookID", bookID).append("reviews.reviewID", targetReviewID),
+                new org.bson.Document("$push", new org.bson.Document("reviews.$.comments", commentDoc))
+        );
+        return result.getModifiedCount() > 0;
     }
 
 
