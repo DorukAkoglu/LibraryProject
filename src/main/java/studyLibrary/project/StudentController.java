@@ -22,7 +22,13 @@ public class StudentController {
 
     @FXML
     public void initialize() {
-        profileImage = new ImageView(new Image(getClass().getResourceAsStream("/images/defaultProfilePicture.png")));
+       if (MainController.getCurrentUser().getProfilePhoto() != null && !MainController.getCurrentUser().getProfilePhoto().isEmpty()) {
+            profileImage.setImage(new Image(MainController.getCurrentUser().getProfilePhoto(), true));
+            profileImage.setImage(new Image(MainController.getCurrentUser().getProfilePhoto(), true));
+        } else {
+            profileImage.setImage(new Image(getClass().getResourceAsStream("/images/defaultProfilePicture.png")));
+            profileImage.setImage(new Image(getClass().getResourceAsStream("/images/defaultProfilePicture.png")));
+        }
         profileImage.setFitHeight(50);
         profileImage.setFitWidth(50);
         

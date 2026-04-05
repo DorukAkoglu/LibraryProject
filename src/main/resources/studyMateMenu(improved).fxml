@@ -60,7 +60,7 @@
          <center>
             <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="400.0" styleClass="profile-card" stylesheets="@studymate.css" BorderPane.alignment="CENTER">
                <children>
-                  <ImageView fitHeight="98.0" fitWidth="103.0" pickOnBounds="true" preserveRatio="true">
+                 <ImageView fx:id="imageView" fitHeight="98.0" fitWidth="103.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/defaultProfilePicture.png" />
                      </image>

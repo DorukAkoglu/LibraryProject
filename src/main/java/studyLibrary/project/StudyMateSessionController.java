@@ -11,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -46,6 +45,10 @@ public class StudyMateSessionController {
 
     private void displayStudyMateInfo(Student student) {
         if(student != null){
+            if (student.getProfilePhoto() != null && !student.getProfilePhoto().isEmpty()) {
+                imageView.setImage(new javafx.scene.image.Image(student.getProfilePhoto()));
+            } else {
+imageView.setImage(new javafx.scene.image.Image(getClass().getResourceAsStream("/images/defaultProfilePicture.png")));            }
             nameLabel.setText("Name: " + student.getName());
             ageLabel.setText("Age: " + String.valueOf(student.getAge()));
             departmentLabel.setText("Department: " + student.getDepartment());
@@ -54,6 +57,11 @@ public class StudyMateSessionController {
     }
     private void displayStudyMateMatchedInfo(Student student) {
         if(student != null){
+            if (student.getProfilePhoto() != null && !student.getProfilePhoto().isEmpty()) {
+            matchedImageView.setImage(new javafx.scene.image.Image(student.getProfilePhoto()));
+        } else {
+            matchedImageView.setImage(new javafx.scene.image.Image(getClass().getResourceAsStream("/default_avatar.png")));
+        }
             matchedNameLabel.setText("Name: " + student.getName());
             matchedAgeLabel.setText("Age: " + String.valueOf(student.getAge()));
             matchedDepartmentLabel.setText("Department: " + student.getDepartment());

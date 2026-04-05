@@ -60,7 +60,7 @@
                   <Insets left="50.0" right="50.0" />
                </VBox.margin>
             </Separator>
-            <ImageView fitHeight="143.0" fitWidth="166.0" pickOnBounds="true" preserveRatio="true" style="-fx-opacity: 10;">
+            <ImageView fx:id="imageView" fitHeight="143.0" fitWidth="166.0" pickOnBounds="true" preserveRatio="true" style="-fx-opacity: 10;">
                <VBox.margin>
                   <Insets />
                </VBox.margin>

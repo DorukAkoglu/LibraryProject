@@ -1,4 +1,5 @@
 package studyLibrary.project;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,20 +16,20 @@ import com.mongodb.client.MongoDatabase;
 
 public class DatabaseManager {
     private MongoClient mongoClient;
-    // private CloudinaryManager cloudinaryManager;
+     private CloudinaryManager cloudinaryManager;
     private MongoDatabase database;
     private HashMap<String, User> userCacheByEmail = new HashMap<>();
     private HashMap<Integer, User> userCacheByID = new HashMap<>();
     public DatabaseManager() {
         mongoClient = null;
         database = null;
-        /** 
+        
         try {
             this.cloudinaryManager = new CloudinaryManager();
         } catch (IOException e) {
             System.err.println("Cloudinary network error: " + e.getMessage());
         }
-        */
+        
     }
     public User getUserByEmail(String email) {
         if (userCacheByEmail.containsKey(email)) {
@@ -65,7 +66,7 @@ public class DatabaseManager {
         if (userCacheByID.containsKey(userID)) {
             return userCacheByID.get(userID);
         }
-        
+
         Document doc = database.getCollection("users")
                             .find(new Document("userID", userID)).first();
         if (doc == null) return null;

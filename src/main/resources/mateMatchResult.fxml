@@ -62,7 +62,7 @@
                <children>
                   <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" prefWidth="400.0" styleClass="profile-card" stylesheets="@studymate.css">
                      <children>
-                        <ImageView fitHeight="98.0" fitWidth="103.0" pickOnBounds="true" preserveRatio="true">
+                       <ImageView fx:id="imageView" fitHeight="98.0" fitWidth="103.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/defaultProfilePicture.png" />
                            </image>
@@ -91,7 +91,7 @@
                   </VBox>
                   <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" prefWidth="400.0" styleClass="profile-card" stylesheets="@studymate.css">
                      <children>
-                        <ImageView fitHeight="98.0" fitWidth="103.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="matchedImageView" fitHeight="98.0" fitWidth="103.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/defaultProfilePicture.png" />
                            </image>

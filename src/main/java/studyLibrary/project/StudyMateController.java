@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -61,6 +62,11 @@ public class StudyMateController {
 
     private void displayStudyMateInfo(Student student) {
         if(student != null){
+            if (student.getProfilePhoto() == null) {
+                imageView.setImage(new Image(getClass().getResourceAsStream("/images/defaultProfilePicture.png")));
+            } else {
+                imageView.setImage(new Image(student.getProfilePhoto()));
+            }
             nameLabel.setText("Name: " + student.getName());
             ageLabel.setText("Age: " + String.valueOf(student.getAge()));
             departmentLabel.setText("Department: " + student.getDepartment());
