@@ -1,6 +1,7 @@
 package studyLibrary.project;
 
 import java.io.IOException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,8 +22,10 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class StudyRequestController {
     DatabaseManager db = new DatabaseManager();
@@ -74,8 +77,12 @@ public class StudyRequestController {
         HBox card = new HBox(); 
         card.getStyleClass().add("request-card");
         card.setAlignment(Pos.CENTER_LEFT);
-        
-        ImageView profileImage = new ImageView(new Image(getClass().getResourceAsStream("/images/defaultProfilePicture.png")));
+        ImageView profileImage;
+        if (MainController.getCurrentUser().getProfilePhoto() == null) {
+            profileImage = new ImageView(new Image(getClass().getResourceAsStream("/images/defaultProfilePicture.png")));
+        } else {
+            profileImage = new ImageView(request.getSender().getProfilePhoto());
+        }
         profileImage.setFitHeight(50);
         profileImage.setFitWidth(50);
         
