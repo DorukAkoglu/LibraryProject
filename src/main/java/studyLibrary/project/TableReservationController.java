@@ -89,14 +89,15 @@ public class TableReservationController {
             }
             card.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event){
-                if(student.getIsOccupiedTable()){
+                Student upToDateStudent = (Student) MainController.dbManager.getUserByID(student.getUserID());
+                if(upToDateStudent.getIsOccupiedTable()){
                     return;
                 }
                 if(table.getAvailability().equals("Available")){
-                    if(student.getReservedTableNo() != 0){
+                    if(upToDateStudent.getReservedTableNo() != 0){
                         List<Table> tables = MainController.dbManager.getTables();
                         for(Table t : tables){ 
-                            if(t.getTableNo() == student.getReservedTableNo()) {
+                            if(t.getTableNo() == upToDateStudent.getReservedTableNo()) {
                                 t.setAvailability("Available");
                                 t.setReservedBy(0);
                                 MainController.dbManager.updateTable(t);
@@ -109,11 +110,11 @@ public class TableReservationController {
                     table.setAvailability("Reserved");
                     student.setreservedTable(table);
                     student.setReservedTableNo(table.getTableNo());
-                    table.setReservedBy(student.getUserID());
+                    table.setReservedBy(upToDateStudent.getUserID());
                     rectangle.setFill(Color.web("#D78C3D", 0.2));
                     rectangle.setStroke(Color.web("#D78C3D"));
                     MainController.dbManager.updateTable(table);
-                    MainController.dbManager.updateStudentReservedTable(student, table.getTableNo());
+                    MainController.dbManager.updateStudentReservedTable(upToDateStudent, table.getTableNo());
                     initialize();
                 }
                 else if(table.getAvailability().equals("Reserved") && table.getReservedBy() == student.getUserID()){
