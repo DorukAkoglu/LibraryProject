@@ -73,7 +73,7 @@ public class TableReservationController {
         card.getChildren().addAll(rectangle, text);
         if(MainController.getCurrentUser() instanceof Student){
             Student student = (Student) MainController.getCurrentUser();
-            Student upToDateStudent = (Student) MainController.dbManager.getUserByID(student.getUserID());
+            Student upToDateStudent = (Student) MainController.dbManager.getUserByIDForReservation(student.getUserID());
             if(table.getReservedBy() == upToDateStudent.getUserID() && table.getAvailability().equals("Reserved")){
                 Text youText = new Text("You");
                 youText.setFill(Color.WHITE);
@@ -90,7 +90,8 @@ public class TableReservationController {
             }
             card.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event){
-                Student upToDateStudent = (Student) MainController.dbManager.getUserByID(student.getUserID());
+                Student upToDateStudent = (Student) MainController.dbManager.getUserByIDForReservation(student.getUserID());
+                MainController.setCurrentUser(upToDateStudent);
                 if(upToDateStudent.getIsOccupiedTable()){
                     return;
                 }
@@ -148,7 +149,7 @@ public class TableReservationController {
                 ContextMenu contextMenu = new ContextMenu();
                 MenuItem confirmReservation = new MenuItem("Confirm Reservation");
                 MenuItem cancelReservation = new MenuItem("Cancel Reservation");
-                Student student = (Student) MainController.dbManager.getUserByID(table.getReservedBy());
+                Student student = (Student) MainController.dbManager.getUserByIDForReservation(table.getReservedBy());
                 confirmReservation.setOnAction(new EventHandler<ActionEvent>() {
                     public void handle(ActionEvent event){
                         table.setAvailability("Occupied");
@@ -184,7 +185,7 @@ public class TableReservationController {
                 return card;
             }
             else if(table.getAvailability().equals("Occupied")){
-                Student student = (Student) MainController.dbManager.getUserByID(table.getOccupiedBy());
+                Student student = (Student) MainController.dbManager.getUserByIDForReservation(table.getOccupiedBy());
                 ContextMenu contextMenu = new ContextMenu();
                 MenuItem endOccupation = new MenuItem("Finish Desk Session");
                 endOccupation.setOnAction(new EventHandler<ActionEvent>() {

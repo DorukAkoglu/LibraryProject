@@ -759,7 +759,44 @@ public class DatabaseManager {
         );
         return result.getModifiedCount() > 0;
     }
+    public User getUserByIDForReservation(int userID) {
 
+        Document doc = database.getCollection("users")
+                            .find(new Document("userID", userID)).first();
+        if (doc == null) return null;
+
+        String role = doc.getString("role");
+        if ("student".equals(role)) {
+            Student s = new Student(doc.getInteger("userID"), doc.getString("name"),
+                            doc.getString("email"),   doc.getString("password"),
+                            doc.getInteger("age"),    doc.getInteger("grade"),
+                            doc.getString("department"));
+            s.setSelectedCourse(doc.getString("selectedCourse"));
+            s.setProfilePicture(doc.getString("profilePhoto"));
+            int reservedTableNo = 0;
+            boolean isOccupiedTable = false;
+            if(doc.get("reservedTableNo") != null){
+                reservedTableNo = doc.getInteger("reservedTableNo");
+            }
+            if(doc.get("isOccupiedTable") != null){
+                isOccupiedTable = doc.getBoolean("isOccupiedTable");
+            }
+            s.setReservedTableNo(reservedTableNo);
+            s.setIsOccupiedTable(isOccupiedTable);
+            userCacheByID.put(userID,s);
+            return s;
+        } else if ("librarian".equals(role)) {
+            Librarian lb = new Librarian(doc.getInteger("userID"), doc.getString("name"),
+                                doc.getString("email"),   doc.getString("password"));
+            lb.setProfilePicture(doc.getString("profilePhoto"));
+            userCacheByID.put(userID,lb);
+            return lb;
+        }
+        Admin a =new Admin(doc.getInteger("userID"), doc.getString("name"),
+                        doc.getString("email"),   doc.getString("password"));
+        a.setProfilePicture(doc.getString("profilePhoto"));
+        return a;
+    }
 
 
 }

@@ -188,4 +188,7 @@ public class MainController {
         });
         fadeIn.play();
     }
+    public static void setCurrentUser(User user) {
+        currentUser = user;
+    }
 }   
