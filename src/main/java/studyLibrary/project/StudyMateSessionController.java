@@ -48,7 +48,7 @@ public class StudyMateSessionController {
             if (student.getProfilePhoto() != null && !student.getProfilePhoto().isEmpty()) {
                 imageView.setImage(new javafx.scene.image.Image(student.getProfilePhoto()));
             } else {
-imageView.setImage(new javafx.scene.image.Image(getClass().getResourceAsStream("/images/defaultProfilePicture.png")));            }
+            imageView.setImage(new javafx.scene.image.Image(getClass().getResourceAsStream("/images/defaultProfilePicture.png")));            }
             nameLabel.setText("Name: " + student.getName());
             ageLabel.setText("Age: " + String.valueOf(student.getAge()));
             departmentLabel.setText("Department: " + student.getDepartment());
@@ -60,7 +60,7 @@ imageView.setImage(new javafx.scene.image.Image(getClass().getResourceAsStream("
             if (student.getProfilePhoto() != null && !student.getProfilePhoto().isEmpty()) {
             matchedImageView.setImage(new javafx.scene.image.Image(student.getProfilePhoto()));
         } else {
-            matchedImageView.setImage(new javafx.scene.image.Image(getClass().getResourceAsStream("/default_avatar.png")));
+            matchedImageView.setImage(new javafx.scene.image.Image(getClass().getResourceAsStream("/images/defaultProfilePicture.png")));
         }
             matchedNameLabel.setText("Name: " + student.getName());
             matchedAgeLabel.setText("Age: " + String.valueOf(student.getAge()));
