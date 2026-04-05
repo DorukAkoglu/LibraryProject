@@ -42,10 +42,6 @@
     <bottom>
         <HBox alignment="CENTER" BorderPane.alignment="CENTER">
             <Button mnemonicParsing="false" onAction="#goBackToDashboard" text="🔙 Back to Dashboard" styleClass="back-button" />
-            
-            <Region HBox.hgrow="ALWAYS" />
-            
-            <Button fx:id="borrowButton" mnemonicParsing="false" onAction="#handleBorrowAction" text="Borrow Selected Book" styleClass="borrow-main-button" />
         </HBox>
     </bottom>
 

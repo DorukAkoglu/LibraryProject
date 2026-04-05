@@ -10,13 +10,16 @@
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
+
     <Button text="← Back" styleClass="back-button" onAction="#goBackAction" />
     
     <HBox spacing="20" alignment="CENTER_LEFT">
         <ImageView fx:id="bookCoverImage" fitHeight="150" fitWidth="100" />
-        <VBox spacing="10" alignment="CENTER_LEFT">
+        <VBox spacing="8" alignment="CENTER_LEFT">
             <Label fx:id="bookTitleLabel" styleClass="book-title" text="Book Title" />
             <Label fx:id="bookAuthorLabel" styleClass="book-author" text="Author: Unknown" />
+            
+            <Label fx:id="bookStarsLabel" styleClass="cell-stars" text="☆☆☆☆☆" />
         </VBox>
     </HBox>
 
@@ -30,4 +33,5 @@
         <ComboBox fx:id="ratingComboBox" promptText="Rating" prefWidth="100" />
         <Button text="Submit Review" styleClass="submit-button" onAction="#submitReviewAction" />
     </HBox>
+    
 </VBox>
