@@ -1,198 +1,130 @@
 .librarian-root {
-    -fx-background-color: linear-gradient(to bottom right, #f4efe6, #d8e2dc 45%, #b8c9d6 100%);
+    -fx-background-color: #f5f3ee;
     -fx-font-family: "Segoe UI";
 }
 
-.top-shell {
-    -fx-background-color: linear-gradient(to right, rgba(24, 40, 37, 0.92), rgba(41, 62, 74, 0.9));
-    -fx-background-radius: 0 0 28 28;
-    -fx-effect: dropshadow(gaussian, rgba(18, 28, 28, 0.18), 30, 0.2, 0, 10);
+.librarian-sidebar {
+    -fx-background-color: #264653;
 }
 
-.eyebrow-text {
-    -fx-text-fill: #d0e4de;
-    -fx-font-size: 12px;
-    -fx-font-weight: 700;
-    -fx-letter-spacing: 1px;
+.sidebar-accent {
+    -fx-text-fill: #d7e3df;
+    -fx-font-size: 13px;
+}
+
+.librarian-nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #dce8e4;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-max-width: 1.7976931348623157E308;
+    -fx-padding: 12 18;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.librarian-nav-button:hover {
+    -fx-background-color: #2f5d6c;
+    -fx-text-fill: white;
+}
+
+.scroll-pane,
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
 }
 
 .page-title {
-    -fx-text-fill: #fffdf7;
-    -fx-font-size: 30px;
-    -fx-font-weight: 800;
+    -fx-text-fill: #264653;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
 }
 
-.page-subtitle {
-    -fx-text-fill: #d9e6e1;
+.content-card {
+    -fx-background-color: #fffdf8;
+    -fx-background-radius: 12;
+    -fx-border-color: #ddd5c7;
+    -fx-border-radius: 12;
+}
+
+.card-title {
+    -fx-text-fill: #6b705c;
     -fx-font-size: 13px;
+    -fx-font-weight: bold;
 }
 
-.status-card {
-    -fx-background-color: rgba(241, 236, 223, 0.15);
-    -fx-border-color: rgba(255, 255, 255, 0.16);
-    -fx-border-radius: 22;
-    -fx-background-radius: 22;
+.card-value {
+    -fx-text-fill: #bc6c25;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
 }
 
-.status-number {
-    -fx-text-fill: #fff4cf;
-    -fx-font-size: 24px;
-    -fx-font-weight: 800;
-}
-
-.status-caption {
-    -fx-text-fill: #d8e2dc;
-    -fx-font-size: 12px;
-}
-
-.metric-card {
-    -fx-background-color: rgba(255, 248, 238, 0.92);
-    -fx-background-radius: 22;
-    -fx-padding: 18;
-    -fx-spacing: 8;
-}
-
-.accent-card {
-    -fx-background-color: rgba(217, 230, 224, 0.95);
-}
-
-.metric-title {
-    -fx-text-fill: #5f6f65;
-    -fx-font-size: 12px;
-    -fx-font-weight: 700;
-}
-
-.metric-value {
-    -fx-text-fill: #20312f;
-    -fx-font-size: 17px;
-    -fx-font-weight: 800;
-}
-
-.metric-note {
-    -fx-text-fill: #687a73;
-    -fx-font-size: 12px;
-}
-
-.panel-card {
-    -fx-background-color: rgba(255, 252, 246, 0.94);
-    -fx-background-radius: 26;
-    -fx-border-color: rgba(34, 54, 54, 0.08);
-    -fx-border-radius: 26;
-    -fx-effect: dropshadow(gaussian, rgba(43, 55, 55, 0.12), 22, 0.15, 0, 8);
-}
-
-.form-panel {
-    -fx-background-color: rgba(251, 247, 240, 0.98);
-}
-
-.section-title {
-    -fx-text-fill: #213331;
-    -fx-font-size: 21px;
-    -fx-font-weight: 800;
-}
-
-.section-subtitle {
-    -fx-text-fill: #70817a;
-    -fx-font-size: 12px;
+.card-text {
+    -fx-text-fill: #5f6b6d;
+    -fx-font-size: 13px;
 }
 
 .field-label {
-    -fx-text-fill: #4d5d58;
+    -fx-text-fill: #6b705c;
     -fx-font-size: 12px;
-    -fx-font-weight: 700;
+    -fx-font-weight: bold;
+}
+
+.text-field,
+.list-view {
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
 }
 
 .text-field {
-    -fx-background-color: #ffffff;
-    -fx-background-radius: 14;
-    -fx-border-color: #d6dfdb;
-    -fx-border-radius: 14;
-    -fx-padding: 12 14;
-    -fx-font-size: 13px;
+    -fx-background-color: #fffdf8;
+    -fx-border-color: #d8d2c4;
+    -fx-padding: 10 12;
 }
 
 .text-field:focused {
-    -fx-border-color: #6f8f87;
-    -fx-background-color: #fffefa;
+    -fx-border-color: #bc6c25;
 }
 
-.search-field {
-    -fx-font-size: 14px;
+.list-view {
+    -fx-background-color: #fffdf8;
+    -fx-border-color: #ddd5c7;
 }
 
-.book-list {
+.list-cell {
     -fx-background-color: transparent;
-    -fx-border-color: transparent;
+    -fx-text-fill: #264653;
+    -fx-padding: 10;
 }
 
-.book-list .list-cell {
-    -fx-background-color: #ffffff;
-    -fx-background-radius: 16;
-    -fx-border-color: #e3e8e5;
-    -fx-border-radius: 16;
-    -fx-padding: 14 16;
-    -fx-text-fill: #223330;
-    -fx-font-size: 13px;
+.list-cell:selected {
+    -fx-background-color: #e9dcc9;
+    -fx-text-fill: #264653;
 }
 
-.book-list .list-cell:filled {
-    -fx-background-insets: 6 0 6 0;
-}
-
-.book-list .list-cell:filled:selected {
-    -fx-background-color: linear-gradient(to right, #355c56, #466e76);
-    -fx-border-color: transparent;
+.panel-button {
+    -fx-background-color: #bc6c25;
     -fx-text-fill: white;
-}
-
-.button {
+    -fx-background-radius: 8;
+    -fx-padding: 10 16;
     -fx-cursor: hand;
-    -fx-font-weight: 700;
-    -fx-background-radius: 16;
-    -fx-padding: 11 18;
 }
 
-.primary-button {
-    -fx-background-color: linear-gradient(to right, #3e665e, #547a72);
+.panel-button-secondary {
+    -fx-background-color: #dce3dc;
+    -fx-text-fill: #264653;
+    -fx-background-radius: 8;
+    -fx-padding: 10 16;
+    -fx-cursor: hand;
+}
+
+.panel-button-danger {
+    -fx-background-color: #a44a3f;
     -fx-text-fill: white;
-}
-
-.secondary-button {
-    -fx-background-color: #e6ece8;
-    -fx-text-fill: #2d423f;
-}
-
-.danger-button {
-    -fx-background-color: linear-gradient(to right, #b65f4b, #c97860);
-    -fx-text-fill: white;
-}
-
-.success-button {
-    -fx-background-color: linear-gradient(to right, #8c9f5a, #aab86c);
-    -fx-text-fill: #1f2c1c;
-}
-
-.button:hover {
-    -fx-opacity: 0.92;
-}
-
-.tip-card {
-    -fx-background-color: linear-gradient(to bottom right, #f0e5d4, #e6efe5);
-    -fx-background-radius: 20;
-    -fx-padding: 18;
-}
-
-.tip-title {
-    -fx-text-fill: #3f5045;
-    -fx-font-size: 14px;
-    -fx-font-weight: 800;
-}
-
-.tip-text {
-    -fx-text-fill: #5c6b66;
-    -fx-font-size: 12px;
+    -fx-background-radius: 8;
+    -fx-padding: 10 16;
+    -fx-cursor: hand;
 }
 
 .separator .line {
-    -fx-border-color: rgba(69, 89, 83, 0.15);
+    -fx-border-color: rgba(255, 255, 255, 0.2);
 }

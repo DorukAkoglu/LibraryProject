@@ -1,199 +1,133 @@
 .admin-root {
-    -fx-background-color: linear-gradient(to bottom right, #f7f1e6, #e7e0d4 42%, #d5dee8 100%);
+    -fx-background-color: #f4f6f8;
     -fx-font-family: "Segoe UI";
 }
 
-.admin-top-shell {
-    -fx-background-color: linear-gradient(to right, rgba(42, 31, 21, 0.94), rgba(61, 73, 86, 0.92));
-    -fx-background-radius: 0 0 28 28;
-    -fx-effect: dropshadow(gaussian, rgba(20, 20, 25, 0.2), 30, 0.2, 0, 10);
+.admin-sidebar {
+    -fx-background-color: #1f2933;
 }
 
-.admin-eyebrow {
-    -fx-text-fill: #eadcc7;
-    -fx-font-size: 12px;
-    -fx-font-weight: 700;
-}
-
-.admin-title {
-    -fx-text-fill: #fffaf3;
-    -fx-font-size: 30px;
-    -fx-font-weight: 800;
-}
-
-.admin-subtitle {
-    -fx-text-fill: #e5dfd6;
+.sidebar-accent {
+    -fx-text-fill: #cbd5df;
     -fx-font-size: 13px;
 }
 
-.admin-status-card {
-    -fx-background-color: rgba(255, 245, 229, 0.14);
-    -fx-border-color: rgba(255, 255, 255, 0.16);
-    -fx-border-radius: 22;
-    -fx-background-radius: 22;
+.admin-nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #d4dde5;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-max-width: 1.7976931348623157E308;
+    -fx-padding: 12 18;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
 }
 
-.admin-status-number {
-    -fx-text-fill: #ffe4a8;
-    -fx-font-size: 24px;
-    -fx-font-weight: 800;
+.admin-nav-button:hover {
+    -fx-background-color: #2c3a47;
+    -fx-text-fill: white;
 }
 
-.admin-status-caption {
-    -fx-text-fill: #efe4d5;
+.scroll-pane,
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.page-title {
+    -fx-text-fill: #1f2933;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.content-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-color: #dde3ea;
+    -fx-border-radius: 12;
+}
+
+.card-title {
+    -fx-text-fill: #52606d;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.card-value {
+    -fx-text-fill: #1f2933;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+
+.card-text {
+    -fx-text-fill: #52606d;
+    -fx-font-size: 13px;
+}
+
+.field-label {
+    -fx-text-fill: #52606d;
     -fx-font-size: 12px;
+    -fx-font-weight: bold;
 }
 
-.admin-metric-card {
-    -fx-background-color: rgba(255, 250, 241, 0.94);
-    -fx-background-radius: 22;
-    -fx-padding: 18;
-    -fx-spacing: 8;
-}
-
-.admin-metric-accent {
-    -fx-background-color: rgba(228, 235, 241, 0.95);
-}
-
-.admin-metric-title {
-    -fx-text-fill: #76655a;
-    -fx-font-size: 12px;
-    -fx-font-weight: 700;
-}
-
-.admin-metric-value {
-    -fx-text-fill: #2f3136;
-    -fx-font-size: 17px;
-    -fx-font-weight: 800;
-}
-
-.admin-metric-note {
-    -fx-text-fill: #746f69;
-    -fx-font-size: 12px;
-}
-
-.admin-panel-card {
-    -fx-background-color: rgba(255, 252, 246, 0.95);
-    -fx-background-radius: 26;
-    -fx-border-color: rgba(48, 48, 52, 0.08);
-    -fx-border-radius: 26;
-    -fx-effect: dropshadow(gaussian, rgba(32, 33, 39, 0.12), 22, 0.15, 0, 8);
-}
-
-.admin-form-panel {
-    -fx-background-color: rgba(252, 247, 239, 0.98);
-}
-
-.admin-section-title {
-    -fx-text-fill: #292f35;
-    -fx-font-size: 21px;
-    -fx-font-weight: 800;
-}
-
-.admin-section-subtitle {
-    -fx-text-fill: #77756f;
-    -fx-font-size: 12px;
-}
-
-.admin-field-label {
-    -fx-text-fill: #665e57;
-    -fx-font-size: 12px;
-    -fx-font-weight: 700;
+.text-field,
+.combo-box,
+.list-view {
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
 }
 
 .text-field,
 .combo-box {
-    -fx-background-color: #ffffff;
-    -fx-background-radius: 14;
-    -fx-border-color: #ddd8cf;
-    -fx-border-radius: 14;
-    -fx-padding: 12 14;
-    -fx-font-size: 13px;
+    -fx-background-color: white;
+    -fx-border-color: #cbd5df;
+    -fx-padding: 10 12;
 }
 
 .text-field:focused,
 .combo-box:focused {
-    -fx-border-color: #8d765f;
-    -fx-background-color: #fffdfa;
+    -fx-border-color: #64748b;
 }
 
-.admin-search-field {
-    -fx-font-size: 14px;
+.list-view {
+    -fx-background-color: white;
+    -fx-border-color: #d7dee6;
 }
 
-.admin-list {
+.list-cell {
     -fx-background-color: transparent;
-    -fx-border-color: transparent;
+    -fx-text-fill: #334155;
+    -fx-padding: 10;
 }
 
-.admin-list .list-cell {
-    -fx-background-color: #ffffff;
-    -fx-background-radius: 16;
-    -fx-border-color: #e6e1d8;
-    -fx-border-radius: 16;
-    -fx-padding: 14 16;
-    -fx-text-fill: #2c3034;
-    -fx-font-size: 13px;
+.list-cell:selected {
+    -fx-background-color: #e2e8f0;
+    -fx-text-fill: #1e293b;
 }
 
-.admin-list .list-cell:filled {
-    -fx-background-insets: 6 0 6 0;
-}
-
-.admin-list .list-cell:filled:selected {
-    -fx-background-color: linear-gradient(to right, #6e5846, #5b6d7d);
-    -fx-border-color: transparent;
+.panel-button {
+    -fx-background-color: #334155;
     -fx-text-fill: white;
-}
-
-.button {
+    -fx-background-radius: 8;
+    -fx-padding: 10 16;
     -fx-cursor: hand;
-    -fx-font-weight: 700;
-    -fx-background-radius: 16;
-    -fx-padding: 11 18;
 }
 
-.admin-primary-button {
-    -fx-background-color: linear-gradient(to right, #7d614a, #8f7860);
+.panel-button-secondary {
+    -fx-background-color: #e5e7eb;
+    -fx-text-fill: #1f2933;
+    -fx-background-radius: 8;
+    -fx-padding: 10 16;
+    -fx-cursor: hand;
+}
+
+.panel-button-danger {
+    -fx-background-color: #b91c1c;
     -fx-text-fill: white;
-}
-
-.admin-secondary-button {
-    -fx-background-color: #e8e3db;
-    -fx-text-fill: #3c3f45;
-}
-
-.admin-danger-button {
-    -fx-background-color: linear-gradient(to right, #b45c4e, #c47566);
-    -fx-text-fill: white;
-}
-
-.admin-success-button {
-    -fx-background-color: linear-gradient(to right, #8c9b6d, #a7b58a);
-    -fx-text-fill: #24301f;
-}
-
-.button:hover {
-    -fx-opacity: 0.92;
-}
-
-.admin-tip-card {
-    -fx-background-color: linear-gradient(to bottom right, #efe1d1, #e4ebf0);
-    -fx-background-radius: 20;
-    -fx-padding: 18;
-}
-
-.admin-tip-title {
-    -fx-text-fill: #514941;
-    -fx-font-size: 14px;
-    -fx-font-weight: 800;
-}
-
-.admin-tip-text {
-    -fx-text-fill: #665f59;
-    -fx-font-size: 12px;
+    -fx-background-radius: 8;
+    -fx-padding: 10 16;
+    -fx-cursor: hand;
 }
 
 .separator .line {
-    -fx-border-color: rgba(77, 73, 67, 0.15);
+    -fx-border-color: rgba(255, 255, 255, 0.2);
 }
