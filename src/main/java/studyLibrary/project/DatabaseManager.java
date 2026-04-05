@@ -1,4 +1,5 @@
 package studyLibrary.project;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,24 +12,25 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import studyLibrary.project.Comment;
 
 
 public class DatabaseManager {
     private MongoClient mongoClient;
-    // private CloudinaryManager cloudinaryManager;
+     private CloudinaryManager cloudinaryManager;
     private MongoDatabase database;
     private HashMap<String, User> userCacheByEmail = new HashMap<>();
     private HashMap<Integer, User> userCacheByID = new HashMap<>();
     public DatabaseManager() {
         mongoClient = null;
         database = null;
-        /** 
+        
         try {
             this.cloudinaryManager = new CloudinaryManager();
         } catch (IOException e) {
             System.err.println("Cloudinary network error: " + e.getMessage());
         }
-        */
+        
     }
     public User getUserByEmail(String email) {
         if (userCacheByEmail.containsKey(email)) {
@@ -61,7 +63,11 @@ public class DatabaseManager {
         userCacheByEmail.put(email, a);
         return a;
     }
-     public User getUserByID(int userID) {
+    public User getUserByID(int userID) {
+        if (userCacheByID.containsKey(userID)) {
+            return userCacheByID.get(userID);
+        }
+
         Document doc = database.getCollection("users")
                             .find(new Document("userID", userID)).first();
         if (doc == null) return null;
@@ -74,6 +80,16 @@ public class DatabaseManager {
                             doc.getString("department"));
             s.setSelectedCourse(doc.getString("selectedCourse"));
             s.setProfilePicture(doc.getString("profilePhoto"));
+            int reservedTableNo = 0;
+            boolean isOccupiedTable = false;
+            if(doc.get("reservedTableNo") != null){
+                reservedTableNo = doc.getInteger("reservedTableNo");
+            }
+            if(doc.get("isOccupiedTable") != null){
+                isOccupiedTable = doc.getBoolean("isOccupiedTable");
+            }
+            s.setReservedTableNo(reservedTableNo);
+            s.setIsOccupiedTable(isOccupiedTable);
             userCacheByID.put(userID,s);
             return s;
         } else if ("librarian".equals(role)) {
@@ -178,6 +194,9 @@ public class DatabaseManager {
             if (sender != null && receiver != null) {
                 Message m = new Message((Student) sender, (Student) receiver, doc.getString("content"));
                 m.setTimestamp(doc.getString("timestamp"));
+                if (doc.containsKey("isEdited")) {
+                    m.setEdited(doc.getBoolean("isEdited"));
+                }
                 chats.add(m);
             }
         }
@@ -202,7 +221,11 @@ public class DatabaseManager {
            .append("department", s.getDepartment())
             .append("availabilityStatus", s.getAvailabilityStatus())
             .append("profilePhoto", s.getProfilePhoto())
-            .append("selectedCourse", s.getSelectedCourse());
+            .append("selectedCourse", s.getSelectedCourse())
+            .append("reservedTableNo", 0)
+            .append("isOccupiedTable", false);
+            
+            
         } else if (u instanceof Librarian l) {
             doc.append("role", "librarian");
         } else {
@@ -224,7 +247,8 @@ public class DatabaseManager {
         Document doc = new Document("senderEmail", m.getSender().getEmail())
                 .append("receiverEmail", m.getReceiver().getEmail())
                 .append("content", m.getContent())
-                .append("timestamp", m.getTimestamp().toString());
+                .append("timestamp", m.getTimestamp().toString())
+                .append("isEdited", m.isEdited());
         collection.insertOne(doc);
     }
 
@@ -392,12 +416,39 @@ public class DatabaseManager {
 
     public List<Student> getStudentsByCourse(){
         Student student = (Student) MainController.getCurrentUser();
-        List<Student> students = new ArrayList<>();
-        for (Student otherStudent : getActiveStudents()) {
-            if(student.getUserID() == otherStudent.getUserID()) continue;
-            if(student.getSelectedCourse().equals(otherStudent.getSelectedCourse())) students.add(otherStudent);
+        List<Student> studyMates = new ArrayList<>();
+        ArrayList<StudyMatch> allMatches = getStudyMatches();
+        List<String> myFriendEmails = new ArrayList<>();
+        for (StudyMatch match : allMatches) {
+            if (match.getStudent1().getEmail().equals(student.getEmail())) {
+                myFriendEmails.add(match.getStudent2().getEmail());
+            } 
+            else if (match.getStudent2().getEmail().equals(student.getEmail())) {
+                myFriendEmails.add(match.getStudent1().getEmail());
+            }
         }
-        return students;
+        for (Student other : getActiveStudents()) {
+            if (other.getEmail().equals(student.getEmail()) || 
+                !other.getSelectedCourse().equals(student.getSelectedCourse())) {
+                continue;
+            }
+            if (myFriendEmails.contains(other.getEmail())) {
+                continue;
+            }
+            boolean alreadySent = false;
+            ArrayList<StudyRequest> othersIncoming = getStudyRequestsForUser(other.getEmail());
+            for (StudyRequest sr : othersIncoming) {
+                if (sr.getSender().getEmail().equals(student.getEmail())) {
+                    alreadySent = true;
+                    break;
+                }
+            }
+            if (alreadySent) {
+                continue;
+            }
+            studyMates.add(other);
+        }
+        return studyMates;
     }
 
     public ArrayList<StudyRequest> getStudyRequestsForUser(String userEmail) {
@@ -434,6 +485,9 @@ public class DatabaseManager {
             if (sender != null && receiver != null) {
                 Message m = new Message((Student) sender, (Student) receiver, doc.getString("content"));
                 m.setTimestamp(doc.getString("timestamp"));
+                if (doc.containsKey("isEdited")) {
+                    m.setEdited(doc.getBoolean("isEdited"));
+                }
                 chats.add(m);
             }
         }
@@ -491,4 +545,221 @@ public class DatabaseManager {
         }
         return borrowedBooks;    
     }
+    
+    public ArrayList<Table> getTables(){
+        ArrayList<Table> tables = new ArrayList<>();
+        MongoCollection<Document> collection = database.getCollection("Tables");
+        for(Document doc : collection.find()){
+            Table table = new Table();
+            table.setTableNo(doc.getInteger("tableNo"));
+            table.setAvailability(doc.getString("availability"));
+            if (doc.containsKey("reservedBy") && doc.get("reservedBy") != null) {
+                table.setReservedBy(doc.getInteger("reservedBy"));
+            } 
+            else {
+                table.setReservedBy(0); 
+            }
+            if (doc.containsKey("occupiedBy") && doc.get("occupiedBy") != null) {
+            table.setOccupiedBy(doc.getInteger("occupiedBy"));
+            } 
+            else {
+                table.setOccupiedBy(0); 
+            }
+            tables.add(table);
+        }
+        return tables;
+    }
+    public void updateTable(Table table){
+        MongoCollection<Document> collection = database.getCollection("Tables");
+        Document filter = new Document("tableNo", table.getTableNo());
+        Document update = new Document("$set", new Document("availability", table.getAvailability())
+                                                        .append("reservedBy", table.getReservedBy())
+                                                        .append("occupiedBy", table.getOccupiedBy()));
+                                                        
+                                                        
+        collection.updateOne(filter, update);
+    }
+    public void updateStudentReservedTable(Student student, int tableNo){
+        MongoCollection<Document> collection = database.getCollection("users");
+        Document filter = new Document("userID", student.getUserID()); // Öğrenciyi email ile bul
+        Document update = new Document("$set", new Document("reservedTableNo", tableNo));
+        collection.updateOne(filter, update);
+    }
+    public void updateStudentOccupiedStatus(Student student, boolean isOccupied){
+        MongoCollection<Document> collection = database.getCollection("users");
+        Document query = new Document("userID", student.getUserID());
+        Document update = new Document("$set", new Document("isOccupiedTable", isOccupied));
+        collection.updateOne(query, update);
+        student.setIsOccupiedTable(isOccupied);
+    }
+
+    public ArrayList<Book> getBorrowedBooksByUser(User u) {
+        ArrayList<Book> list = new ArrayList<>();
+        org.bson.Document userDoc = database.getCollection("users").find(new org.bson.Document("userID", u.getUserID())).first();
+        
+        if (userDoc != null && userDoc.containsKey("borrowedBooks")) {
+            List<org.bson.Document> borrowed = (List<org.bson.Document>) userDoc.get("borrowedBooks");
+            for (org.bson.Document doc : borrowed) {
+                Book b = getBookByBookID(doc.getInteger("bookID"));
+                if (b != null) {
+                    b.setDueTime(LocalDate.parse(doc.getString("dueDate"))); 
+                    list.add(b);
+                }
+            }
+        }
+        return list;
+    }
+
+    public ArrayList<Book> getReservedBooksByUser(User u) {
+        ArrayList<Book> list = new ArrayList<>();
+        org.bson.Document userDoc = database.getCollection("users").find(new org.bson.Document("userID", u.getUserID())).first();
+        
+        if (userDoc != null && userDoc.containsKey("reservedBooks")) {
+            List<org.bson.Document> reserved = (List<org.bson.Document>) userDoc.get("reservedBooks");
+            for (org.bson.Document doc : reserved) {
+                Book b = getBookByBookID(doc.getInteger("bookID"));
+                if (b != null) {
+                    list.add(b);
+                }
+            }
+        }
+        return list;
+    }
+
+    public ArrayList<Book> getHistoryBooksByUser(User u) {
+        ArrayList<Book> list = new ArrayList<>();
+        org.bson.Document userDoc = database.getCollection("users").find(new org.bson.Document("userID", u.getUserID())).first();
+        
+        if (userDoc != null && userDoc.containsKey("history")) {
+            List<org.bson.Document> history = (List<org.bson.Document>) userDoc.get("history");
+            for (org.bson.Document doc : history) {
+                Book b = getBookByBookID(doc.getInteger("bookID"));
+                if (b != null) {
+                    // Tarihi ekranda göstermek için Book nesnesindeki dueTime alanına geçici yazıyoruz
+                    b.setDueTime(LocalDate.parse(doc.getString("returnDate")));
+                    list.add(b);
+                }
+            }
+        }
+        return list;
+    }
+
+    public boolean borrowBookDB(User u, Book b) {
+        if (!b.isAvailable() || b.getNumCopies() <= 0) return false;
+        MongoCollection<org.bson.Document> usersCollection = database.getCollection("users");
+        org.bson.Document borrowedInfo = new org.bson.Document("bookID", b.getBookID())
+                                             .append("dueDate", LocalDate.now().plusDays(14).toString());
+        usersCollection.updateOne(
+                new org.bson.Document("userID", u.getUserID()),
+                new org.bson.Document("$push", new org.bson.Document("borrowedBooks", borrowedInfo))
+        );
+        usersCollection.updateOne(
+                new org.bson.Document("userID", u.getUserID()),
+                new org.bson.Document("$pull", new org.bson.Document("reservedBooks", new org.bson.Document("bookID", b.getBookID())))
+        );
+        b.setNumCopies(b.getNumCopies() - 1);
+        if(b.getNumCopies() <= 0) b.setAvailability(false);
+        updateBook(b);
+        
+        return true;
+    }
+
+    public boolean returnBookDB(User u, Book b) {
+        MongoCollection<org.bson.Document> usersCollection = database.getCollection("users");
+
+        usersCollection.updateOne(
+                new org.bson.Document("userID", u.getUserID()),
+                new org.bson.Document("$pull", new org.bson.Document("borrowedBooks", new org.bson.Document("bookID", b.getBookID())))
+        );
+
+        
+        org.bson.Document historyInfo = new org.bson.Document("bookID", b.getBookID())
+                                            .append("returnDate", LocalDate.now().toString());
+        usersCollection.updateOne(
+                new org.bson.Document("userID", u.getUserID()),
+                new org.bson.Document("$push", new org.bson.Document("history", historyInfo))
+        );
+        b.setNumCopies(b.getNumCopies() + 1);
+        b.setAvailability(true);
+        b.setDueTime(null);
+        updateBook(b);
+        
+        return true;
+    }
+
+    public boolean extendBookDB(User u, Book b) {
+        if (b.getDueTime() == null) return false;
+        
+        LocalDate newDate = b.getDueTime().plusDays(7);
+        
+        database.getCollection("users").updateOne(
+                new org.bson.Document("userID", u.getUserID()).append("borrowedBooks.bookID", b.getBookID()),
+                new org.bson.Document("$set", new org.bson.Document("borrowedBooks.$.dueDate", newDate.toString()))
+        );
+        return true;
+    }
+
+    public boolean reserveBookDB(User u, Book b) {
+        // Kitap zaten dışarıdaysa rezerve edilebilir
+        if (b.isAvailable()) return false; 
+        
+        org.bson.Document reserveInfo = new org.bson.Document("bookID", b.getBookID())
+                                            .append("status", "Waiting");
+        
+        database.getCollection("users").updateOne(
+                new org.bson.Document("userID", u.getUserID()),
+                new org.bson.Document("$push", new org.bson.Document("reservedBooks", reserveInfo))
+        );
+        return true;
+    }
+
+    public boolean cancelReserveDB(User u, Book b) {
+        database.getCollection("users").updateOne(
+                new org.bson.Document("userID", u.getUserID()),
+                new org.bson.Document("$pull", new org.bson.Document("reservedBooks", new org.bson.Document("bookID", b.getBookID())))
+        );
+        return true;
+    }
+
+    public ArrayList<org.bson.Document> getReviewsForBook(int bookID) {
+        ArrayList<org.bson.Document> reviewList = new ArrayList<>();
+        org.bson.Document bookDoc = database.getCollection("books").find(new org.bson.Document("bookID", bookID)).first();
+        
+        if (bookDoc != null && bookDoc.containsKey("reviews")) {
+            java.util.List<org.bson.Document> reviews = (java.util.List<org.bson.Document>) bookDoc.get("reviews");
+            reviewList.addAll(reviews);
+        }
+        return reviewList;
+    }
+
+    public boolean addReviewToBook(int bookID, String senderName, String reviewText, int rating) {
+        String uniqueReviewID = java.util.UUID.randomUUID().toString(); 
+
+        org.bson.Document newReview = new org.bson.Document("reviewID", uniqueReviewID) 
+                                            .append("senderName", senderName)
+                                            .append("comment", reviewText) 
+                                            .append("rating", rating)
+                                            .append("date", java.time.LocalDate.now().toString())
+                                            .append("comments", new java.util.ArrayList<org.bson.Document>()); 
+
+        com.mongodb.client.result.UpdateResult result = database.getCollection("books").updateOne(
+                new org.bson.Document("bookID", bookID),
+                new org.bson.Document("$push", new org.bson.Document("reviews", newReview))
+        );
+        return result.getModifiedCount() > 0;
+    }
+
+    public boolean addCommentToReview(int bookID, String targetReviewID, Comment reply) {
+        org.bson.Document commentDoc = new org.bson.Document("userID", reply.getUser().getUserID())
+                                             .append("text", reply.getContent());
+
+        com.mongodb.client.result.UpdateResult result = database.getCollection("books").updateOne(
+                new org.bson.Document("bookID", bookID).append("reviews.reviewID", targetReviewID),
+                new org.bson.Document("$push", new org.bson.Document("reviews.$.comments", commentDoc))
+        );
+        return result.getModifiedCount() > 0;
+    }
+
+
+
 }

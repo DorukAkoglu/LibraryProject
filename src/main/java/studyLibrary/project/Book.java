@@ -76,6 +76,9 @@ public class Book implements Comparable<Book> {
         }
         return false;
     }
+    public String toString() {
+        return title + " - " + author;
+    }
 
     public LocalDate getDueTime() {
         return dueTime;

@@ -1,7 +1,7 @@
 package studyLibrary.project;
 
 import java.util.ArrayList;
-import java.util.Map;
+
 
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
@@ -15,9 +15,12 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -34,11 +37,12 @@ public class MessageController {
     @FXML private TextField messageField;
     @FXML private ListView<Student> friendList;
     @FXML private Label friendName;
-    
+    @FXML private Button sendButton;
     private LibrarySystem system;
     private Student selectedFriend;
     private Timeline autoRefresh;
     private int displayedMessageCount = 0;
+    private Message editingMessage = null;
     
     @FXML
     public void initialize() {
@@ -130,10 +134,26 @@ public class MessageController {
         if (allMessages != null) {
             if (allMessages.size() > displayedMessageCount) {
                 for (int i = displayedMessageCount; i < allMessages.size(); i++) {
-                    Message msg = allMessages.get(i);
-                    displayMessage(msg, msg.getSender().getUserID() == me.getUserID());
+                    Message message = allMessages.get(i);
+                    displayMessage(message, message.getSender().getUserID() == me.getUserID());
                 }
                 displayedMessageCount = allMessages.size();
+            }
+        }
+        else if (allMessages.size() == displayedMessageCount && displayedMessageCount > 0) {
+            Message lastMessage = allMessages.get(allMessages.size() - 1);
+            if (!chatBox.getChildren().isEmpty()) {
+                HBox lastHBox = (HBox) chatBox.getChildren().get(chatBox.getChildren().size() - 1);
+                VBox lastVBox = (VBox) lastHBox.getChildren().get(0);
+                Label lastLabel = (Label) lastVBox.getChildren().get(0);
+                if (lastMessage.isEdited() && !lastLabel.getText().endsWith("(edited)")) {
+                    chatBox.getChildren().clear();
+                    displayedMessageCount = 0;
+                    for (Message message : allMessages) {
+                        displayMessage(message, message.getSender().getUserID() == me.getUserID());
+                    }
+                    displayedMessageCount = allMessages.size();
+                }
             }
         }
     }
@@ -141,17 +161,48 @@ public class MessageController {
     private void sendMessage() {
         String text = messageField.getText().trim();
         if (selectedFriend == null || text.isEmpty()) return;
-        Student me = (Student) MainController.getCurrentUser();
-        Message message = new Message(me, selectedFriend, text);
-        system.addChat(message);
+        if (editingMessage != null) {
+            system.removeChat(editingMessage); 
+            editingMessage.editMessage(text); 
+            system.addChat(editingMessage); 
+            editingMessage = null; 
+            sendButton.setText("Send");
+            chatBox.getChildren().clear();
+            displayedMessageCount = 0;
+        } 
+        else {
+            Student me = (Student) MainController.getCurrentUser();
+            Message message = new Message(me, selectedFriend, text);
+            system.addChat(message);
+        }
         messageField.clear();
         refreshChatArea(); 
     }
     private void displayMessage(Message message, boolean isMine) {
-        Label contentLabel = new Label(message.getContent());
+        String messageContent = message.getContent();
+        if (message.isEdited()) {
+            messageContent += " (edited)";
+        }
+        Label contentLabel = new Label(messageContent);
         contentLabel.setWrapText(true);
         contentLabel.setMaxWidth(250);
         if (isMine) {
+            ContextMenu contextMenu = new ContextMenu();
+            MenuItem editItem = new MenuItem("Edit Message");
+            editItem.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    if (editingMessage != null) {
+                        return;
+                    }
+                    editingMessage = message;
+                    messageField.setText(message.getContent());
+                    sendButton.setText("Update");
+                    messageField.requestFocus();
+                }
+            });
+            contextMenu.getItems().add(editItem);
+            contentLabel.setContextMenu(contextMenu);
             contentLabel.getStyleClass().add("my-message-bubble");
         } 
         else {

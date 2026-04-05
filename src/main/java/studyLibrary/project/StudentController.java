@@ -18,11 +18,17 @@ public class StudentController {
 
     @FXML private Label userNameLabel, departmentLabel, requestLabel;
     @FXML private ImageView profileImage;
-    @FXML private Button btnStudyMate, btnRequests;
+    @FXML private Button btnStudyMate, btnLibrary;
 
     @FXML
     public void initialize() {
-        profileImage = new ImageView(new Image(getClass().getResourceAsStream("/images/defaultProfilePicture.png")));
+       if (MainController.getCurrentUser().getProfilePhoto() != null && !MainController.getCurrentUser().getProfilePhoto().isEmpty()) {
+            profileImage.setImage(new Image(MainController.getCurrentUser().getProfilePhoto(), true));
+            profileImage.setImage(new Image(MainController.getCurrentUser().getProfilePhoto(), true));
+        } else {
+            profileImage.setImage(new Image(getClass().getResourceAsStream("/images/defaultProfilePicture.png")));
+            profileImage.setImage(new Image(getClass().getResourceAsStream("/images/defaultProfilePicture.png")));
+        }
         profileImage.setFitHeight(50);
         profileImage.setFitWidth(50);
         
@@ -33,6 +39,10 @@ public class StudentController {
         userNameLabel.setText(student.getName());
         departmentLabel.setText(student.getDepartment());
         requestLabel.setText("You have " + student.getStudyRequest().size() +" study requests.");
+    }
+    @FXML
+    private void backToLibrary(ActionEvent event) throws IOException {
+        changeScreen(event, "/book.fxml");
     }
     @FXML
     private void backToStudyMateMenu(ActionEvent event) throws IOException {
@@ -60,12 +70,16 @@ public class StudentController {
     
     @FXML
     private void displayBorrowedBooks(ActionEvent event) throws IOException {
-        changeScreen(event, "/borrowedBooks.fxml");
+        changeScreen(event, "/MyBooks.fxml");
     }
     
     @FXML
     private void logout(ActionEvent event) throws IOException {
         changeScreen(event, "/login.fxml");
+    }
+    @FXML 
+    private void switchToDeskReservation(ActionEvent event) throws IOException{
+        changeScreen(event, "/reservation.fxml");
     }
 
     private void changeScreen(ActionEvent event, String fxmlPath) throws IOException {

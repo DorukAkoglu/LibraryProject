@@ -36,11 +36,7 @@ public class User {
     public void setProfilePicture(String url) {
         this.profilePhoto = url;
     }
-
-    public String getProfilePhoto() {
-        return profilePhoto;
-    }  
-     
+       
     public String getEmail() {
         return email;
     }
@@ -56,5 +52,13 @@ public class User {
     }
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getProfilePhoto() {
+        String url = this.profilePhoto;
+        if (url != null && url.contains("/upload/")) {
+            return url.replace("/upload/", "/upload/w_200,h_200,c_fill,q_auto/");
+        }
+        return url;
     }
 }

@@ -18,7 +18,7 @@
    <left>
       <VBox fx:id="leftSideBar" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0" styleClass="sidemenu" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fx:id="profileImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="profileImage" fitHeight="141.0" fitWidth="143.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/defaultProfilePicture.png" />
                </image>
@@ -30,7 +30,8 @@
             </Label>
             <Label fx:id="departmentLabel" styleClass="accent-text" text="Computer Science" textFill="WHITE" />
             <Button fx:id="btnStudyMate" mnemonicParsing="false" styleClass="nav-button" text="Dashboard" />
-            <Button fx:id="btnRequests" mnemonicParsing="false" onAction="#backToStudyMateMenu" styleClass="nav-button" text="Find Study Partner" />
+            <Button fx:id="btnLibrary" mnemonicParsing="false" onAction="#backToLibrary" styleClass="nav-button" text="Library" />
+            <Button mnemonicParsing="false" onAction="#switchToDeskReservation" styleClass="nav-button" stylesheets="@student.css" text="Desk Reservation" />
             <Button mnemonicParsing="false" onAction="#updateProfile" styleClass="nav-button" text="Update Profile" />
             <Button mnemonicParsing="false" onAction="#logout" styleClass="nav-button" text="Logout" />
          </children>
@@ -75,9 +76,9 @@
                                           <Image url="@images/download.jpg" />
                                        </image>
                                     </ImageView>
-                                    <Label text="Borrowed Books" />
+                                    <Label text="My Books" />
                                     <Label styleClass="accent-text" text="3 Books Active" />
-                                    <Button mnemonicParsing="false" onAction="#displayBorrowedBooks" text="View List" />
+                                    <Button mnemonicParsing="false" onAction="#displayBorrowedBooks" text="Menage Books" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER" minHeight="200.0" prefWidth="100.0" spacing="15.0" styleClass="dashboard-card" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">

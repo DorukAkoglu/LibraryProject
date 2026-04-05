@@ -93,7 +93,7 @@ public class LibrarySystem {
     }
 
     public ArrayList <Message> getChatsBetween(String email1, String email2) {
-        return db.getChatsBetween(email1, email2, 5);
+        return db.getChatsBetween(email1, email2, 100);
     }
 
     public ArrayList<StudyRequest> getRequests() {
@@ -167,5 +167,37 @@ public class LibrarySystem {
 
     public void refreshChats() {
         this.chats = db.getChats();
+    }
+
+    public ArrayList<Book> getBorrowedBooksByUser(User u) {
+        return db.getBorrowedBooksByUser(u);
+    }
+
+    public ArrayList<Book> getReservedBooksByUser(User u) {
+        return db.getReservedBooksByUser(u);
+    }
+
+    public ArrayList<Book> getHistoryBooksByUser(User u) {
+        return db.getHistoryBooksByUser(u);
+    }
+
+    public boolean borrowBook(User u, Book b) {
+        return db.borrowBookDB(u, b);
+    }
+
+    public boolean returnBook(User u, Book b) {
+        return db.returnBookDB(u, b);
+    }
+
+    public boolean extendBook(User u, Book b) {
+        return db.extendBookDB(u, b);
+    }
+
+    public boolean reserveBook(User u, Book b) {
+        return db.reserveBookDB(u, b);
+    }
+
+    public boolean cancelReserve(User u, Book b) {
+        return db.cancelReserveDB(u, b);
     }
 }

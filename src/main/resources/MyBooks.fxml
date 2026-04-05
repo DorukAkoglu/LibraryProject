@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane minHeight="600.0" minWidth="900.0" prefHeight="600.0" prefWidth="900.0" styleClass="mybooks-root" stylesheets="@mybooks.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.MyBooksController">
+   
+   <padding>
+      <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+   </padding>
+
+   <top>
+      <VBox alignment="CENTER" spacing="20.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="20.0" />
+         </BorderPane.margin>
+         <Label styleClass="page-title" text="My Books Page" />
+         <HBox alignment="CENTER" spacing="20.0">
+            <Button fx:id="btnBorrowed" mnemonicParsing="false" onAction="#loadBorrowedBooks" styleClass="tab-active" text="Borrowed" />
+            <Button fx:id="btnReserved" mnemonicParsing="false" onAction="#loadReservedBooks" styleClass="tab-inactive" text="Reserved" />
+            <Button fx:id="btnHistory" mnemonicParsing="false" onAction="#loadHistoryBooks" styleClass="tab-inactive" text="History" />
+         </HBox>
+      </VBox>
+   </top>
+
+   <center>
+      <ListView fx:id="bookListView" styleClass="transparent-scroll-pane" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="20.0" top="10.0" />
+         </BorderPane.margin>
+      </ListView>
+   </center>
+
+   <bottom>
+      <HBox alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
+         <Button mnemonicParsing="false" onAction="#goBackToDashboard" styleClass="back-button" text="🔙 Back to Dashboard" />
+         
+         <Region HBox.hgrow="ALWAYS" />
+         
+         <StackPane>
+            <HBox fx:id="borrowedActionBox" alignment="CENTER_RIGHT" spacing="15.0">
+               <Button mnemonicParsing="false" onAction="#handleExtend" styleClass="mybooks-btn-extend" text="Extend Due Date" />
+               <Button mnemonicParsing="false" onAction="#handleReturn" styleClass="mybooks-btn-return" text="Return Book" />
+            </HBox>
+
+            <HBox fx:id="reservedActionBox" alignment="CENTER_RIGHT" spacing="15.0" visible="false">
+               <Button mnemonicParsing="false" onAction="#handleBorrowFromReserve" styleClass="mybooks-btn-borrow" text="Borrow Now" />
+               <Button mnemonicParsing="false" onAction="#handleCancelReserve" styleClass="mybooks-btn-cancel" text="Cancel Reserve" />
+            </HBox>
+         </StackPane>
+         
+      </HBox>
+   </bottom>
+
+</BorderPane>

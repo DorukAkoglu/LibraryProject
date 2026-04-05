@@ -46,7 +46,13 @@ public class ProfileController {
         }
         Circle clip = new Circle(90, 90, 90); 
         profileImageView.setClip(clip);
-        profileImage = new ImageView(new Image(getClass().getResourceAsStream("/images/defaultProfilePicture.png")));
+        if (user.getProfilePhoto() != null && !user.getProfilePhoto().isEmpty()) {
+            profileImageView.setImage(new Image(user.getProfilePhoto(), true));
+            profileImage.setImage(new Image(user.getProfilePhoto(), true));
+        } else {
+            profileImageView.setImage(new Image(getClass().getResourceAsStream("/images/defaultProfilePicture.png")));
+            profileImage.setImage(new Image(getClass().getResourceAsStream("/images/defaultProfilePicture.png")));
+        }
         profileImage.setFitHeight(50);
         profileImage.setFitWidth(50);
         
@@ -59,24 +65,26 @@ public class ProfileController {
         txtID.setEditable(false);
         txtDept.setEditable(false); 
     }
+
     @FXML
     private void uploadPhoto(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(
-            new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+            new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif", "*.jpeg"));
         File file = fileChooser.showOpenDialog(((Node)event.getSource()).getScene().getWindow());
         if (file != null) {
             try {
-                String url = file.toURI().toURL().toString();
+                CloudinaryManager cloudinary = new CloudinaryManager();
+                String cloudinaryUrl = cloudinary.uploadImage(file);
                 
                 User user = MainController.getCurrentUser();
-                user.setProfilePicture(url);
+                user.setProfilePicture(cloudinaryUrl);
                 LibrarySystem.getInstance().updateUserDB(user);
                 
-                profileImageView.setImage(new Image(url));
-            } catch (IOException e) {
-                displayTheInformation("Photo upload failed!");
-            
+                profileImageView.setImage(new Image(cloudinaryUrl));
+                displayTheInformation("Photo uploaded successfully!");
+            } catch (Exception e) {
+                displayTheInformation("Photo upload failed: " + e.getMessage());
             }
         }
     }

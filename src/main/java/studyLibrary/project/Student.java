@@ -15,6 +15,9 @@ public class Student extends User {
     private String availabilityStatus;
     private List<StudyRequest> incomingRequests;
     private String department;
+    private Table reservedTable;
+    private int reservedTableNo = 0;
+    private boolean isOccupiedTable = false;
     private String courseSelected = "No Course selected"; 
 
     public Student(int userID, String name, String email, String password, int age, int grade, String department) {
@@ -161,10 +164,27 @@ public class Student extends User {
         }
         return true;
     }
+    public Table getReservedTable(){
+        return reservedTable;
+    }
+    public void setreservedTable(Table table){
+        reservedTable = table;
+    }
     public void addStudyRequest(StudyRequest sr) {
         incomingRequests.add(sr);
     }
-
+    public int getReservedTableNo() {
+        return reservedTableNo;
+    }
+    public void setReservedTableNo(int reservedTableNo) {
+        this.reservedTableNo = reservedTableNo;
+    }
+    public boolean getIsOccupiedTable(){
+        return isOccupiedTable;
+    }
+    public void setIsOccupiedTable(boolean isAtDesk){
+        isOccupiedTable = isAtDesk;
+    }
     @Override
     public int hashCode() { 
         return Objects.hash(userID, email); 

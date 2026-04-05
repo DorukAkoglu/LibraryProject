@@ -79,4 +79,10 @@ public class Message {
     public void setTimestamp(String timestampStr) {
         this.timestamp = LocalDateTime.parse(timestampStr);
     }
+    public boolean isEdited() {
+        return this.isEdited;
+    }
+    public void setEdited(boolean edited) {
+        this.isEdited = edited;
+    }
 }

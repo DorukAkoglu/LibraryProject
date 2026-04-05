@@ -1,11 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane styleClass="root" stylesheets="@student.css" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.BookController">
-   <children>
-      <TextField fx:id="searchField" layoutX="130.0" layoutY="38.0" prefHeight="27.0" prefWidth="349.0" />
-      <Button layoutX="78.0" layoutY="40.0" mnemonicParsing="false" onAction="#handleSearchAction" text="Search Book" />
-   </children>
-</AnchorPane>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane minHeight="600.0" minWidth="900.0" prefHeight="600.0" prefWidth="900.0" styleClass="root" stylesheets="@book.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.BookController">
+    
+    <padding>
+        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+    </padding>
+
+    <top>
+        <VBox spacing="20.0" styleClass="header-box" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets bottom="20.0" />
+            </BorderPane.margin>
+            
+            <Label text="Library Book Search" styleClass="header-title" />
+            
+            <HBox alignment="CENTER_LEFT" spacing="20.0">
+                <TextField fx:id="searchField" promptText="Search book by title..." styleClass="search-field" HBox.hgrow="ALWAYS" />
+                
+                <ComboBox fx:id="categoryFilter" prefWidth="150.0" promptText="Category" styleClass="filter-combo" />
+                <ComboBox fx:id="pagesFilter" prefWidth="120.0" promptText="Pages" styleClass="filter-combo" />
+                
+                <CheckBox fx:id="availabilityFilter" text="Available Only" styleClass="filter-checkbox" />
+                
+                <Button mnemonicParsing="false" onAction="#handleSearchAction" text="Search" styleClass="search-button" />
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <ListView fx:id="bookListView" prefHeight="200.0" prefWidth="200.0" styleClass="book-list-view" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets bottom="20.0" />
+            </BorderPane.margin>
+        </ListView>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+            <Button mnemonicParsing="false" onAction="#goBackToDashboard" text="🔙 Back to Dashboard" styleClass="back-button" />
+            
+            <Region HBox.hgrow="ALWAYS" />
+            
+            <Button fx:id="borrowButton" mnemonicParsing="false" onAction="#handleBorrowAction" text="Borrow Selected Book" styleClass="borrow-main-button" />
+        </HBox>
+    </bottom>
+
+</BorderPane>

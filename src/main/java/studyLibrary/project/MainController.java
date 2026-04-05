@@ -22,6 +22,7 @@ public class MainController {
     @FXML private VBox forgotPasswordBox;
     private boolean isLoggedIn;
     private static User currentUser;
+    public static DatabaseManager dbManager = new DatabaseManager();
     private LibrarySystem system;
     //private AdminController adminController;
     //private LibrarianController librarianController;
@@ -31,6 +32,7 @@ public class MainController {
         currentUser = null;
         isLoggedIn = false;
         system = new LibrarySystem();
+        dbManager.connect();
     }   
     public void handleLogin(ActionEvent event) throws IOException {
         String auserID = idField.getText();
