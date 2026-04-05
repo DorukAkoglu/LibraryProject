@@ -74,7 +74,11 @@ public class DatabaseManager {
                             doc.getString("department"));
             s.setSelectedCourse(doc.getString("selectedCourse"));
             s.setProfilePicture(doc.getString("profilePhoto"));
-            s.setReservedTableNo(doc.getInteger("reservedTableNo"));
+            int reservedTableNo = 0;
+            if(doc.get("reservedTableNo") != null){
+                reservedTableNo = doc.getInteger("reservedTableNo");
+            }
+            s.setReservedTableNo(reservedTableNo);
             userCacheByID.put(userID,s);
             return s;
         } else if ("librarian".equals(role)) {
