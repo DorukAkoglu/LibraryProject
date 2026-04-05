@@ -5,195 +5,301 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="720.0" prefWidth="1180.0" styleClass="admin-root" stylesheets="@admin.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.AdminController">
-   <top>
-      <VBox spacing="18.0" styleClass="admin-top-shell" BorderPane.alignment="CENTER">
-         <padding>
-            <Insets bottom="24.0" left="28.0" right="28.0" top="28.0" />
-         </padding>
+<BorderPane minHeight="600.0" minWidth="900.0" prefHeight="640.0" prefWidth="980.0" styleClass="admin-root" stylesheets="@admin.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.AdminController">
+   <left>
+      <VBox alignment="TOP_CENTER" prefWidth="250.0" spacing="18.0" styleClass="admin-sidebar" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER_LEFT" spacing="18.0">
+            <ImageView fx:id="profileImage" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/defaultProfilePicture.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="adminNameLabel" text="Admin User" textFill="WHITE">
+               <font>
+                  <Font name="Calibri Light" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="adminRoleLabel" styleClass="sidebar-accent" text="System Administrator" />
+            <Separator prefWidth="180.0" />
+            <Button fx:id="overviewButton" mnemonicParsing="false" onAction="#showOverviewSection" styleClass="admin-nav-button" text="Dashboard" />
+            <Button fx:id="searchButton" mnemonicParsing="false" onAction="#showSearchSection" styleClass="admin-nav-button" text="Search Users" />
+            <Button fx:id="addButton" mnemonicParsing="false" onAction="#showAddSection" styleClass="admin-nav-button" text="Add User" />
+            <Button fx:id="manageButton" mnemonicParsing="false" onAction="#showManageSection" styleClass="admin-nav-button" text="Manage Users" />
+            <Button mnemonicParsing="false" onAction="#logout" styleClass="admin-nav-button" text="Logout" />
+         </children>
+         <padding>
+            <Insets bottom="24.0" left="16.0" right="16.0" top="32.0" />
+         </padding>
+      </VBox>
+   </left>
+   <center>
+      <ScrollPane fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
+         <content>
+            <AnchorPane>
                <children>
-                  <VBox HBox.hgrow="ALWAYS">
+                  <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Label styleClass="admin-eyebrow" text="System Administration" />
-                        <Label styleClass="admin-title" text="Admin Dashboard" />
-                        <Label styleClass="admin-subtitle" text="Kullanicilari yonetin, rolleri denetleyin ve sistem organizasyonunu tek panelden duzenleyin." wrapText="true" />
-                     </children>
-                  </VBox>
-                  <StackPane minHeight="72.0" minWidth="180.0" prefHeight="72.0" prefWidth="180.0" styleClass="admin-status-card">
-                     <children>
-                        <VBox alignment="CENTER" spacing="4.0">
+                        <VBox fx:id="overviewSection" spacing="20.0" visible="true">
+                           <padding>
+                              <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                           </padding>
                            <children>
-                              <Label styleClass="admin-status-number" text="Secure" />
-                              <Label styleClass="admin-status-caption" text="Role Based Access" />
+                              <Label styleClass="page-title" text="Admin Dashboard" />
+                              <GridPane hgap="18.0" vgap="18.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints percentWidth="50.0" />
+                                    <ColumnConstraints percentWidth="50.0" />
+                                 </columnConstraints>
+                                 <children>
+                                    <VBox styleClass="content-card" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                       <children>
+                                          <Label styleClass="card-title" text="Total Users" />
+                                          <Label fx:id="totalUsersLabel" styleClass="card-value" text="0" />
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                       </padding>
+                                    </VBox>
+                                    <VBox styleClass="content-card" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                       <children>
+                                          <Label styleClass="card-title" text="Students" />
+                                          <Label fx:id="studentCountLabel" styleClass="card-value" text="0" />
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                       </padding>
+                                    </VBox>
+                                    <VBox styleClass="content-card" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                       <children>
+                                          <Label styleClass="card-title" text="Librarians" />
+                                          <Label fx:id="librarianCountLabel" styleClass="card-value" text="0" />
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                       </padding>
+                                    </VBox>
+                                    <VBox styleClass="content-card" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                       <children>
+                                          <Label styleClass="card-title" text="Admins" />
+                                          <Label fx:id="adminCountLabel" styleClass="card-value" text="0" />
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                       </padding>
+                                    </VBox>
+                                 </children>
+                              </GridPane>
+                              <VBox styleClass="content-card" spacing="10.0">
+                                 <children>
+                                    <Label styleClass="card-title" text="How to use" />
+                                    <Label styleClass="card-text" text="Open Search Users to browse accounts." wrapText="true" />
+                                    <Label styleClass="card-text" text="Open Add User to create a new student, librarian or admin." wrapText="true" />
+                                    <Label styleClass="card-text" text="Open Manage Users to update or remove an existing account." wrapText="true" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </VBox>
+                        <VBox fx:id="searchSection" managed="false" spacing="18.0" visible="false">
+                           <padding>
+                              <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                           </padding>
+                           <children>
+                              <Label styleClass="page-title" text="Search Users" />
+                              <HBox spacing="12.0">
+                                 <children>
+                                    <TextField fx:id="searchField" promptText="Search by ID, name, email or role" HBox.hgrow="ALWAYS" />
+                                    <Button mnemonicParsing="false" onAction="#handleSearchAction" styleClass="panel-button" text="Search" />
+                                    <Button mnemonicParsing="false" onAction="#handleRefreshAction" styleClass="panel-button-secondary" text="Refresh" />
+                                 </children>
+                              </HBox>
+                              <ListView fx:id="searchUserListView" prefHeight="460.0" />
+                           </children>
+                        </VBox>
+                        <VBox fx:id="addSection" managed="false" spacing="18.0" visible="false">
+                           <padding>
+                              <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                           </padding>
+                           <children>
+                              <Label styleClass="page-title" text="Add User" />
+                              <VBox styleClass="content-card" spacing="18.0">
+                                 <children>
+                                    <GridPane hgap="16.0" vgap="14.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints percentWidth="50.0" />
+                                          <ColumnConstraints percentWidth="50.0" />
+                                       </columnConstraints>
+                                       <children>
+                                          <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                             <children>
+                                                <Label styleClass="field-label" text="User ID" />
+                                                <TextField fx:id="addUserIDField" promptText="2001" />
+                                             </children>
+                                          </VBox>
+                                          <VBox spacing="6.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                             <children>
+                                                <Label styleClass="field-label" text="Role" />
+                                                <ComboBox fx:id="addRoleComboBox" promptText="Select role" />
+                                             </children>
+                                          </VBox>
+                                          <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                                             <children>
+                                                <Label styleClass="field-label" text="Full Name" />
+                                                <TextField fx:id="addNameField" promptText="User name" />
+                                             </children>
+                                          </VBox>
+                                          <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                                             <children>
+                                                <Label styleClass="field-label" text="Email" />
+                                                <TextField fx:id="addEmailField" promptText="name@example.com" />
+                                             </children>
+                                          </VBox>
+                                          <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                                             <children>
+                                                <Label styleClass="field-label" text="Password" />
+                                                <TextField fx:id="addPasswordField" promptText="Temporary password" />
+                                             </children>
+                                          </VBox>
+                                          <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                                             <children>
+                                                <Label styleClass="field-label" text="Age" />
+                                                <TextField fx:id="addAgeField" promptText="Only for students" />
+                                             </children>
+                                          </VBox>
+                                          <VBox spacing="6.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                             <children>
+                                                <Label styleClass="field-label" text="Grade" />
+                                                <TextField fx:id="addGradeField" promptText="Only for students" />
+                                             </children>
+                                          </VBox>
+                                          <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="5">
+                                             <children>
+                                                <Label styleClass="field-label" text="Department" />
+                                                <TextField fx:id="addDepartmentField" promptText="Only for students" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </GridPane>
+                                    <Button mnemonicParsing="false" onAction="#handleAddUserAction" styleClass="panel-button" text="Add User" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </VBox>
+                        <VBox fx:id="manageSection" managed="false" spacing="18.0" visible="false">
+                           <padding>
+                              <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                           </padding>
+                           <children>
+                              <Label styleClass="page-title" text="Manage Users" />
+                              <HBox spacing="18.0">
+                                 <children>
+                                    <VBox prefWidth="320.0" spacing="12.0">
+                                       <children>
+                                          <Label styleClass="field-label" text="Select a user" />
+                                          <ListView fx:id="manageUserListView" prefHeight="430.0" />
+                                       </children>
+                                    </VBox>
+                                    <VBox spacing="18.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <VBox styleClass="content-card" spacing="18.0">
+                                             <children>
+                                                <GridPane hgap="16.0" vgap="14.0">
+                                                   <columnConstraints>
+                                                      <ColumnConstraints percentWidth="50.0" />
+                                                      <ColumnConstraints percentWidth="50.0" />
+                                                   </columnConstraints>
+                                                   <children>
+                                                      <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                                         <children>
+                                                            <Label styleClass="field-label" text="User ID" />
+                                                            <TextField fx:id="editUserIDField" promptText="Select a user" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox spacing="6.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                                         <children>
+                                                            <Label styleClass="field-label" text="Role" />
+                                                            <ComboBox fx:id="editRoleComboBox" disable="true" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                                                         <children>
+                                                            <Label styleClass="field-label" text="Full Name" />
+                                                            <TextField fx:id="editNameField" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                                                         <children>
+                                                            <Label styleClass="field-label" text="Email" />
+                                                            <TextField fx:id="editEmailField" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                                                         <children>
+                                                            <Label styleClass="field-label" text="Password" />
+                                                            <TextField fx:id="editPasswordField" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                                                         <children>
+                                                            <Label styleClass="field-label" text="Age" />
+                                                            <TextField fx:id="editAgeField" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox spacing="6.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                                         <children>
+                                                            <Label styleClass="field-label" text="Grade" />
+                                                            <TextField fx:id="editGradeField" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="5">
+                                                         <children>
+                                                            <Label styleClass="field-label" text="Department" />
+                                                            <TextField fx:id="editDepartmentField" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </GridPane>
+                                                <HBox spacing="12.0">
+                                                   <children>
+                                                      <Button mnemonicParsing="false" onAction="#handleUpdateUserAction" styleClass="panel-button" text="Update User" />
+                                                      <Button mnemonicParsing="false" onAction="#handleRemoveUserAction" styleClass="panel-button-danger" text="Remove User" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                             </padding>
+                                          </VBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
                            </children>
                         </VBox>
                      </children>
                   </StackPane>
                </children>
-            </HBox>
-            <HBox spacing="16.0">
-               <children>
-                  <VBox prefHeight="98.0" prefWidth="210.0" styleClass="admin-metric-card" HBox.hgrow="ALWAYS">
-                     <children>
-                        <Label styleClass="admin-metric-title" text="User Control" />
-                        <Label styleClass="admin-metric-value" text="Create and maintain accounts" />
-                        <Label styleClass="admin-metric-note" text="Students, librarians and admins in one flow." />
-                     </children>
-                  </VBox>
-                  <VBox prefHeight="98.0" prefWidth="210.0" styleClass="admin-metric-card admin-metric-accent" HBox.hgrow="ALWAYS">
-                     <children>
-                        <Label styleClass="admin-metric-title" text="Quick Review" />
-                        <Label styleClass="admin-metric-value" text="Search roles and user IDs" />
-                        <Label styleClass="admin-metric-note" text="Use the explorer panel to filter instantly." />
-                     </children>
-                  </VBox>
-                  <VBox prefHeight="98.0" prefWidth="210.0" styleClass="admin-metric-card" HBox.hgrow="ALWAYS">
-                     <children>
-                        <Label styleClass="admin-metric-title" text="Data Hygiene" />
-                        <Label styleClass="admin-metric-value" text="Keep profiles consistent" />
-                        <Label styleClass="admin-metric-note" text="Selected users populate the editor automatically." />
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </top>
-   <center>
-      <HBox spacing="22.0" BorderPane.alignment="CENTER">
-         <padding>
-            <Insets bottom="28.0" left="28.0" right="28.0" />
-         </padding>
-         <children>
-            <VBox prefWidth="470.0" spacing="18.0" styleClass="admin-panel-card" HBox.hgrow="ALWAYS">
-               <children>
-                  <HBox alignment="CENTER_LEFT" spacing="12.0">
-                     <children>
-                        <VBox HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label styleClass="admin-section-title" text="User Explorer" />
-                              <Label styleClass="admin-section-subtitle" text="Kullanicilari isim, email, rol veya ID ile filtreleyin." />
-                           </children>
-                        </VBox>
-                        <Button mnemonicParsing="false" onAction="#handleRefreshAction" styleClass="admin-secondary-button" text="Refresh" />
-                     </children>
-                  </HBox>
-                  <HBox spacing="12.0">
-                     <children>
-                        <TextField fx:id="searchField" promptText="Search users..." styleClass="admin-search-field" HBox.hgrow="ALWAYS" />
-                        <Button mnemonicParsing="false" onAction="#handleSearchAction" styleClass="admin-primary-button" text="Find" />
-                     </children>
-                  </HBox>
-                  <Separator />
-                  <ListView fx:id="userListView" prefHeight="460.0" styleClass="admin-list" VBox.vgrow="ALWAYS" />
-               </children>
-               <padding>
-                  <Insets bottom="22.0" left="22.0" right="22.0" top="22.0" />
-               </padding>
-            </VBox>
-            <VBox prefWidth="560.0" spacing="18.0" styleClass="admin-panel-card admin-form-panel" HBox.hgrow="ALWAYS">
-               <children>
-                  <VBox spacing="4.0">
-                     <children>
-                        <Label styleClass="admin-section-title" text="User Editor" />
-                        <Label styleClass="admin-section-subtitle" text="Yeni kullanici ekleyin ya da secilen kullanicinin temel bilgilerini duzenleyin." />
-                     </children>
-                  </VBox>
-                  <GridPane hgap="16.0" vgap="14.0">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
-                     </columnConstraints>
-                     <children>
-                        <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                           <children>
-                              <Label styleClass="admin-field-label" text="User ID" />
-                              <TextField fx:id="userIDField" promptText="2001" />
-                           </children>
-                        </VBox>
-                        <VBox spacing="6.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                           <children>
-                              <Label styleClass="admin-field-label" text="Role" />
-                              <ComboBox fx:id="roleComboBox" promptText="Select role" />
-                           </children>
-                        </VBox>
-                        <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="1">
-                           <children>
-                              <Label styleClass="admin-field-label" text="Full Name" />
-                              <TextField fx:id="nameField" promptText="User name" />
-                           </children>
-                        </VBox>
-                        <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="2">
-                           <children>
-                              <Label styleClass="admin-field-label" text="Email" />
-                              <TextField fx:id="emailField" promptText="name@example.com" />
-                           </children>
-                        </VBox>
-                        <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="3">
-                           <children>
-                              <Label styleClass="admin-field-label" text="Password" />
-                              <TextField fx:id="passwordField" promptText="Temporary password" />
-                           </children>
-                        </VBox>
-                        <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.rowIndex="4">
-                           <children>
-                              <Label styleClass="admin-field-label" text="Age" />
-                              <TextField fx:id="ageField" promptText="Only for students" />
-                           </children>
-                        </VBox>
-                        <VBox spacing="6.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                           <children>
-                              <Label styleClass="admin-field-label" text="Grade" />
-                              <TextField fx:id="gradeField" promptText="Only for students" />
-                           </children>
-                        </VBox>
-                        <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="5">
-                           <children>
-                              <Label styleClass="admin-field-label" text="Department" />
-                              <TextField fx:id="departmentField" promptText="Only for students" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </GridPane>
-                  <Separator />
-                  <HBox spacing="12.0">
-                     <children>
-                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleAddUserAction" styleClass="admin-primary-button" text="Add User" HBox.hgrow="ALWAYS" />
-                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleUpdateUserAction" styleClass="admin-secondary-button" text="Update" HBox.hgrow="ALWAYS" />
-                     </children>
-                  </HBox>
-                  <HBox spacing="12.0">
-                     <children>
-                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRemoveUserAction" styleClass="admin-danger-button" text="Remove" HBox.hgrow="ALWAYS" />
-                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRefreshAction" styleClass="admin-success-button" text="Reload List" HBox.hgrow="ALWAYS" />
-                     </children>
-                  </HBox>
-                  <VBox spacing="10.0" styleClass="admin-tip-card" VBox.vgrow="ALWAYS">
-                     <children>
-                        <Label styleClass="admin-tip-title" text="Workflow Tip" />
-                        <Label styleClass="admin-tip-text" text="Role alani Student oldugunda yas, sinif ve bolum alanlari aktif olur. Librarian ve Admin icin bu alanlar pasif kalir." wrapText="true" />
-                     </children>
-                     <VBox.margin>
-                        <Insets top="8.0" />
-                     </VBox.margin>
-                  </VBox>
-               </children>
-               <padding>
-                  <Insets bottom="22.0" left="22.0" right="22.0" top="22.0" />
-               </padding>
-            </VBox>
-         </children>
-      </HBox>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
    </center>
 </BorderPane>
