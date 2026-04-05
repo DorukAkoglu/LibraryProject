@@ -80,6 +80,13 @@ public class TableReservationController {
                 youText.setTranslateY(-75);
                 card.getChildren().add(youText);
             }
+            if(table.getOccupiedBy() == student.getUserID() && table.getAvailability().equals("Occupied")){
+                Text youText = new Text("You");
+                youText.setFill(Color.WHITE);
+                youText.setStyle("-fx-font-size: 15px; -fx-font-weight: bold;");
+                youText.setTranslateY(-75);
+                card.getChildren().add(youText);
+            }
             card.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event){
                 if(student.getIsOccupiedTable()){
@@ -134,7 +141,7 @@ public class TableReservationController {
             });
             return card;
         }
-        else{
+        else{ //Librarian ise
             if(table.getAvailability().equals("Reserved")){
                 ContextMenu contextMenu = new ContextMenu();
                 MenuItem confirmReservation = new MenuItem("Confirm Reservation");
@@ -167,6 +174,11 @@ public class TableReservationController {
                         contextMenu.show(card, event.getScreenX(), event.getScreenY());
                     }
                 });
+                Text idText = new Text(String.valueOf(student.getUserID()));
+                idText.setFill(Color.WHITE);
+                idText.setStyle("-fx-font-size: 15px; -fx-font-weight: bold;");
+                idText.setTranslateY(-75);
+                card.getChildren().add(idText);
                 return card;
             }
             else if(table.getAvailability().equals("Occupied")){
@@ -189,6 +201,11 @@ public class TableReservationController {
                         contextMenu.show(card, event.getScreenX(), event.getScreenY());
                     }
                 });
+                Text idText = new Text(String.valueOf(student.getUserID()));
+                idText.setFill(Color.WHITE);
+                idText.setStyle("-fx-font-size: 15px; -fx-font-weight: bold;");
+                idText.setTranslateY(-75);
+                card.getChildren().add(idText);
                 return card;
             }
             return card;   
@@ -196,10 +213,18 @@ public class TableReservationController {
         }
     }   
     public void returnToDashboard(ActionEvent event) throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/student.fxml"));
-        Parent root = loader.load();
-        App.PRIMARY_STAGE = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        App.PRIMARY_STAGE.getScene().setRoot(root);
+        if(MainController.getCurrentUser() instanceof Student){
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/student.fxml"));
+            Parent root = loader.load();
+            App.PRIMARY_STAGE = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            App.PRIMARY_STAGE.getScene().setRoot(root);
+        }
+        else if(MainController.getCurrentUser() instanceof Librarian){
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/librarian.fxml"));
+            Parent root = loader.load();
+            App.PRIMARY_STAGE = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            App.PRIMARY_STAGE.getScene().setRoot(root);
+        }
     }
     
 }
