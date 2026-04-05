@@ -10,11 +10,11 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="720.0" prefWidth="1180.0" styleClass="librarian-root" stylesheets="@librarian.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.LibrarianController">
+<BorderPane prefHeight="720.0" prefWidth="1180.0" styleClass="librarian-root" stylesheets="@librarian.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.LibrarianController">
    <top>
       <VBox spacing="18.0" styleClass="top-shell" BorderPane.alignment="CENTER">
          <padding>
@@ -147,7 +147,14 @@
                            </children>
                         </VBox>
                      </children>
+                     <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                     </rowConstraints>
                   </GridPane>
+                  <Button mnemonicParsing="false" onAction="#goToReservations" text="Manage Desk Reservations" />
                   <Separator />
                   <HBox spacing="12.0">
                      <children>

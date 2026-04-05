@@ -4,13 +4,20 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Stack;
 
+
+
+import org.bson.AbstractBsonWriter.Context;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
@@ -24,11 +31,13 @@ public class TableReservationController {
     @FXML private Label departmentLabel;
     @FXML private FlowPane tableContainer;
     Table previousReservedTable;
-    Student student = (Student) MainController.getCurrentUser();
     
     public void initialize(){
-        nameLabel.setText(student.getName());
-        departmentLabel.setText(student.getDepartment());
+        if(MainController.getCurrentUser() instanceof Student){
+            Student student = (Student) MainController.getCurrentUser();
+            nameLabel.setText(student.getName());
+            departmentLabel.setText(student.getDepartment());
+        }
         tableContainer.setHgap(15);
         tableContainer.setVgap(15);
         tableContainer.setPrefWrapLength(400);
@@ -62,17 +71,20 @@ public class TableReservationController {
         text.setFill(Color.WHITE);
         text.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
         card.getChildren().addAll(rectangle, text);
-
-        if(table.getReservedBy() == student.getUserID()){
-            Text youText = new Text("You");
-            youText.setFill(Color.WHITE);
-            youText.setStyle("-fx-font-size: 15px; -fx-font-weight: bold;");
-            youText.setTranslateY(-75);
-            card.getChildren().add(youText);
-        }
-
-        card.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        if(MainController.getCurrentUser() instanceof Student){
+            Student student = (Student) MainController.getCurrentUser();
+            if(table.getReservedBy() == student.getUserID() && table.getAvailability().equals("Reserved")){
+                Text youText = new Text("You");
+                youText.setFill(Color.WHITE);
+                youText.setStyle("-fx-font-size: 15px; -fx-font-weight: bold;");
+                youText.setTranslateY(-75);
+                card.getChildren().add(youText);
+            }
+            card.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event){
+                if(student.getIsOccupiedTable()){
+                    return;
+                }
                 if(table.getAvailability().equals("Available")){
                     if(student.getReservedTableNo() != 0){
                         List<Table> tables = MainController.dbManager.getTables();
@@ -109,20 +121,80 @@ public class TableReservationController {
                     initialize();
                 }
             }
-        });
-        card.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event){
-                card.setOpacity(0.8);
+            });
+            card.setOnMouseEntered(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent event){
+                    card.setOpacity(0.8);
+                }
+            });
+            card.setOnMouseExited(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent event){
+                    card.setOpacity(1);
+                }
+            });
+            return card;
+        }
+        else{
+            if(table.getAvailability().equals("Reserved")){
+                ContextMenu contextMenu = new ContextMenu();
+                MenuItem confirmReservation = new MenuItem("Confirm Reservation");
+                MenuItem cancelReservation = new MenuItem("Cancel Reservation");
+                Student student = (Student) MainController.dbManager.getUserByID(table.getReservedBy());
+                confirmReservation.setOnAction(new EventHandler<ActionEvent>() {
+                    public void handle(ActionEvent event){
+                        table.setAvailability("Occupied");
+                        table.setOccupiedBy(table.getReservedBy());
+                        table.setReservedBy(0);
+                        MainController.dbManager.updateStudentOccupiedStatus(student, true);
+                        MainController.dbManager.updateStudentReservedTable(student, 0);
+                        MainController.dbManager.updateTable(table);
+                        initialize();
+                    }
+                });
+                cancelReservation.setOnAction(new EventHandler<ActionEvent>() {
+                    public void handle(ActionEvent event){
+                        table.setAvailability("Available");
+                        table.setOccupiedBy(0);
+                        table.setReservedBy(0);
+                        MainController.dbManager.updateStudentReservedTable(student, 0);
+                        MainController.dbManager.updateTable(table);
+                        initialize();
+                    }
+                });
+                contextMenu.getItems().addAll(confirmReservation, cancelReservation);
+                card.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+                    public void handle(ContextMenuEvent event){
+                        contextMenu.show(card, event.getScreenX(), event.getScreenY());
+                    }
+                });
+                return card;
             }
-        });
-        card.setOnMouseExited(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event){
-                card.setOpacity(1);
+            else if(table.getAvailability().equals("Occupied")){
+                Student student = (Student) MainController.dbManager.getUserByID(table.getOccupiedBy());
+                ContextMenu contextMenu = new ContextMenu();
+                MenuItem endOccupation = new MenuItem("Finish Desk Session");
+                endOccupation.setOnAction(new EventHandler<ActionEvent>() {
+                    public void handle(ActionEvent event){
+                        table.setAvailability("Available");
+                        table.setOccupiedBy(0);
+                        table.setReservedBy(0);
+                        MainController.dbManager.updateTable(table);
+                        MainController.dbManager.updateStudentOccupiedStatus(student, false);
+                        initialize();
+                    }
+                });
+                contextMenu.getItems().add(endOccupation);
+                card.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+                    public void handle(ContextMenuEvent event){
+                        contextMenu.show(card, event.getScreenX(), event.getScreenY());
+                    }
+                });
+                return card;
             }
-        });
-
-        return card;
-    }
+            return card;   
+            
+        }
+    }   
     public void returnToDashboard(ActionEvent event) throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/student.fxml"));
         Parent root = loader.load();

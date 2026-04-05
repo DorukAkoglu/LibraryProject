@@ -1,8 +1,15 @@
 package studyLibrary.project;
 
+import java.io.IOException;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ListCell;
 
@@ -183,7 +190,12 @@ private boolean ensureLibrarian() {
     }
     return true;
 }
-
+public void goToReservations(ActionEvent event) throws IOException{
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/reservation.fxml"));
+    Parent root = loader.load();
+    App.PRIMARY_STAGE = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    App.PRIMARY_STAGE.getScene().setRoot(root);
+}
 
 
 

@@ -62,7 +62,7 @@ public class DatabaseManager {
         userCacheByEmail.put(email, a);
         return a;
     }
-     public User getUserByID(int userID) {
+    public User getUserByID(int userID) {
         if (userCacheByID.containsKey(userID)) {
             return userCacheByID.get(userID);
         }
@@ -80,10 +80,15 @@ public class DatabaseManager {
             s.setSelectedCourse(doc.getString("selectedCourse"));
             s.setProfilePicture(doc.getString("profilePhoto"));
             int reservedTableNo = 0;
+            boolean isOccupiedTable = false;
             if(doc.get("reservedTableNo") != null){
                 reservedTableNo = doc.getInteger("reservedTableNo");
             }
+            if(doc.get("isOccupiedTable") != null){
+                isOccupiedTable = doc.getBoolean("isOccupiedTable");
+            }
             s.setReservedTableNo(reservedTableNo);
+            s.setIsOccupiedTable(isOccupiedTable);
             userCacheByID.put(userID,s);
             return s;
         } else if ("librarian".equals(role)) {
@@ -215,7 +220,11 @@ public class DatabaseManager {
            .append("department", s.getDepartment())
             .append("availabilityStatus", s.getAvailabilityStatus())
             .append("profilePhoto", s.getProfilePhoto())
-            .append("selectedCourse", s.getSelectedCourse());
+            .append("selectedCourse", s.getSelectedCourse())
+            .append("reservedTableNo", 0)
+            .append("isOccupiedTable", false);
+            
+            
         } else if (u instanceof Librarian l) {
             doc.append("role", "librarian");
         } else {
@@ -549,6 +558,12 @@ public class DatabaseManager {
             else {
                 table.setReservedBy(0); 
             }
+            if (doc.containsKey("occupiedBy") && doc.get("occupiedBy") != null) {
+            table.setOccupiedBy(doc.getInteger("occupiedBy"));
+            } 
+            else {
+                table.setOccupiedBy(0); 
+            }
             tables.add(table);
         }
         return tables;
@@ -556,15 +571,25 @@ public class DatabaseManager {
     public void updateTable(Table table){
         MongoCollection<Document> collection = database.getCollection("Tables");
         Document filter = new Document("tableNo", table.getTableNo());
-        Document availabilityUpdate = new Document("$set", new Document("availability", table.getAvailability())
-                                                        .append("reservedBy", table.getReservedBy()));
-        collection.updateOne(filter, availabilityUpdate);
+        Document update = new Document("$set", new Document("availability", table.getAvailability())
+                                                        .append("reservedBy", table.getReservedBy())
+                                                        .append("occupiedBy", table.getOccupiedBy()));
+                                                        
+                                                        
+        collection.updateOne(filter, update);
     }
     public void updateStudentReservedTable(Student student, int tableNo){
         MongoCollection<Document> collection = database.getCollection("users");
         Document filter = new Document("userID", student.getUserID()); // Öğrenciyi email ile bul
         Document update = new Document("$set", new Document("reservedTableNo", tableNo));
         collection.updateOne(filter, update);
+    }
+    public void updateStudentOccupiedStatus(Student student, boolean isOccupied){
+        MongoCollection<Document> collection = database.getCollection("users");
+        Document query = new Document("userID", student.getUserID());
+        Document update = new Document("$set", new Document("isOccupiedTable", isOccupied));
+        collection.updateOne(query, update);
+        student.setIsOccupiedTable(isOccupied);
     }
 
     public ArrayList<Book> getBorrowedBooksByUser(User u) {
