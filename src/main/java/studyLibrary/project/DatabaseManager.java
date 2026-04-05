@@ -62,6 +62,10 @@ public class DatabaseManager {
         return a;
     }
      public User getUserByID(int userID) {
+        if (userCacheByID.containsKey(userID)) {
+            return userCacheByID.get(userID);
+        }
+        
         Document doc = database.getCollection("users")
                             .find(new Document("userID", userID)).first();
         if (doc == null) return null;
