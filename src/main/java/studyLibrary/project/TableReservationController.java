@@ -73,7 +73,8 @@ public class TableReservationController {
         card.getChildren().addAll(rectangle, text);
         if(MainController.getCurrentUser() instanceof Student){
             Student student = (Student) MainController.getCurrentUser();
-            if(table.getReservedBy() == student.getUserID() && table.getAvailability().equals("Reserved")){
+            Student upToDateStudent = (Student) MainController.dbManager.getUserByID(student.getUserID());
+            if(table.getReservedBy() == upToDateStudent.getUserID() && table.getAvailability().equals("Reserved")){
                 Text youText = new Text("You");
                 youText.setFill(Color.WHITE);
                 youText.setStyle("-fx-font-size: 15px; -fx-font-weight: bold;");
@@ -108,8 +109,8 @@ public class TableReservationController {
                         rectangle.setStroke(Color.web("#00ff88"));
                     }
                     table.setAvailability("Reserved");
-                    student.setreservedTable(table);
-                    student.setReservedTableNo(table.getTableNo());
+                    upToDateStudent.setreservedTable(table);
+                    upToDateStudent.setReservedTableNo(table.getTableNo());
                     table.setReservedBy(upToDateStudent.getUserID());
                     rectangle.setFill(Color.web("#D78C3D", 0.2));
                     rectangle.setStroke(Color.web("#D78C3D"));
@@ -117,15 +118,15 @@ public class TableReservationController {
                     MainController.dbManager.updateStudentReservedTable(upToDateStudent, table.getTableNo());
                     initialize();
                 }
-                else if(table.getAvailability().equals("Reserved") && table.getReservedBy() == student.getUserID()){
+                else if(table.getAvailability().equals("Reserved") && table.getReservedBy() == upToDateStudent.getUserID()){
                     table.setAvailability("Available");
                     table.setReservedBy(0);
-                    student.setReservedTableNo(0);
-                    student.setreservedTable(null);
+                    upToDateStudent.setReservedTableNo(0);
+                    upToDateStudent.setreservedTable(null);
                     rectangle.setFill(Color.web("#00ab41", 0.2));
                     rectangle.setStroke(Color.web("#00ff88"));
                     MainController.dbManager.updateTable(table);
-                    MainController.dbManager.updateStudentReservedTable(student, 0);
+                    MainController.dbManager.updateStudentReservedTable(upToDateStudent, 0);
                     initialize();
                 }
             }
