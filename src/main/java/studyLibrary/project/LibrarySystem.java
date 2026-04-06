@@ -190,11 +190,32 @@ public class LibrarySystem {
     }
 
     public boolean borrowBook(User u, Book b) {
-        return db.borrowBookDB(u, b);
+       boolean success = db.borrowBookDB(u, b);
+    if (success) {
+        for (Book book : books) {
+            if (book.getBookID() == b.getBookID()) {
+                book.setNumCopies(book.getNumCopies() - 1);
+                if (book.getNumCopies() <= 0) book.setAvailability(false);
+                break;
+            }
+        }
+    }
+    return success;
     }
 
     public boolean returnBook(User u, Book b) {
-        return db.returnBookDB(u, b);
+        boolean success = db.returnBookDB(u, b);
+    if (success) {
+        for (Book book : books) {
+            if (book.getBookID() == b.getBookID()) {
+                book.setNumCopies(book.getNumCopies() + 1);
+                book.setAvailability(true);
+                book.setDueTime(null);
+                break;
+            }
+        }
+    }
+    return success;
     }
 
     public boolean extendBook(User u, Book b) {

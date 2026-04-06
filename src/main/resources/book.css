@@ -1,9 +1,7 @@
-
 .root {
     -fx-background-color: #2D1457; 
     -fx-font-family: "Segoe UI", Arial, sans-serif;
 }
-
 
 .header-box {
     -fx-background-color: #3B1D70;
@@ -21,28 +19,54 @@
     -fx-text-fill: #FFFFFF;
 }
 
-.search-field {
+.search-field, .search-field:focused {
     -fx-background-color: #4527A0;
     -fx-text-fill: white;
     -fx-prompt-text-fill: #B39DDB;
     -fx-background-radius: 20;
     -fx-padding: 8 15;
+    -fx-highlight-fill: #FF9800;
 }
 
-.filter-combo {
-    -fx-background-color: #4527A0;
-    -fx-background-radius: 5;
-    -fx-border-color: #5E35B1;
-    -fx-border-radius: 5;
+.filter-combo, .filter-combo:focused, .filter-combo:showing {
+    -fx-background-color: transparent;
+    -fx-border-color: #FF9800;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
 }
-.filter-combo .list-cell {
+
+.filter-combo > .list-cell, .filter-combo > .list-cell:focused {
+    -fx-text-fill: #FF9800;
+    -fx-background-color: transparent;
+}
+
+.filter-combo .list-view {
+    -fx-background-color: #2D1457;
+    -fx-border-color: #FF9800;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.filter-combo .list-view .list-cell {
+    -fx-background-color: transparent;
     -fx-text-fill: white;
+}
+
+.filter-combo .list-view .list-cell:hover,
+.filter-combo .list-view .list-cell:filled:selected,
+.filter-combo .list-view .list-cell:filled:selected:hover,
+.filter-combo .list-view .list-cell:focused {
+    -fx-background-color: transparent;
+    -fx-text-fill: #FF9800;
 }
 
 .filter-checkbox {
     -fx-text-fill: #FFFFFF;
     -fx-font-weight: bold;
     -fx-font-size: 13px;
+}
+.filter-checkbox:focused {
+    -fx-background-color: transparent;
 }
 
 .search-button {
@@ -55,31 +79,38 @@
     -fx-cursor: hand;
     -fx-padding: 8 20;
 }
-.search-button:hover {
+.search-button:hover, .search-button:focused {
     -fx-background-color: #FF9800;
     -fx-text-fill: #2D1457;
 }
 
-
-.book-list-view {
+.book-list-view, .book-list-view:focused {
     -fx-background-color: #3B1D70;
     -fx-background-radius: 10;
     -fx-border-color: #5E35B1;
     -fx-border-radius: 10;
     -fx-padding: 0;
+    -fx-background-insets: 0;
 }
+
 .book-list-view .list-cell {
     -fx-background-color: transparent;
     -fx-padding: 0;
 }
-.book-list-view .list-cell:filled:selected:focused, .book-list-view .list-cell:filled:selected {
+
+.book-list-view .list-cell:focused,
+.book-list-view .list-cell:selected,
+.book-list-view .list-cell:filled:selected:focused, 
+.book-list-view .list-cell:filled:selected {
     -fx-background-color: #512DA8;
+    -fx-text-fill: white;
 }
 
 .cell-root-box {
     -fx-padding: 15px;
     -fx-border-color: #5E35B1;
     -fx-border-width: 0 0 1 0;
+    -fx-background-color: transparent;
 }
 
 .cell-title {
@@ -113,7 +144,7 @@
     -fx-font-weight: bold;
     -fx-padding: 5 15;
 }
-.cell-action-button:hover {
+.cell-action-button:hover, .cell-action-button:focused {
     -fx-background-color: #FF9800;
     -fx-text-fill: #2D1457;
 }
@@ -127,10 +158,9 @@
     -fx-font-weight: bold;
     -fx-padding: 5 15;
 }
-.cell-details-button:hover {
+.cell-details-button:hover, .cell-details-button:focused {
     -fx-background-color: #0288D1;
 }
-
 
 .back-button {
     -fx-background-color: transparent;
@@ -141,7 +171,7 @@
     -fx-border-radius: 10;
     -fx-padding: 8 15;
 }
-.back-button:hover {
+.back-button:hover, .back-button:focused {
     -fx-text-fill: #FFFFFF;
     -fx-border-color: #FFFFFF;
 }
@@ -156,7 +186,18 @@
     -fx-cursor: hand;
     -fx-padding: 10 20;
 }
-.borrow-main-button:hover {
+.borrow-main-button:hover, .borrow-main-button:focused {
     -fx-background-color: #FF9800;
     -fx-text-fill: #2D1457;
+}
+
+/* Ekranda beliren animasyonlu bildirim mesajının tasarımı */
+.information-label {
+    -fx-background-color: #2ecc71; /* Tatlı bir yeşil */
+    -fx-text-fill: #2D1457; /* Koyu mor yazı */
+    -fx-padding: 10 20;
+    -fx-background-radius: 20;
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 4);
 }
