@@ -8,14 +8,15 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@student.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.MessageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@student.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.MessageController">
    <left>
-      <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="250.0" spacing="15.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefWidth="250.0" spacing="15.0" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" prefHeight="44.0" prefWidth="80.0" text="Friends" textFill="#b0a8a8">
+            <Label alignment="CENTER" prefHeight="95.0" prefWidth="80.0" text="Friends" textFill="#b0a8a8">
                <padding>
                   <Insets top="10.0" />
                </padding>
@@ -23,12 +24,12 @@
                   <Font name="System Italic" size="19.0" />
                </font>
             </Label>
-            <ListView fx:id="friendList" prefHeight="365.0" prefWidth="200.0" />
+            <ListView fx:id="friendList" prefHeight="479.0" prefWidth="250.0" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
    </left>
    <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
             <HBox alignment="BOTTOM_LEFT" prefHeight="88.0" prefWidth="350.0" styleClass="chat-header">
                <children>
@@ -42,12 +43,12 @@
                   <Insets left="10.0" />
                </padding>
             </HBox>
-            <ScrollPane fx:id="chatPane" fitToWidth="true" prefHeight="250.0" prefWidth="300.0">
+            <ScrollPane fx:id="chatPane" fitToWidth="true" prefHeight="280.0" prefWidth="650.0" VBox.vgrow="ALWAYS">
                <content>
-                  <VBox fx:id="chatBox" prefHeight="250.0" prefWidth="337.0" spacing="10.0" />
+                  <VBox fx:id="chatBox" prefHeight="280.0" prefWidth="640.0" spacing="10.0" />
                </content>
             </ScrollPane>
-            <HBox alignment="BASELINE_CENTER" prefHeight="109.0" prefWidth="350.0" spacing="10.0">
+            <HBox alignment="CENTER" prefHeight="109.0" prefWidth="350.0" spacing="10.0">
                <children>
                   <TextField fx:id="messageField" styleClass="message-input-field" />
                   <Button fx:id="sendButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#sendMessage" styleClass="send-button" text="Send" />
@@ -57,10 +58,20 @@
       </VBox>
    </center>
    <top>
-      <Label alignment="CENTER" prefHeight="62.0" prefWidth="602.0" text="MESSAGING PAGE" textFill="#d0cbcb" BorderPane.alignment="CENTER">
-         <font>
-            <Font size="25.0" />
-         </font>
-      </Label>
+      <HBox alignment="CENTER_LEFT" prefHeight="90.0" prefWidth="900.0" spacing="65.0">
+         <children>
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#backToDashboard" prefHeight="35.0" prefWidth="255.0" style="-fx-background-color: #2d2d3d; -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 7 14;" styleClass="return-button" text="← Go Back" textFill="WHITE" />
+            <Region prefHeight="90.0" prefWidth="0.0" />
+            <Label alignment="CENTER" prefHeight="62.0" prefWidth="600.0" text="MESSAGING PAGE" textFill="#d0cbcb">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+            <Region prefHeight="90.0" prefWidth="340.0" />
+         </children>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </HBox>
    </top>
 </BorderPane>

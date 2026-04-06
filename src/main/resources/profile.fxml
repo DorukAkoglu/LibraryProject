@@ -5,7 +5,6 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -43,8 +42,8 @@
          </children></VBox>
    </left>
    <center>
-      <ScrollPane prefHeight="588.0" prefWidth="597.0" styleClass="root" BorderPane.alignment="TOP_CENTER">
-         <content>
+      <VBox BorderPane.alignment="TOP_CENTER">
+         <children>
             <VBox fx:id="propertiesBox" alignment="CENTER" prefHeight="676.0" prefWidth="565.0" spacing="15.0">
                <padding>
                   <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
@@ -56,7 +55,8 @@
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
-                     </cursor></ImageView>
+                     </cursor>
+                  </ImageView>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#uploadPhoto" styleClass="dashboard-button" text="Upload Photo" />
@@ -91,27 +91,32 @@
                            </styleClass>
                            <padding>
                               <Insets bottom="10.0" left="100.0" right="10.0" top="10.0" />
-                           </padding></TextField>
+                           </padding>
+                        </TextField>
                         <TextField fx:id="txtID" prefHeight="22.0" prefWidth="205.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <styleClass>
                               <String fx:value="nav-button" />
                               <String fx:value="profile-text-field" />
-                           </styleClass></TextField>
+                           </styleClass>
+                        </TextField>
                         <TextField fx:id="txtDept" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <styleClass>
                               <String fx:value="nav-button" />
                               <String fx:value="profile-text-field" />
-                           </styleClass></TextField>
+                           </styleClass>
+                        </TextField>
                         <TextField fx:id="txtEmail" prefHeight="62.0" prefWidth="205.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <styleClass>
                               <String fx:value="nav-button" />
                               <String fx:value="profile-text-field" />
-                           </styleClass></TextField>
+                           </styleClass>
+                        </TextField>
                         <TextField fx:id="txtAge" GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <styleClass>
                               <String fx:value="nav-button" />
                               <String fx:value="profile-text-field" />
-                           </styleClass></TextField>
+                           </styleClass>
+                        </TextField>
                      </children>
                   </GridPane>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="15.0">
@@ -125,10 +130,7 @@
                   </HBox>
                </children>
             </VBox>
-         </content>
-         <padding>
-            <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
-         </padding>
-      </ScrollPane>
+         </children>
+      </VBox>
    </center>
 </BorderPane>

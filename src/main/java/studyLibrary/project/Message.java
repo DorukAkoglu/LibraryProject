@@ -85,4 +85,7 @@ public class Message {
     public void setEdited(boolean edited) {
         this.isEdited = edited;
     }
+    public boolean isDeleted() {
+        return this.isDeleted;
+    }
 }
