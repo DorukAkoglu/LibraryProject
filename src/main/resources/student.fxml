@@ -50,6 +50,8 @@
                         <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
                      </padding>
                      <children>
+                        <Label fx:id="notificationBadge" styleClass="notification-badge" text="0" visible="false" />
+                        <Button fx:id="notificationButton" mnemonicParsing="false" onAction="#openNotifications" styleClass="notification-button" text="🔔" />
                         <Label prefHeight="25.0" prefWidth="151.0" text="Student Dashboard">
                            <font>
                               <Font name="System Bold Italic" size="16.0" />

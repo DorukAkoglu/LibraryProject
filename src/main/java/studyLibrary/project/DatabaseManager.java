@@ -661,7 +661,7 @@ public class DatabaseManager {
         b.setNumCopies(b.getNumCopies() - 1);
         if(b.getNumCopies() <= 0) b.setAvailability(false);
         updateBook(b);
-        
+        NotificationManager.getInstance().notifyBookBorrowed(u, b);
         return true;
     }
 
@@ -701,6 +701,18 @@ public class DatabaseManager {
     }
 
     public boolean reserveBookDB(User u, Book b) {
+        // Kitap zaten dışarıdaysa rezerve edilebilir
+        if (b.isAvailable()) return false; 
+        
+        org.bson.Document reserveInfo = new org.bson.Document("bookID", b.getBookID())
+                                            .append("status", "Waiting");
+        
+        database.getCollection("users").updateOne(
+                new org.bson.Document("userID", u.getUserID()),
+                new org.bson.Document("$push", new org.bson.Document("reservedBooks", reserveInfo))
+        );
+        NotificationManager.getInstance().notifyBookReserved(u, b);
+        return true;
     if (b.isAvailable()) return false;
 
     // Zaten reserve etmiş mi kontrol et
@@ -809,6 +821,51 @@ public class DatabaseManager {
         a.setProfilePicture(doc.getString("profilePhoto"));
         return a;
     }
+    public void saveNotification(Notification notification) {
+        Document doc = new Document("id", notification.getId())
+            .append("userID", notification.getUserID())
+            .append("title", notification.getTitle())
+            .append("message", notification.getMessage())
+            .append("type", notification.getType().toString())
+            .append("isRead", notification.isRead())
+            .append("timestamp", notification.getTimestamp().toString());
+        database.getCollection("notifications").insertOne(doc);
+    }
 
+    public ArrayList<Notification> getNotificationsForUser(int userID) {
+        ArrayList<Notification> list = new ArrayList<>();
+        for (Document doc : database.getCollection("notifications")
+                .find(new Document("userID", userID))
+                .sort(new Document("timestamp", -1))) {
+            Notification notification = new Notification(
+                doc.getInteger("userID"),
+                doc.getString("title"),
+                doc.getString("message"),
+                Notification.NotificationType.valueOf(doc.getString("type"))
+            );
+            notification.setId(doc.getString("id"));
+            notification.setRead(doc.getBoolean("isRead"));
+            notification.setTimestamp(java.time.LocalDateTime.parse(doc.getString("timestamp")));
+            list.add(notification);
+        }
+        return list;
+    }
 
+    public void markAllNotificationsRead(int userID) {
+        database.getCollection("notifications").updateMany(
+            new Document("userID", userID).append("isRead", false),
+            new Document("$set", new Document("isRead", true))
+        );
+    }
+
+    public void markNotificationRead(String notificationId) {
+        database.getCollection("notifications").updateOne(
+            new Document("id", notificationId),
+            new Document("$set", new Document("isRead", true))
+        );
+    }
+    public void deleteAllNotifications(int userID) {
+        database.getCollection("notifications")
+                .deleteMany(new Document("userID", userID));
+    }
 }

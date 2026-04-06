@@ -100,6 +100,8 @@ public class StudyMateSessionController {
         }
         StudyRequest studyRequest = new StudyRequest(student, matchedStudent, student.getSelectedCourse());
         dbManager.saveStudyRequest(studyRequest);
+        NotificationManager.getInstance().notifyStudyRequestReceived(
+            matchedStudent, student);
         matchedStudent.addStudyRequest(studyRequest);
         showRequestMessage("Request successfully sent to " + matchedStudent.getName() + ".");
     }

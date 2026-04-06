@@ -163,6 +163,7 @@ public class TableReservationController {
                         MainController.dbManager.updateStudentOccupiedStatus(student, true);
                         MainController.dbManager.updateStudentReservedTable(student, 0);
                         MainController.dbManager.updateTable(table);
+                        NotificationManager.getInstance().notifyTableConfirmed(student, table.getTableNo());
                         initialize();
                     }
                 });
