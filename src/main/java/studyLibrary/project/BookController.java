@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +23,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class BookController {
     @FXML private TextField searchField;
@@ -31,7 +33,7 @@ public class BookController {
     @FXML private ComboBox<String> categoryFilter;
     @FXML private ComboBox<String> pagesFilter;
     @FXML private CheckBox availabilityFilter;
-
+    @FXML private VBox notificationBox;
     private LibrarySystem system;
     private static final int BORROW_DURATION = 14;
     private User currentUser;
@@ -73,7 +75,7 @@ public class BookController {
                     // Sol Taraf: Kapak Fotoğrafı
                     ImageView bookCover = new ImageView();
                     try {
-                        Image img = new Image(getClass().getResourceAsStream("images/download.jpg"));
+                        Image img = new Image(getClass().getResourceAsStream("images/books.png"));
                         bookCover.setImage(img);
                         bookCover.setFitHeight(120);
                         bookCover.setFitWidth(85);
@@ -114,14 +116,15 @@ public class BookController {
 
                     Button detailsBtn = new Button("Show Details");
                     detailsBtn.getStyleClass().add("cell-details-button");
+                    
                     borrowBtn.setDisable(!book.isAvailable());
                     borrowBtn.setOnAction(e -> {
                         boolean success = system.borrowBookDB(currentUser, book);
                         if (success) {
-                            showAlert("Success", "Book successfully borrowed!", Alert.AlertType.INFORMATION);
+                            displayTheInformation("Success: Book successfully borrowed!");
                             handleSearchAction();
                         } else {
-                            showAlert("Error", "This book is currently out of stock!", Alert.AlertType.ERROR);
+                            displayTheInformation("Error: This book is currently out of stock!");
                         }
                     });
 
@@ -129,16 +132,15 @@ public class BookController {
                     reserveBtn.setOnAction(e -> {
                         boolean success = system.reserveBookDB(currentUser, book);
                         if (success) {
-                            showAlert("Success", "Book reserved!", Alert.AlertType.INFORMATION);
+                            displayTheInformation("Success: Book reserved!");
                         } else {
-                            showAlert("Error", "Book is available, no need to reserve!", Alert.AlertType.ERROR);
+                            displayTheInformation("Error: Book is available, no need to reserve!");
                         }
                     });
                     
                     detailsBtn.setOnAction(e -> {
                         System.out.println("Navigating to details page for: " + book.getTitle());
                         try {
-                            
                             javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/review.fxml")); 
                             javafx.scene.Parent reviewRoot = loader.load();
 
@@ -166,7 +168,7 @@ public class BookController {
             }
         });
     }
-
+    
     @FXML
     private void goBackToDashboard(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/student.fxml"));
@@ -200,14 +202,32 @@ public class BookController {
 
     }
 
-    private void showAlert(String title, String message, Alert.AlertType type) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
+    private void displayTheInformation(String message) {
+        Label information = new Label(message);
+        information.getStyleClass().add("information-label");
 
+        if (notificationBox != null) {
+            notificationBox.getChildren().add(0, information); 
+        } else {
+            System.out.println("Notification (UI Box Missing): " + message);
+        }
+
+        FadeTransition startFade = new FadeTransition(Duration.millis(300), information);
+        startFade.setFromValue(0.0);
+        startFade.setToValue(1.0);
+
+        FadeTransition finishFade = new FadeTransition(Duration.millis(500), information);
+        finishFade.setFromValue(1.0);
+        finishFade.setToValue(0.0);
+        finishFade.setDelay(Duration.seconds(2)); 
+
+        finishFade.setOnFinished(e -> {
+            if (notificationBox != null) notificationBox.getChildren().remove(information);
+        });
+
+        startFade.setOnFinished(e -> finishFade.play());
+        startFade.play();
+    }
     
 
     

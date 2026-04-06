@@ -16,6 +16,8 @@
                 <Insets bottom="20.0" />
             </BorderPane.margin>
             
+            <VBox fx:id="notificationBox" alignment="TOP_CENTER" mouseTransparent="true" />
+            
             <Label text="Library Book Search" styleClass="header-title" />
             
             <HBox alignment="CENTER_LEFT" spacing="20.0">
