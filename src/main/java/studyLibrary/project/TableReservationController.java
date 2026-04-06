@@ -17,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
@@ -28,6 +29,7 @@ import javafx.stage.Stage;
 
 public class TableReservationController {
     @FXML private Label nameLabel;
+    @FXML private ImageView profilepicture;
     @FXML private Label departmentLabel;
     @FXML private FlowPane tableContainer;
     Table previousReservedTable;
@@ -35,6 +37,9 @@ public class TableReservationController {
     public void initialize(){
         if(MainController.getCurrentUser() instanceof Student){
             Student student = (Student) MainController.getCurrentUser();
+            if (student.getProfilePhoto() != null) {
+                profilepicture.setImage(new javafx.scene.image.Image(student.getProfilePhoto()));
+            }
             nameLabel.setText(student.getName());
             departmentLabel.setText(student.getDepartment());
         }

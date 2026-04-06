@@ -2,6 +2,7 @@ package studyLibrary.project;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,6 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import studyLibrary.project.Comment;
 
 
 public class DatabaseManager {
@@ -161,7 +161,7 @@ public class DatabaseManager {
         for (Review r : b.getReviews()) {
             ArrayList<Document> commentDocs = new ArrayList<>();
             for (Comment c : r.getComments()) {
-                commentDocs.add(new Document("userEmail", c.getUser()).append("comment", c.getContent()));
+                commentDocs.add(new Document("userEmail", c.getUser().getEmail()).append("comment", c.getContent()));
             }
             reviewDocs.add(new Document("userEmail", r.getUser().getEmail()).append("bookID", r.getBook().getBookID()).append("content", r.getContent()) .append("ratings", r.getRating()).append("comments", commentDocs));
 
@@ -337,7 +337,7 @@ public class DatabaseManager {
         for (Review r : b.getReviews()) {
             ArrayList <Document> commentDocs = new ArrayList<>();
             for(Comment c : r.getComments()) {
-                commentDocs.add(new Document("userEmail", c.getUser()).append("comment", c.getContent()));
+                commentDocs.add(new Document("userEmail", c.getUser().getEmail()).append("comment", c.getContent()));
             }
             reviewDocs.add(new Document("userEmail", r.getUser().getEmail()).append("bookID", r.getBook().getBookID()).append("content", r.getContent()) .append("ratings", r.getRating()).append("comments", commentDocs));
 
@@ -401,6 +401,7 @@ public class DatabaseManager {
                 if (doc.get("duetime") != null) b.setDueTime(LocalDate.parse(doc.get("duetime").toString()));
             books.add(b);
         }
+        Collections.sort(books);
         return books;    
     }
 
@@ -645,7 +646,7 @@ public class DatabaseManager {
     }
 
     public boolean borrowBookDB(User u, Book b) {
-        if (!b.isAvailable() || b.getNumCopies() <= 0) return false;
+        if (!b.isAvailable() || b.getNumCopies() <= 0 || getBorrowedBooksByUser(u).contains(b)) return false;
         MongoCollection<org.bson.Document> usersCollection = database.getCollection("users");
         org.bson.Document borrowedInfo = new org.bson.Document("bookID", b.getBookID())
                                              .append("dueDate", LocalDate.now().plusDays(14).toString());

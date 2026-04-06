@@ -120,6 +120,15 @@ public class Book implements Comparable<Book> {
 
     @Override
     public int compareTo(Book b) {
-        return Integer.compare(bookID, b.getBookID());
+        return this.title.compareTo(b.getTitle());
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Book) {
+            Book b = (Book) o;
+            return this.bookID == b.getBookID();
+        } else {
+            return false;
+        }
     }
 }
