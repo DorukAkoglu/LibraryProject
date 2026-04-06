@@ -57,11 +57,6 @@
                               <Insets left="50.0" right="50.0" />
                            </VBox.margin>
                            <children>
-                              <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@images/defaultProfilePicture.png" />
-                                 </image>
-                              </ImageView>
                               <Label alignment="CENTER" prefHeight="30.0" prefWidth="70.0" style="-fx-text-fill: grey;" text="User ID" />
                               <TextField fx:id="txtID" prefHeight="25.0" prefWidth="125.0" style="-fx-background-color: #2c3e50; -fx-text-fill: white;" />
                            </children>
@@ -76,11 +71,6 @@
                                     <Insets />
                                  </opaqueInsets>
                                  <children>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@images/lock.png" />
-                                       </image>
-                                    </ImageView>
                                     <Label alignment="CENTER" prefHeight="30.0" prefWidth="69.0" style="-fx-text-fill: grey;" text="Password" />
                                     <VBox prefHeight="46.0" prefWidth="120.0">
                                        <children>
@@ -104,11 +94,6 @@
                                     <Insets />
                                  </opaqueInsets>
                                  <children>
-                                    <ImageView fitHeight="40.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@images/defaultProfilePicture.png" />
-                                       </image>
-                                    </ImageView>
                                     <Label alignment="CENTER" prefHeight="30.0" prefWidth="70.0" style="-fx-text-fill: gray;" text="Full Name" />
                                     <TextField fx:id="txtFullName" prefHeight="25.0" prefWidth="124.0" style="-fx-background-color: #2c3e50; -fx-text-fill: white;" />
                                  </children>
@@ -125,12 +110,7 @@
                                     <Insets />
                                  </opaqueInsets>
                                  <children>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@images/defaultProfilePicture.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Label alignment="CENTER" prefHeight="30.0" prefWidth="70.0" style="-fx-text-fill: gray;" text="Age" />
+                                    <Label alignment="CENTER" prefHeight="24.0" prefWidth="54.0" style="-fx-text-fill: gray;" text="Age" />
                                     <TextField fx:id="txtAge" prefHeight="25.0" prefWidth="125.0" style="-fx-background-color: #2c3e50; -fx-text-fill: white;" />
                                  </children>
                                  <HBox.margin>
@@ -146,11 +126,6 @@
                                     <Insets />
                                  </opaqueInsets>
                                  <children>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@images/defaultProfilePicture.png" />
-                                       </image>
-                                    </ImageView>
                                     <Label alignment="CENTER" prefHeight="30.0" prefWidth="70.0" style="-fx-text-fill: gray;" text="E-mail" />
                                     <TextField fx:id="txtEmail" prefHeight="25.0" prefWidth="125.0" style="-fx-background-color: #2c3e50; -fx-text-fill: white;" />
                                  </children>
@@ -167,11 +142,6 @@
                                     <Insets />
                                  </opaqueInsets>
                                  <children>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@images/defaultProfilePicture.png" />
-                                       </image>
-                                    </ImageView>
                                     <Label alignment="CENTER" prefHeight="30.0" prefWidth="70.0" style="-fx-text-fill: gray;" text="Department" />
                                     <ComboBox fx:id="comboBoxDept" prefHeight="25.0" prefWidth="125.0" styleClass="combo-box" />
                                  </children>
