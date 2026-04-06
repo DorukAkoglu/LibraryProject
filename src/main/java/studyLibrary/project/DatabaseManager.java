@@ -701,18 +701,6 @@ public class DatabaseManager {
     }
 
     public boolean reserveBookDB(User u, Book b) {
-        // Kitap zaten dışarıdaysa rezerve edilebilir
-        if (b.isAvailable()) return false; 
-        
-        org.bson.Document reserveInfo = new org.bson.Document("bookID", b.getBookID())
-                                            .append("status", "Waiting");
-        
-        database.getCollection("users").updateOne(
-                new org.bson.Document("userID", u.getUserID()),
-                new org.bson.Document("$push", new org.bson.Document("reservedBooks", reserveInfo))
-        );
-        NotificationManager.getInstance().notifyBookReserved(u, b);
-        return true;
     if (b.isAvailable()) return false;
 
     // Zaten reserve etmiş mi kontrol et
@@ -867,5 +855,27 @@ public class DatabaseManager {
     public void deleteAllNotifications(int userID) {
         database.getCollection("notifications")
                 .deleteMany(new Document("userID", userID));
+    }
+    public ArrayList<StudyRequest> getSentStudyRequests(String userEmail) {
+        ArrayList<StudyRequest> requests = new ArrayList<>();
+        for (Document userDoc : database.getCollection("users").find()) {
+            if (userDoc.get("requests") == null) continue;
+            List<Document> requestDocs = (List<Document>) userDoc.get("requests");
+            for (Document doc : requestDocs) {
+                if (doc.getString("senderEmail").equals(userEmail)) {
+                    RequestStatus status = RequestStatus.valueOf(doc.getString("status"));
+                    User sender = getUserByEmail(userEmail);
+                    User receiver = getUserByEmail(userDoc.getString("email"));
+                    
+                    if (sender instanceof Student && receiver instanceof Student) {
+                        StudyRequest request = new StudyRequest((Student) sender, (Student) receiver, 
+                            doc.getString("course"));
+                        request.setStatus(status);
+                        requests.add(request);
+                    }
+                }
+            }
+        }
+        return requests;
     }
 }

@@ -18,6 +18,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TabPane;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -33,18 +34,24 @@ public class StudyRequestController {
     // private LibrarySystem librarySystem = new LibrarySystem();
     @FXML
     private VBox requestsBox; 
+    @FXML 
+    private VBox sentRequestsBox;
     @FXML
     private Button returnButton;
-    private List<StudyRequest> activeRequests; // for testing purposes, replace with actual data retrieval from librarySystem
+    private List<StudyRequest> activeRequests;
+    private List<StudyRequest> sentRequests;
     @FXML
-    private ScrollPane myScrollPane;
+    private ScrollPane myScrollPane, sentScrollPane;
+    @FXML 
+    private TabPane tabPane;
     @FXML
     public void initialize(){
         db.connect();
         //activeRequests = LibrarySystem.getInstance().getRequests();
         activeRequests = db.getStudyRequestsForUser(MainController.getCurrentUser().getEmail());
-        
+        sentScrollPane.setFitToWidth(true);
         myScrollPane.setFitToWidth(true); 
+        sentRequestsBox.setFillWidth(true);
         requestsBox.setFillWidth(true);
         returnButton.setOnAction(new EventHandler<ActionEvent>(){
         @Override
@@ -62,6 +69,7 @@ public class StudyRequestController {
         else {
             displayRequests();
         }
+        displaySentRequests();
     }
 
     private void displayRequests(){
@@ -161,11 +169,22 @@ public class StudyRequestController {
     }
     private void checkIfEmpty() {
         if (activeRequests.isEmpty()) {
-            requestsBox.getChildren().clear();
-            Label emptyListLabel = new Label("There are no pending study requests.");
-            emptyListLabel.getStyleClass().add("empty-label");
-            requestsBox.setAlignment(Pos.CENTER);
-            requestsBox.getChildren().add(emptyListLabel);
+            requestsBox.getChildren().removeIf(node -> 
+                !node.getStyleClass().contains("information-label")
+            );
+            boolean hasEmptyLabel = false;
+            for (javafx.scene.Node node : requestsBox.getChildren()) {
+                if (node instanceof Label && ((Label) node).getStyleClass().contains("empty-label")) {
+                    hasEmptyLabel = true;
+                    break;
+                }
+            }
+            if (!hasEmptyLabel) {
+                Label emptyListLabel = new Label("There are no pending study requests.");
+                emptyListLabel.getStyleClass().add("empty-label");
+                requestsBox.setAlignment(Pos.CENTER_LEFT);
+                requestsBox.getChildren().add(emptyListLabel);
+            }
         }
     }
 
@@ -200,5 +219,38 @@ public class StudyRequestController {
             }
         });
         startFade.play();
+    }
+    private void displaySentRequests() {
+        sentRequestsBox.getChildren().clear();
+        sentRequestsBox.setSpacing(10);
+        ArrayList<StudyRequest> sentList = db.getSentStudyRequests(MainController.getCurrentUser().getEmail());
+        if (sentList.isEmpty()) {
+            Label emptyLabel = new Label("You haven't sent any requests yet.");
+            emptyLabel.getStyleClass().add("empty-label");
+            sentRequestsBox.getChildren().add(emptyLabel);
+        } else {
+            for (StudyRequest request : sentList) {
+                sentRequestsBox.getChildren().add(createSentRequestCard(request));
+            }
+        }
+    }
+    private HBox createSentRequestCard(StudyRequest request) {
+        HBox box = new HBox(15);
+        box.getStyleClass().add("request-card"); 
+        Label infoLabel = new Label("Sent to: " + request.getReceiver().getName() + " (" + request.getCourse() + ")");
+        Label statusLabel = new Label("[" + request.getStatus() + "]");
+        statusLabel.setStyle("-fx-text-fill: #f39c12;"); 
+        Button cancelButton = new Button("Cancel");
+        cancelButton.getStyleClass().add("reject-button"); 
+        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                db.removeStudyRequest(request);
+                displayTheInformation("Request cancelled.");
+                displaySentRequests();
+            }
+        });
+        box.getChildren().addAll(infoLabel, statusLabel, cancelButton);
+        return box;
     }
 }
