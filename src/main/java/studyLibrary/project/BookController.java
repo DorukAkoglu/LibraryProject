@@ -18,10 +18,10 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.image.ImageView;
 
 public class BookController {
     @FXML private TextField searchField;
@@ -90,7 +90,7 @@ public class BookController {
                     authorLabel.getStyleClass().add("cell-author");
 
                     // Yıldızlar
-                    int rating = 0;
+                    int rating = (int) Math.round((double) book.getAverageRating());
                     StringBuilder starText = new StringBuilder();
                     for(int i=0; i<5; i++) { starText.append((i < rating) ? "★" : "☆"); }
                     Label starsLabel = new Label(starText.toString());
@@ -114,6 +114,26 @@ public class BookController {
 
                     Button detailsBtn = new Button("Show Details");
                     detailsBtn.getStyleClass().add("cell-details-button");
+                    borrowBtn.setDisable(!book.isAvailable());
+                    borrowBtn.setOnAction(e -> {
+                        boolean success = system.borrowBookDB(currentUser, book);
+                        if (success) {
+                            showAlert("Success", "Book successfully borrowed!", Alert.AlertType.INFORMATION);
+                            handleSearchAction();
+                        } else {
+                            showAlert("Error", "This book is currently out of stock!", Alert.AlertType.ERROR);
+                        }
+                    });
+
+                    reserveBtn.setDisable(book.isAvailable());
+                    reserveBtn.setOnAction(e -> {
+                        boolean success = system.reserveBookDB(currentUser, book);
+                        if (success) {
+                            showAlert("Success", "Book reserved!", Alert.AlertType.INFORMATION);
+                        } else {
+                            showAlert("Error", "Book is available, no need to reserve!", Alert.AlertType.ERROR);
+                        }
+                    });
                     
                     detailsBtn.setOnAction(e -> {
                         System.out.println("Navigating to details page for: " + book.getTitle());
@@ -137,10 +157,6 @@ public class BookController {
                         }
                     });
                     
-                    borrowBtn.setOnAction(e -> {
-                         System.out.println("Borrow requested for: " + book.getTitle());
-                    });
-
                     buttonsBox.getChildren().addAll(borrowBtn, reserveBtn, detailsBtn);
                     detailsBox.getChildren().addAll(titleLabel, authorLabel, starsLabel, availLabel, buttonsBox);
                     root.getChildren().addAll(bookCover, detailsBox);

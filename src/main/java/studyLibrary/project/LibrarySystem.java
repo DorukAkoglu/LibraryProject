@@ -161,6 +161,14 @@ public class LibrarySystem {
             db.updateUser(u);
         }
     }
+    public boolean  reserveBookDB(User u, Book b) {
+        return db.reserveBookDB(u, b);
+    }
+
+    public boolean  borrowBookDB(User u, Book b) {
+        return db.borrowBookDB(u, b);
+    }
+
     public Map<String, ArrayList<Message>> getChatsByPerson(String userEmail) {
         return db.getChatsByPerson(userEmail);
     }
