@@ -1,6 +1,7 @@
 package studyLibrary.project;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,26 +22,34 @@ public class StudentController {
     @FXML private Button btnStudyMate, btnLibrary;
     @FXML private Button notificationButton;
     @FXML private Label notificationBadge;
+    DatabaseManager db = new DatabaseManager();
 
     @FXML
     public void initialize() {
+        db.connect();
        if (MainController.getCurrentUser().getProfilePhoto() != null && !MainController.getCurrentUser().getProfilePhoto().isEmpty()) {
             profileImage.setImage(new Image(MainController.getCurrentUser().getProfilePhoto(), true));
-            profileImage.setImage(new Image(MainController.getCurrentUser().getProfilePhoto(), true));
-        } else {
-            profileImage.setImage(new Image(getClass().getResourceAsStream("/images/defaultProfilePicture.png")));
+        } 
+        else {
             profileImage.setImage(new Image(getClass().getResourceAsStream("/images/defaultProfilePicture.png")));
         }
         profileImage.setFitHeight(50);
         profileImage.setFitWidth(50);
-        
         Circle clip = new Circle(25, 25, 25);
         profileImage.setClip(clip);
         profileImage.getStyleClass().add("profile-pic");
         Student student = (Student) MainController.getCurrentUser();
         userNameLabel.setText(student.getName());
         departmentLabel.setText(student.getDepartment());
-        requestLabel.setText("You have " + student.getStudyRequest().size() +" study requests.");
+        ArrayList<StudyRequest> requests = db.getStudyRequestsForUser(student.getEmail());
+        int newRequestsCount = 0;
+        for (StudyRequest request : requests) {
+            if (request.getReceiver().getEmail().equals(student.getEmail()) && 
+                request.getStatus() == RequestStatus.PENDING) {
+                newRequestsCount++;
+            }
+        }
+        requestLabel.setText("You have " + newRequestsCount +" study requests.");
         refreshNotificationBadge();
         NotificationManager.getInstance().checkDueDates(student,
             LibrarySystem.getInstance().getBorrowedBooksByUser(student));

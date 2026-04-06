@@ -383,21 +383,8 @@
 }
 
 .notification-button:hover {
-    -fx-background-color: #2d2d3d;
+    -fx-background-color: hsl(240, 14%, 29%);
     -fx-background-radius: 50;
-}
-
-.notification-badge {
-    -fx-background-color: #e74c3c;
-    -fx-text-fill: white;
-    -fx-font-size: 9px;
-    -fx-font-weight: bold;
-    -fx-min-width: 16px;
-    -fx-min-height: 16px;
-    -fx-background-radius: 50;
-    -fx-alignment: center;
-    -fx-translate-x: 8;
-    -fx-translate-y: -8;
 }
 .requests-tab-pane .tab-header-area .tab-header-background {
     -fx-background-color: #1e1e2e;
