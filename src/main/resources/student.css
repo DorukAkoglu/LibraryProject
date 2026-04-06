@@ -399,3 +399,32 @@
     -fx-translate-x: 8;
     -fx-translate-y: -8;
 }
+.requests-tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #1e1e2e;
+}
+.requests-tab-pane .tab {
+    -fx-background-color: #acacbc;
+    -fx-padding: 8 20;
+}
+.requests-tab-pane .tab:selected {
+    -fx-background-color: #3f3f45;
+}
+.requests-tab-pane .tab .tab-label {
+    -fx-text-fill: #d8d1d1;
+    -fx-font-size: 13px;
+}
+.requests-tab-pane .tab:selected .tab-label {
+    -fx-text-fill: rgb(151, 141, 141);
+    -fx-font-weight: bold;
+}
+.requests-tab-pane .tab-content-area {
+    -fx-background-color: #12121f;
+}
+.requests-tab-pane .tab:focused {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+.requests-tab-pane:focused {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
