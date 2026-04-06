@@ -14,7 +14,7 @@
    <left>
       <VBox alignment="CENTER" prefHeight="589.0" prefWidth="259.0" spacing="25.0" styleClass="sidemenu" stylesheets="@student.css" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="132.0" fitWidth="138.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="profilepicture" fitHeight="132.0" fitWidth="138.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/defaultProfilePicture.png" />
                </image>

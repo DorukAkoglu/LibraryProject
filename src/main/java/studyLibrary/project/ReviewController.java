@@ -66,7 +66,7 @@ public class ReviewController {
 
                     if (review.getComments() != null) {
                         for (Comment c : review.getComments()) {
-                            Label commentLabel = new Label("    → " + c.getContent());
+                            Label commentLabel = new Label( c.getUser().getName() + " → " + c.getContent());
                             commentLabel.setStyle("-fx-text-fill: gray;");
                             root.getChildren().add(commentLabel);
                         }
