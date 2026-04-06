@@ -240,6 +240,7 @@ public class DatabaseManager {
 
     public void removeUser(User u) {
         database.getCollection("users").deleteOne(new Document("userID", u.getUserID()));
+        invalidateUserCache(u);
     }
 
     public void saveChat(Message m) {
@@ -269,6 +270,8 @@ public class DatabaseManager {
                                     .append("timestamp", r.getTimestamp().toString());
 
         collection.updateOne(filter, new Document("$push", new Document("requests", requestDoc)));
+        invalidateUserCache(r.getReceiver());
+        invalidateUserCache(r.getSender());
     }
     public void updateStudyRequestStatus(StudyRequest r) {
         MongoCollection<Document> collection = database.getCollection("users");
@@ -278,10 +281,10 @@ public class DatabaseManager {
                             .append("requests.course", r.getCourse());
 
         Document update = new Document("$set", new Document("requests.$.status", r.getStatus().toString()));
-
+        invalidateUserCache(r.getReceiver());
         collection.updateOne(filter, update);
     }
-    public void updateUser(User u) {
+    public void updateUser(User u) { 
         Document update = new Document("$set", new Document("name", u.getName())
                 .append("email",    u.getEmail())
                 .append("password", u.getPassword())
@@ -297,6 +300,7 @@ public class DatabaseManager {
         }
         database.getCollection("users")
                 .updateOne(new Document("userID", u.getUserID()), update);
+        invalidateUserCache(u);
     }
 
     public void removeStudyRequest(StudyRequest r) {
@@ -309,6 +313,7 @@ public class DatabaseManager {
 
         Document update = new Document("$pull", new Document("requests", pullValue));
         collection.updateOne(filter, update);
+        invalidateUserCache(r.getReceiver());
     }
 
     public void saveStudyMatch(StudyMatch m) {
@@ -449,6 +454,7 @@ public class DatabaseManager {
             }
             studyMates.add(other);
         }
+        studyMates.sort((a, b) -> calculateCompatibilityScore(student, b) - calculateCompatibilityScore(student, a));
         return studyMates;
     }
 
@@ -585,6 +591,7 @@ public class DatabaseManager {
         Document filter = new Document("userID", student.getUserID()); // Öğrenciyi email ile bul
         Document update = new Document("$set", new Document("reservedTableNo", tableNo));
         collection.updateOne(filter, update);
+        invalidateUserCache(student);
     }
     public void updateStudentOccupiedStatus(Student student, boolean isOccupied){
         MongoCollection<Document> collection = database.getCollection("users");
@@ -592,6 +599,7 @@ public class DatabaseManager {
         Document update = new Document("$set", new Document("isOccupiedTable", isOccupied));
         collection.updateOne(query, update);
         student.setIsOccupiedTable(isOccupied);
+        invalidateUserCache(student);
     }
 
     public ArrayList<Book> getBorrowedBooksByUser(User u) {
@@ -662,6 +670,7 @@ public class DatabaseManager {
         if(b.getNumCopies() <= 0) b.setAvailability(false);
         updateBook(b);
         NotificationManager.getInstance().notifyBookBorrowed(u, b);
+        invalidateUserCache(u);
         return true;
     }
 
@@ -684,7 +693,7 @@ public class DatabaseManager {
         b.setAvailability(true);
         b.setDueTime(null);
         updateBook(b);
-        
+        invalidateUserCache(u);
         return true;
     }
 
@@ -697,7 +706,35 @@ public class DatabaseManager {
                 new org.bson.Document("userID", u.getUserID()).append("borrowedBooks.bookID", b.getBookID()),
                 new org.bson.Document("$set", new org.bson.Document("borrowedBooks.$.dueDate", newDate.toString()))
         );
+        invalidateUserCache(u);
         return true;
+    }
+    public int calculateCompatibilityScore(Student current, Student other) {
+        int score = 0;
+        
+        if (current.getDepartment() != null && current.getDepartment().equals(other.getDepartment())) {
+            score += 2;
+        }
+        
+        if (current.getGrade() == other.getGrade()) {
+            score += 2;
+        }
+                
+        ArrayList<Book> myBooks = getBorrowedBooksByUser(current);
+        myBooks.addAll(getHistoryBooksByUser(current));
+        ArrayList<Book> theirBooks = getBorrowedBooksByUser(other);
+        theirBooks.addAll(getHistoryBooksByUser(other));
+        for (Book myBook : myBooks) {
+            for (Book theirBook : theirBooks) {
+                if (myBook.getBookID() == theirBook.getBookID()) {
+                    score += 2;
+                } else if (myBook.getCategory().equals(theirBook.getCategory())) {
+                    score+= 1;
+                }
+            }
+        }
+        
+        return score;
     }
 
     public boolean reserveBookDB(User u, Book b) {
@@ -855,6 +892,10 @@ public class DatabaseManager {
     public void deleteAllNotifications(int userID) {
         database.getCollection("notifications")
                 .deleteMany(new Document("userID", userID));
+    }
+    public void invalidateUserCache(User u) {
+        userCacheByEmail.remove(u.getEmail());
+        userCacheByID.remove(u.getUserID());
     }
     public ArrayList<StudyRequest> getSentStudyRequests(String userEmail) {
         ArrayList<StudyRequest> requests = new ArrayList<>();
