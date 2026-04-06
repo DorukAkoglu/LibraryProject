@@ -1,17 +1,25 @@
 package studyLibrary.project;
 
+import java.io.IOException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class MyBooksController {
 
     @FXML private ListView<Book> bookListView;
     @FXML private Button btnBorrowed, btnReserved, btnHistory;
-    
+    @FXML private VBox notificationBox;
     @FXML private HBox borrowedActionBox;
     @FXML private HBox reservedActionBox;
 
@@ -24,7 +32,7 @@ public class MyBooksController {
     public void initialize() {
         this.system = LibrarySystem.getInstance();
         this.currentUser = MainController.getCurrentUser();
-        
+        setupMyBooksCellFactory();
         loadBorrowedBooks(null); 
     }
    
@@ -67,22 +75,21 @@ public class MyBooksController {
         reservedActionBox.setVisible(false);
     }
 
-
     @FXML
     public void handleExtend() {
         Book selectedBook = bookListView.getSelectionModel().getSelectedItem();
         if (selectedBook == null) {
-            showAlert("Warning", "Please select a borrowed book first!");
+            displayTheInformation("Warning: Please select a borrowed book first!");
             return;
         }
 
-        // Veritabanında süreyi uzat
+        // Extend the due date in the database
         boolean success = system.extendBook(currentUser, selectedBook);
         if (success) {
-            showAlert("Success", "Due date extended by 7 days.");
-            loadBorrowedBooks(null); // Listeyi yenile ki yeni tarih ekranda görünsün
+            displayTheInformation("Success: Due date extended by 7 days.");
+            loadBorrowedBooks(null); // Refresh the list to show the new date
         } else {
-            showAlert("Error", "Could not extend the due date.");
+            displayTheInformation("Error: Could not extend the due date.");
         }
     }
 
@@ -90,17 +97,17 @@ public class MyBooksController {
     public void handleReturn() {
         Book selectedBook = bookListView.getSelectionModel().getSelectedItem();
         if (selectedBook == null) {
-            showAlert("Warning", "Please select a borrowed book first!");
+            displayTheInformation("Warning: Please select a borrowed book first!");
             return;
         }
 
-        // Veritabanında kitabı iade et Geçmişe taşır, stoğu artırır
+        // Return the book, move to history, increase stock
         boolean success = system.returnBook(currentUser, selectedBook);
         if (success) {
-            showAlert("Success", "Book returned successfully! It has been moved to your History.");
-            loadBorrowedBooks(null); // Listeden kaybolması için ekranı yenile
+            displayTheInformation("Success: Book returned successfully! It has been moved to your History.");
+            loadBorrowedBooks(null); // Refresh the screen to remove from the list
         } else {
-            showAlert("Error", "Could not return the book.");
+            displayTheInformation("Error: Could not return the book.");
         }
     }
 
@@ -108,17 +115,17 @@ public class MyBooksController {
     public void handleBorrowFromReserve() {
         Book selectedBook = bookListView.getSelectionModel().getSelectedItem();
         if (selectedBook == null) {
-            showAlert("Warning", "Please select a reserved book first!");
+            displayTheInformation("Warning: Please select a reserved book first!");
             return;
         }
 
-        // Rezerve edilen kitabı ödünç alma Veritabanında reserved'den siler, borrowed'a ekler
+        // Borrow the reserved book, remove from reserved, add to borrowed
         boolean success = system.borrowBook(currentUser, selectedBook);
         if (success) {
-            showAlert("Success", "You have successfully borrowed your reserved book!");
-            loadReservedBooks(null); // Listeden kaybolması için ekranı yenile
+            displayTheInformation("Success: You have successfully borrowed your reserved book!");
+            loadReservedBooks(null); // Refresh the screen to remove from the list
         } else {
-            showAlert("Error", "This book is still out of stock. You cannot borrow it yet.");
+            displayTheInformation("Error: This book is still out of stock. You cannot borrow it yet.");
         }
     }
 
@@ -126,26 +133,45 @@ public class MyBooksController {
     public void handleCancelReserve() {
         Book selectedBook = bookListView.getSelectionModel().getSelectedItem();
         if (selectedBook == null) {
-            showAlert("Warning", "Please select a reserved book first!");
+            displayTheInformation("Warning: Please select a reserved book first!");
             return;
         }
 
-        // Veritabanında rezervasyonu iptal et
+        // Cancel the reservation in the database
         boolean success = system.cancelReserve(currentUser, selectedBook);
         if (success) {
-            showAlert("Success", "Reservation cancelled successfully.");
-            loadReservedBooks(null); // Ekranı yenile
+            displayTheInformation("Success: Reservation cancelled successfully.");
+            loadReservedBooks(null); // Refresh the screen
         } else {
-            showAlert("Error", "Could not cancel the reservation.");
+            displayTheInformation("Error: Could not cancel the reservation.");
         }
     }
     
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+    private void displayTheInformation(String message) {
+        Label information = new Label(message);
+        information.getStyleClass().add("information-label"); 
+        
+        if (notificationBox != null) {
+            notificationBox.getChildren().add(0, information); 
+        } else {
+            System.out.println("Message (Image Box Not Found): " + message);
+        }
+
+        javafx.animation.FadeTransition startFade = new javafx.animation.FadeTransition(javafx.util.Duration.millis(300), information);
+        startFade.setFromValue(0.0);
+        startFade.setToValue(1.0);
+
+        javafx.animation.FadeTransition finishFade = new javafx.animation.FadeTransition(javafx.util.Duration.millis(500), information);
+        finishFade.setFromValue(1.0);
+        finishFade.setToValue(0.0);
+        finishFade.setDelay(javafx.util.Duration.seconds(2)); // 2 saniye ekranda kalır
+
+        finishFade.setOnFinished(e -> {
+            if (notificationBox != null) notificationBox.getChildren().remove(information);
+        });
+
+        startFade.setOnFinished(e -> finishFade.play());
+        startFade.play();
     }
 
     private void setActiveTabStyle(Button activeBtn) {
@@ -162,13 +188,55 @@ public class MyBooksController {
     }
 
     @FXML
-    public void goBackToDashboard(ActionEvent event) {
-        try {
-            javafx.scene.Parent root = javafx.fxml.FXMLLoader.load(getClass().getResource("/student.fxml"));
-            javafx.stage.Stage stage = (javafx.stage.Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new javafx.scene.Scene(root));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void goBackToDashboard(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/student.fxml"));
+        Parent root = loader.load();
+        App.PRIMARY_STAGE = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        App.PRIMARY_STAGE.getScene().setRoot(root);
     }
+
+    private void setupMyBooksCellFactory() {
+        bookListView.setCellFactory(param -> new javafx.scene.control.ListCell<Book>() {
+            @Override
+            protected void updateItem(Book book, boolean empty) {
+                super.updateItem(book, empty);
+                
+                if (empty || book == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    javafx.scene.layout.HBox root = new javafx.scene.layout.HBox(15);
+                    root.getStyleClass().add("mybooks-row");
+                    root.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+
+                    javafx.scene.control.Label iconLabel = new javafx.scene.control.Label("📚");
+                    iconLabel.getStyleClass().add("mybooks-icon");
+
+                    javafx.scene.layout.VBox infoBox = new javafx.scene.layout.VBox(5);
+                    
+                    
+                    javafx.scene.control.Label titleLabel = new javafx.scene.control.Label(book.getTitle() + " - " + book.getAuthor());
+                    titleLabel.getStyleClass().add("mybooks-info");
+                    infoBox.getChildren().add(titleLabel);
+
+
+                    if ("Borrowed".equals(currentTab) && book.getDueTime() != null) {
+                        javafx.scene.control.Label dateLabel = new javafx.scene.control.Label("⏳ Due Date: " + book.getDueTime().toString());
+                        dateLabel.setStyle("-fx-text-fill: #e67e22; -fx-font-size: 14px; -fx-font-weight: bold;"); 
+                        infoBox.getChildren().add(dateLabel);
+                    } 
+                    else if ("Reserved".equals(currentTab)) {
+                        javafx.scene.control.Label statusLabel = new javafx.scene.control.Label(" Status: Waiting in queue");
+                        statusLabel.setStyle("-fx-text-fill: #3498db; -fx-font-size: 14px;");
+                        infoBox.getChildren().add(statusLabel);
+                    }
+
+                    root.getChildren().addAll(iconLabel, infoBox);
+                    setGraphic(root);
+                }
+            }
+        });
+    }
+
+    
 }

@@ -713,7 +713,29 @@ public class DatabaseManager {
         );
         NotificationManager.getInstance().notifyBookReserved(u, b);
         return true;
+    if (b.isAvailable()) return false;
+
+    // Zaten reserve etmiş mi kontrol et
+    org.bson.Document userDoc = database.getCollection("users")
+            .find(new org.bson.Document("userID", u.getUserID())).first();
+    
+    if (userDoc != null && userDoc.containsKey("reservedBooks")) {
+        List<org.bson.Document> reserved = (List<org.bson.Document>) userDoc.get("reservedBooks");
+        for (org.bson.Document doc : reserved) {
+            if (doc.getInteger("bookID") == b.getBookID()) {
+                return false; // Zaten rezerve etmiş
+            }
+        }
     }
+
+    org.bson.Document reserveInfo = new org.bson.Document("bookID", b.getBookID())
+                                        .append("status", "Waiting");
+    database.getCollection("users").updateOne(
+            new org.bson.Document("userID", u.getUserID()),
+            new org.bson.Document("$push", new org.bson.Document("reservedBooks", reserveInfo))
+    );
+    return true;
+}
 
     public boolean cancelReserveDB(User u, Book b) {
         database.getCollection("users").updateOne(
