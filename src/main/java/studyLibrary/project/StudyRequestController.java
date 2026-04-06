@@ -118,6 +118,8 @@ public class StudyRequestController {
                 if (request.acceptRequest()) {
                     StudyMatch match = new StudyMatch(request.getSender(), request.getReceiver(), request.getCourse());
                     db.saveStudyMatch(match);
+                    NotificationManager.getInstance().notifyStudyRequestAccepted(
+                        request.getSender(), request.getReceiver());
                     db.updateStudyRequestStatus(request);
                     db.removeStudyRequest(request);
                     displayTheInformation("Success: Request accepted. You can now chat with " + request.getSender().getName() + ".");

@@ -19,6 +19,8 @@ public class StudentController {
     @FXML private Label userNameLabel, departmentLabel, requestLabel;
     @FXML private ImageView profileImage;
     @FXML private Button btnStudyMate, btnLibrary;
+    @FXML private Button notificationButton;
+    @FXML private Label notificationBadge;
 
     @FXML
     public void initialize() {
@@ -39,6 +41,9 @@ public class StudentController {
         userNameLabel.setText(student.getName());
         departmentLabel.setText(student.getDepartment());
         requestLabel.setText("You have " + student.getStudyRequest().size() +" study requests.");
+        refreshNotificationBadge();
+        NotificationManager.getInstance().checkDueDates(student,
+            LibrarySystem.getInstance().getBorrowedBooksByUser(student));
     }
     @FXML
     private void backToLibrary(ActionEvent event) throws IOException {
@@ -87,6 +92,32 @@ public class StudentController {
         Parent root = loader.load();
         App.PRIMARY_STAGE = (Stage) ((Node) event.getSource()).getScene().getWindow();
         App.PRIMARY_STAGE.getScene().setRoot(root);
+    }
+    private void refreshNotificationBadge() {
+        Student student = (Student) MainController.getCurrentUser();
+        int unreadCount = NotificationManager.getInstance()
+                            .getUnreadNotifications(student.getUserID()).size();
+        if (unreadCount > 0) {
+            notificationBadge.setText(String.valueOf(unreadCount));
+            notificationBadge.setVisible(true);
+        } 
+        else {
+            notificationBadge.setVisible(false);
+        }
+    }
+
+    @FXML
+    private void openNotifications(ActionEvent event) throws IOException {
+        var url = getClass().getResource("/notification.fxml");
+    System.out.println("FXML URL: " + url);  // null çıkıyorsa dosya yok
+    if (url == null) {
+        System.out.println("notifications.fxml bulunamadı!");
+        return;
+    }
+    FXMLLoader loader = new FXMLLoader(url);
+    Parent root = loader.load();
+    App.PRIMARY_STAGE = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+    App.PRIMARY_STAGE.getScene().setRoot(root);
     }
 }
 
