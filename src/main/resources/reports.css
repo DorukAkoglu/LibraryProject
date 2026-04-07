@@ -1,0 +1,21 @@
+.report-card{
+    -fx-border-radius: 20;
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-padding: 15;
+    -fx-border-color: rgba(255, 255, 255, 0.2);
+    -fx-background-radius: 15;
+    -fx-spacing: 15;
+}
+.header-label{
+    -fx-text-fill: #ffcc00;
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+}
+.content-label{
+    -fx-text-fill: white; 
+    -fx-font-size: 18px;
+}
+.date-label{
+    -fx-text-fill: #888;
+     -fx-font-size: 15px;
+}

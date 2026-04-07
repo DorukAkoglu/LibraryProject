@@ -13,6 +13,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 
 
 public class DatabaseManager {
@@ -846,6 +847,92 @@ public class DatabaseManager {
         a.setProfilePicture(doc.getString("profilePhoto"));
         return a;
     }
+    public User getUserByEmailNoCache(String email) {
+        Document doc = database.getCollection("users")
+        .find(new Document("email", email)).first();
+
+        if (doc == null) return null;
+
+        String role = doc.getString("role");
+        if ("student".equals(role)) {
+            Student s = new Student(doc.getInteger("userID"), doc.getString("name"),
+                            doc.getString("email"),   doc.getString("password"),
+                            doc.getInteger("age"),    doc.getInteger("grade"),
+                            doc.getString("department"));
+            s.setProfilePicture(doc.getString("profilePhoto"));
+            return s;
+        } else if ("librarian".equals(role)) {
+            Librarian lb = new Librarian(doc.getInteger("userID"), doc.getString("name"),
+                                doc.getString("email"),   doc.getString("password"));
+            lb.setProfilePicture(doc.getString("profilePhoto"));
+            return lb;
+        }
+        Admin a =new Admin(doc.getInteger("userID"), doc.getString("name"),
+                        doc.getString("email"),   doc.getString("password"));
+        a.setProfilePicture(doc.getString("profilePhoto"));
+        return a;
+    }
+    public void saveReport(Report report){
+        MongoCollection<Document> reportCollection = database.getCollection("reports");
+        Document doc = new Document("content", report.getContent())
+                                .append("sender", report.getSender())
+                                .append("receiver", report.getReceiver())
+                                .append("timestamp", report.getTimestamp());
+        reportCollection.insertOne(doc);    
+    }
+    public List<String> getLibrarians() {
+        List<String> librarianEmails = new ArrayList<>();
+        MongoCollection<Document> usersCollection = database.getCollection("users");
+        for (Document doc : usersCollection.find(Filters.eq("role", "librarian"))) {
+            librarianEmails.add(doc.getString("email"));
+        }
+    
+        return librarianEmails;
+    }
+    public List<Report> getReportsForLibrarian(String librarianEmail){
+        List<Report> reportList = new ArrayList<>();
+        MongoCollection<Document> reportCollection = database.getCollection("reports");
+        Document query = new Document("receiver", librarianEmail);
+        for(Document doc : reportCollection.find(query)){
+            Report report = new Report(doc.getString("content"), doc.getString("sender"), doc.getString("receiver"));
+            report.setTimestamp(doc.getDate("timestamp"));
+            reportList.add(report);
+        }
+        return reportList;
+    }
+    public List<Report> getReportsBySender(String senderEmail){
+        List<Report> reportList = new ArrayList<>();
+        MongoCollection<Document> reportCollection = database.getCollection("reports");
+        Document query = new Document("sender", senderEmail);
+        for(Document doc : reportCollection.find(query)){
+            Report report = new Report(doc.getString("content"), doc.getString("sender"), doc.getString("receiver"));
+            report.setTimestamp(doc.getDate("timestamp"));
+            reportList.add(report);
+        }
+        return reportList;
+    }
+    public List<Report> getAllAnnouncements(){
+        List<Report> announcements = new ArrayList<>();
+        MongoCollection<Document> collection = database.getCollection("reports");
+        Document query = new Document("receiver", "ALL");
+        for (Document doc : collection.find(query).sort(new Document("timestamp", -1))) {
+        Report r = new Report(
+            doc.getString("content"),
+            doc.getString("sender"),
+            doc.getString("receiver")
+        );
+        r.setTimestamp(doc.getDate("timestamp"));
+        announcements.add(r);
+        }
+        return announcements;
+    }
+    public void deleteReport(Report report){
+        MongoCollection<Document> reportCollection = database.getCollection("reports");
+        Document query = new Document("content", report.getContent())
+                                    .append("sender", report.getSender())
+                                    .append("receiver", report.getReceiver())
+                                    .append("timestamp", report.getTimestamp());
+        reportCollection.deleteOne(query);
     public void saveNotification(Notification notification) {
         Document doc = new Document("id", notification.getId())
             .append("userID", notification.getUserID())
