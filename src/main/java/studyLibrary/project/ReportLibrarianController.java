@@ -20,8 +20,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class ReportStudentController {
-    @FXML private ComboBox<String> librarianComboBox;
+public class ReportLibrarianController {
     @FXML private Label nameLabel, departmentLabel;
     @FXML private ImageView profilePicture;
 
@@ -35,20 +34,18 @@ public class ReportStudentController {
     @FXML private HBox sendReportHBox;
     @FXML private TextField reportTextField;
 
+    Librarian librarian = (Librarian) MainController.getCurrentUser();
+
 
 
     public void initialize(){
-        Student student = (Student) MainController.getCurrentUser();
-        librarianComboBox.getItems().addAll(MainController.dbManager.getLibrarians());
         announcementContainer.getStylesheets().add(getClass().getResource("/reports.css").toExternalForm());
         composeReportContainer.getStylesheets().add(getClass().getResource("/reports.css").toExternalForm());
         announcementContainer.getStylesheets().add(getClass().getResource("/mybooks.css").toExternalForm());
         composeReportContainer.getStylesheets().add(getClass().getResource("/mybooks.css").toExternalForm());
-        if (student.getProfilePhoto() != null) {
-            profilePicture.setImage(new javafx.scene.image.Image(student.getProfilePhoto()));
+        if (librarian.getProfilePhoto() != null) {
+            profilePicture.setImage(new javafx.scene.image.Image(librarian.getProfilePhoto()));
         }
-        nameLabel.setText(student.getName());
-        departmentLabel.setText(student.getDepartment());
         showAnnouncements();
     }
     public void showAnnouncements(){
@@ -71,7 +68,7 @@ public class ReportStudentController {
     }
     public void viewAnnouncements(){
         announcementContainer.getChildren().clear();
-        List<Report> allAnnouncements = MainController.dbManager.getAllAnnouncements();
+        List<Report> allAnnouncements = MainController.dbManager.getReportsForLibrarian(librarian.getEmail());
         for(Report report : allAnnouncements){
             VBox reportCard = new VBox();
             reportCard.getStyleClass().add("report-card");
@@ -102,7 +99,7 @@ public class ReportStudentController {
         card.getStyleClass().add("report-card");
         card.setMaxWidth(Double.MAX_VALUE);
 
-        Label title = new Label("SENT REPORT");
+        Label title = new Label("ANNOUNCEMENT");
         title.getStyleClass().add("header-label");
         title.setStyle("-fx-font-size: 15px;");
 
@@ -118,8 +115,8 @@ public class ReportStudentController {
         return card;
     }
     public void handleSentReport(){
-        if(!reportTextField.getText().isEmpty() && librarianComboBox.getValue() != null){
-            Report newReport = new Report(reportTextField.getText(), MainController.getCurrentUser().getEmail(), librarianComboBox.getValue());
+        if(!reportTextField.getText().isEmpty()){
+            Report newReport = new Report(reportTextField.getText(), MainController.getCurrentUser().getEmail(), "ALL");
             MainController.dbManager.saveReport(newReport);
             VBox newReportCard = createReportCard(reportTextField.getText(), "Just now");
             reportHistoryVBox.getChildren().add(newReportCard);
@@ -128,9 +125,10 @@ public class ReportStudentController {
     }
 
     public void backToDashboard(ActionEvent event) throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/student.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/librarian.fxml"));
         Parent root = loader.load();
         App.PRIMARY_STAGE = (Stage) ((Node) event.getSource()).getScene().getWindow();
         App.PRIMARY_STAGE.getScene().setRoot(root);
     }
 }
+

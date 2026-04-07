@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -16,6 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class LibrarianController {
 
@@ -372,5 +375,17 @@ public class LibrarianController {
         alert.setTitle("Librarian Panel");
         alert.setContentText(message);
         alert.show();
+    }
+    public void switchToDeskReservations(ActionEvent event) throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/reservation.fxml"));
+        Parent root = loader.load();
+        App.PRIMARY_STAGE = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        App.PRIMARY_STAGE.getScene().setRoot(root);
+    }
+    public void switchToReports(ActionEvent event) throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/reportsForLibrarian.fxml"));
+        Parent root = loader.load();
+        App.PRIMARY_STAGE = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        App.PRIMARY_STAGE.getScene().setRoot(root);
     }
 }

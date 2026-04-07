@@ -14,15 +14,16 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane minHeight="600.0" minWidth="900.0" prefHeight="640.0" prefWidth="980.0" styleClass="librarian-root" stylesheets="@librarian.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.LibrarianController">
+<BorderPane minHeight="600.0" minWidth="900.0" prefHeight="640.0" prefWidth="980.0" styleClass="librarian-root" stylesheets="@librarian.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.LibrarianController">
    <left>
       <VBox alignment="TOP_CENTER" prefWidth="250.0" spacing="18.0" styleClass="librarian-sidebar" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fx:id="profileImage" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="profileImage" fitHeight="71.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/defaultProfilePicture.png" />
                </image>
@@ -38,6 +39,8 @@
             <Button fx:id="searchButton" mnemonicParsing="false" onAction="#showSearchSection" styleClass="librarian-nav-button" text="Search Books" />
             <Button fx:id="addButton" mnemonicParsing="false" onAction="#showAddSection" styleClass="librarian-nav-button" text="Add Book" />
             <Button fx:id="manageButton" mnemonicParsing="false" onAction="#showManageSection" styleClass="librarian-nav-button" text="Manage Books" />
+            <Button layoutX="71.0" layoutY="457.0" mnemonicParsing="false" onAction="#switchToDeskReservations" styleClass="librarian-nav-button" text="Manage Desk Reservations" />
+            <Button layoutX="71.0" layoutY="577.0" mnemonicParsing="false" onAction="#switchToReports" styleClass="librarian-nav-button" text="Reports" />
             <Button mnemonicParsing="false" onAction="#logout" styleClass="librarian-nav-button" text="Logout" />
          </children>
          <padding>
@@ -101,8 +104,12 @@
                                        </padding>
                                     </VBox>
                                  </children>
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                 </rowConstraints>
                               </GridPane>
-                              <VBox styleClass="content-card" spacing="10.0">
+                              <VBox spacing="10.0" styleClass="content-card">
                                  <children>
                                     <Label styleClass="card-title" text="How to use" />
                                     <Label styleClass="card-text" text="Open Search Books to browse the catalog." wrapText="true" />
@@ -137,7 +144,7 @@
                            </padding>
                            <children>
                               <Label styleClass="page-title" text="Add Book" />
-                              <VBox styleClass="content-card" spacing="18.0">
+                              <VBox spacing="18.0" styleClass="content-card">
                                  <children>
                                     <GridPane hgap="16.0" vgap="14.0">
                                        <columnConstraints>
@@ -176,6 +183,12 @@
                                              </children>
                                           </VBox>
                                        </children>
+                                       <rowConstraints>
+                                          <RowConstraints />
+                                          <RowConstraints />
+                                          <RowConstraints />
+                                          <RowConstraints />
+                                       </rowConstraints>
                                     </GridPane>
                                     <Button mnemonicParsing="false" onAction="#handleAddBookAction" styleClass="panel-button" text="Add Book" />
                                  </children>
@@ -201,7 +214,7 @@
                                     </VBox>
                                     <VBox spacing="18.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <VBox styleClass="content-card" spacing="18.0">
+                                          <VBox spacing="18.0" styleClass="content-card">
                                              <children>
                                                 <GridPane hgap="16.0" vgap="14.0">
                                                    <columnConstraints>
@@ -240,6 +253,12 @@
                                                          </children>
                                                       </VBox>
                                                    </children>
+                                                   <rowConstraints>
+                                                      <RowConstraints />
+                                                      <RowConstraints />
+                                                      <RowConstraints />
+                                                      <RowConstraints />
+                                                   </rowConstraints>
                                                 </GridPane>
                                                 <HBox spacing="12.0">
                                                    <children>
