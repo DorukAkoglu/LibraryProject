@@ -42,6 +42,13 @@ public class TableReservationController {
             }
             nameLabel.setText(student.getName());
             departmentLabel.setText(student.getDepartment());
+        }else{
+            Librarian librarian = (Librarian) MainController.getCurrentUser();
+            if (librarian.getProfilePhoto() != null) {
+                profilepicture.setImage(new javafx.scene.image.Image(librarian.getProfilePhoto()));
+            }
+            nameLabel.setText(librarian.getName());
+            departmentLabel.setText("Librarian");
         }
         tableContainer.setHgap(15);
         tableContainer.setVgap(15);

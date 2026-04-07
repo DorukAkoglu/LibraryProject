@@ -39,6 +39,7 @@ public class ReportLibrarianController {
 
 
     public void initialize(){
+        nameLabel.setText(librarian.getName());
         announcementContainer.getStylesheets().add(getClass().getResource("/reports.css").toExternalForm());
         composeReportContainer.getStylesheets().add(getClass().getResource("/reports.css").toExternalForm());
         announcementContainer.getStylesheets().add(getClass().getResource("/mybooks.css").toExternalForm());

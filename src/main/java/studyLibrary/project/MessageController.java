@@ -128,10 +128,10 @@ public class MessageController {
         ObservableList<Student> friends = FXCollections.observableArrayList();
         Student me = (Student) MainController.getCurrentUser();
         for (StudyMatch match : system.getMatches()) {
-            if (match.getStudent1().getUserID() == me.getUserID()) {
+            if (match.getStudent1().getEmail().equals(me.getEmail())) {
                 friends.add(match.getStudent2());
             } 
-            else if (match.getStudent2().getUserID() == me.getUserID()) {
+            else if (match.getStudent2().getEmail().equals(me.getEmail())) {
                 friends.add(match.getStudent1());
             }
         }
