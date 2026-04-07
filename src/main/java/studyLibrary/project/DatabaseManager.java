@@ -933,6 +933,7 @@ public class DatabaseManager {
                                     .append("receiver", report.getReceiver())
                                     .append("timestamp", report.getTimestamp());
         reportCollection.deleteOne(query);
+    }
     public void saveNotification(Notification notification) {
         Document doc = new Document("id", notification.getId())
             .append("userID", notification.getUserID())
