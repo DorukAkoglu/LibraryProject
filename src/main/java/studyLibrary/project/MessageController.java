@@ -125,6 +125,7 @@ public class MessageController {
     }
 
     private void loadFriendList() {
+        system.refreshMatches();
         ObservableList<Student> friends = FXCollections.observableArrayList();
         Student me = (Student) MainController.getCurrentUser();
         for (StudyMatch match : system.getMatches()) {

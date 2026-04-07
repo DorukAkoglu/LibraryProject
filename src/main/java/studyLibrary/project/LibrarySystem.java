@@ -176,6 +176,9 @@ public class LibrarySystem {
     public void refreshChats() {
         this.chats = db.getChats();
     }
+    public void refreshMatches() {
+        this.matches = db.getStudyMatches();
+    }
 
     public ArrayList<Book> getBorrowedBooksByUser(User u) {
         return db.getBorrowedBooksByUser(u);
