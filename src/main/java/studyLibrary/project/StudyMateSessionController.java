@@ -1,7 +1,6 @@
 package studyLibrary.project;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 import javafx.animation.FadeTransition;
@@ -35,6 +34,7 @@ public class StudyMateSessionController {
     @FXML private StackPane rootPane; 
     private Student matchedStudent;
     private Student previousStudent;
+    private int currentIndex;
 
     Student student = (Student) MainController.getCurrentUser();
 
@@ -68,23 +68,29 @@ public class StudyMateSessionController {
             matchedCourseLabel.setText(student.getSelectedCourse());
         }
     }
-    private void handleFindMatch(){
+    private void handleFindMatch() {
+        
         List<Student> potentialMates = dbManager.getStudentsByCourse();
         if (potentialMates == null || potentialMates.isEmpty()) {
             matchedNameLabel.setText("No more suggestions available.");
             matchedAgeLabel.setText("");
             matchedDepartmentLabel.setText("");
             matchedCourseLabel.setText("");
+            matchedStudent = null;
             return;
         }
-        Collections.shuffle(potentialMates);
-        matchedStudent = potentialMates.get(0);
-        if(matchedStudent != null && matchedStudent.equals(previousStudent) && potentialMates.size() > 1){
-            matchedStudent = potentialMates.get(1);
+        if (currentIndex >= potentialMates.size()) {
+          matchedNameLabel.setText("No more suggestions available.");
+            matchedAgeLabel.setText("");
+            matchedDepartmentLabel.setText("");
+            matchedCourseLabel.setText("");
+            matchedStudent = null;
+            return;
         }
+        matchedStudent = potentialMates.get(currentIndex);
         displayStudyMateInfo(student);
         displayStudyMateMatchedInfo(matchedStudent);
-        previousStudent = matchedStudent;
+        currentIndex++;
     }
 
     public void endSession(ActionEvent event) throws IOException {
@@ -100,6 +106,8 @@ public class StudyMateSessionController {
         }
         StudyRequest studyRequest = new StudyRequest(student, matchedStudent, student.getSelectedCourse());
         dbManager.saveStudyRequest(studyRequest);
+        NotificationManager.getInstance().notifyStudyRequestReceived(
+            matchedStudent, student);
         matchedStudent.addStudyRequest(studyRequest);
         showRequestMessage("Request successfully sent to " + matchedStudent.getName() + ".");
     }

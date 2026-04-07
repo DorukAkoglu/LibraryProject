@@ -10,11 +10,12 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane minHeight="600.0" minWidth="900.0" prefHeight="600.0" prefWidth="900.0" styleClass="root" stylesheets="@student.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.StudentController">
+<BorderPane prefHeight="600.0" prefWidth="900.0" styleClass="root" stylesheets="@student.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studyLibrary.project.StudentController">
    <left>
       <VBox fx:id="leftSideBar" alignment="CENTER" prefHeight="200.0" prefWidth="257.0" spacing="30.0" styleClass="sidemenu" BorderPane.alignment="CENTER">
          <children>
@@ -51,6 +52,20 @@
                         <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
                      </padding>
                      <children>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="56.0" prefWidth="609.0">
+                           <children>
+                              <VBox alignment="CENTER_RIGHT" prefHeight="56.0" prefWidth="78.0">
+                                 <children>
+                                    <Label fx:id="notificationBadge" alignment="CENTER" minHeight="16.0" minWidth="16.0" prefHeight="16.0" prefWidth="30.0" style="-fx-background-color: #e74c3c; -fx-font-size: 9px; -fx-font-weight: bold; -fx-background-radius: 50; -fx-alignment: center;" text="Label">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Button fx:id="notificationButton" mnemonicParsing="false" onAction="#openNotifications" styleClass="notification-button" text="🔔" textFill="#c3b8b8" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
                         <Label prefHeight="25.0" prefWidth="151.0" text="Student Dashboard">
                            <font>
                               <Font name="System Bold Italic" size="16.0" />
@@ -78,7 +93,7 @@
                                        </image>
                                     </ImageView>
                                     <Label text="My Books" />
-                                    <Label styleClass="accent-text" text="3 Books Active" />
+                                    <Label alignment="CENTER" prefHeight="43.0" prefWidth="206.0" styleClass="accent-text" text="Your books are here!" />
                                     <Button mnemonicParsing="false" onAction="#displayBorrowedBooks" text="Menage Books" />
                                  </children>
                               </VBox>
@@ -127,7 +142,7 @@
                                        </image>
                                     </ImageView>
                                     <Label text="Messages" />
-                                    <Label styleClass="accent-text" text="1 New Messages" />
+                                    <Label styleClass="accent-text" text="You can chat with you friends!" />
                                     <Button mnemonicParsing="false" onAction="#startChat" text="Open Chat" />
                                  </children>
                               </VBox>

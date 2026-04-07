@@ -1,5 +1,6 @@
 package studyLibrary.project;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -14,7 +15,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
@@ -57,6 +60,12 @@ public class MessageController {
                     chatBox.getChildren().clear(); 
                     displayedMessageCount = 0;
                     refreshChatArea(); 
+                    javafx.application.Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        chatPane.setVvalue(1.0);
+                        }
+                    }); 
                 }
             }
         });
@@ -70,7 +79,7 @@ public class MessageController {
         }));
         autoRefresh.setCycleCount(Animation.INDEFINITE);
         autoRefresh.play();
-        chatPane.heightProperty().addListener(new ChangeListener<Number>() {
+        chatBox.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 chatPane.setVvalue(1.0);
@@ -146,7 +155,8 @@ public class MessageController {
                 HBox lastHBox = (HBox) chatBox.getChildren().get(chatBox.getChildren().size() - 1);
                 VBox lastVBox = (VBox) lastHBox.getChildren().get(0);
                 Label lastLabel = (Label) lastVBox.getChildren().get(0);
-                if (lastMessage.isEdited() && !lastLabel.getText().endsWith("(edited)")) {
+                if (lastMessage.isEdited() && !lastLabel.getText().endsWith("(edited)")
+                    || lastMessage.isDeleted() && !lastLabel.getText().equals("(This message was deleted)")) {
                     chatBox.getChildren().clear();
                     displayedMessageCount = 0;
                     for (Message message : allMessages) {
@@ -183,12 +193,37 @@ public class MessageController {
         if (message.isEdited()) {
             messageContent += " (edited)";
         }
+        if(message.isDeleted()) {
+            messageContent = "(This message was deleted)";
+        }
         Label contentLabel = new Label(messageContent);
         contentLabel.setWrapText(true);
         contentLabel.setMaxWidth(250);
-        if (isMine) {
+        contentLabel.setMinHeight(VBox.USE_PREF_SIZE);
+        if(message.isDeleted()) {
+            contentLabel.setStyle("-fx-text-fill: #808080; -fx-font-style: italic;");
+        }
+        if (isMine && !message.isDeleted()) {
             ContextMenu contextMenu = new ContextMenu();
             MenuItem editItem = new MenuItem("Edit Message");
+            MenuItem deleteItem = new MenuItem("Delete Message");
+            deleteItem.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    if (editingMessage != null) {
+                        return;
+                    }
+                    system.removeChat(message);
+                    message.deleteMessage();    
+                    system.addChat(message);       
+                    chatBox.getChildren().clear();
+                    displayedMessageCount = 0;
+                    refreshChatArea(); 
+                    editingMessage = null;
+                    sendButton.setText("Send");
+                    messageField.clear();
+                }
+            });
             editItem.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
@@ -202,6 +237,7 @@ public class MessageController {
                 }
             });
             contextMenu.getItems().add(editItem);
+            contextMenu.getItems().add(deleteItem);
             contentLabel.setContextMenu(contextMenu);
             contentLabel.getStyleClass().add("my-message-bubble");
         } 
@@ -230,5 +266,10 @@ public class MessageController {
         fadeIn.setFromValue(0);
         fadeIn.setToValue(1);
         fadeIn.play();
+    }
+    @FXML
+    private void backToDashboard(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/student.fxml"));
+        App.PRIMARY_STAGE.getScene().setRoot(root);
     }
 }
