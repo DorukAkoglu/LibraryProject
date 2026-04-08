@@ -10,7 +10,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -42,7 +41,6 @@ public class BookController {
     public void initialize(){
         this.system = LibrarySystem.getInstance();
         this.currentUser = MainController.getCurrentUser();
-        pagesFilter.getItems().addAll("Max 100", "Max 300", "Max 500", "No Limit");
         ArrayList<Book> allBooks = system.getBooks();
         ArrayList<String> uniqueCategories = new ArrayList<>();
         for (Book b : allBooks) {
