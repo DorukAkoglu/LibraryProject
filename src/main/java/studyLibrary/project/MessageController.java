@@ -151,20 +151,29 @@ public class MessageController {
             }
         }
         else if (allMessages.size() == displayedMessageCount && displayedMessageCount > 0) {
-            Message lastMessage = allMessages.get(allMessages.size() - 1);
-            if (!chatBox.getChildren().isEmpty()) {
-                HBox lastHBox = (HBox) chatBox.getChildren().get(chatBox.getChildren().size() - 1);
-                VBox lastVBox = (VBox) lastHBox.getChildren().get(0);
-                Label lastLabel = (Label) lastVBox.getChildren().get(0);
-                if (lastMessage.isEdited() && !lastLabel.getText().endsWith("(edited)")
-                    || lastMessage.isDeleted() && !lastLabel.getText().equals("(This message was deleted)")) {
-                    chatBox.getChildren().clear();
-                    displayedMessageCount = 0;
-                    for (Message message : allMessages) {
-                        displayMessage(message, message.getSender().getUserID() == me.getUserID());
-                    }
-                    displayedMessageCount = allMessages.size();
+            boolean refreshNeeded = false;
+            for (int i = 0; i < allMessages.size(); i++) {
+                Message message = allMessages.get(i);
+                HBox hbox = (HBox) chatBox.getChildren().get(i);
+                VBox vbox = (VBox) hbox.getChildren().get(0);
+                Label label = (Label) vbox.getChildren().get(0);
+                String currentText = label.getText();
+                if (message.isDeleted() && !currentText.equals("(This message was deleted)")) {
+                    refreshNeeded = true;
+                    break;
                 }
+                if (message.isEdited() && !currentText.endsWith("(edited)")) {
+                    refreshNeeded = true;
+                    break;
+                }
+            }
+            if (refreshNeeded) {
+                chatBox.getChildren().clear();
+                displayedMessageCount = 0;
+                for (Message message : allMessages) {
+                    displayMessage(message, message.getSender().getUserID() == me.getUserID());
+                }
+                displayedMessageCount = allMessages.size();
             }
         }
     }

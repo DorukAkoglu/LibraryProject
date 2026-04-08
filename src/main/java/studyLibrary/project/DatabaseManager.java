@@ -198,6 +198,12 @@ public class DatabaseManager {
                 if (doc.containsKey("isEdited")) {
                     m.setEdited(doc.getBoolean("isEdited"));
                 }
+                if (doc.containsKey("isDeleted")) {
+                    m.setDeleted(doc.getBoolean("isDeleted"));
+                }
+                if (doc.containsKey("isRead")) {
+                    m.setRead(doc.getBoolean("isRead"));
+                }
                 chats.add(m);
             }
         }
@@ -250,7 +256,9 @@ public class DatabaseManager {
                 .append("receiverEmail", m.getReceiver().getEmail())
                 .append("content", m.getContent())
                 .append("timestamp", m.getTimestamp().toString())
-                .append("isEdited", m.isEdited());
+                .append("isEdited", m.isEdited())
+                .append("isDeleted", m.isDeleted())
+                .append("isRead", m.isRead());
         collection.insertOne(doc);
     }
 
@@ -495,6 +503,12 @@ public class DatabaseManager {
                 m.setTimestamp(doc.getString("timestamp"));
                 if (doc.containsKey("isEdited")) {
                     m.setEdited(doc.getBoolean("isEdited"));
+                }
+                if (doc.containsKey("isDeleted")) {
+                    m.setDeleted(doc.getBoolean("isDeleted"));
+                }
+                if (doc.containsKey("isRead")) {
+                    m.setRead(doc.getBoolean("isRead"));
                 }
                 chats.add(m);
             }
