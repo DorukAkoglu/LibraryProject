@@ -31,7 +31,6 @@ import java.util.List;
 public class StudyRequestController {
     DatabaseManager db = new DatabaseManager();
     
-    // private LibrarySystem librarySystem = new LibrarySystem();
     @FXML
     private VBox requestsBox; 
     @FXML 
@@ -86,7 +85,7 @@ public class StudyRequestController {
         card.getStyleClass().add("request-card");
         card.setAlignment(Pos.CENTER_LEFT);
         ImageView profileImage;
-        if (MainController.getCurrentUser().getProfilePhoto() == null) {
+        if (request.getSender().getProfilePhoto() == null) {
             profileImage = new ImageView(new Image(getClass().getResourceAsStream("/images/defaultProfilePicture.png")));
         } else {
             profileImage = new ImageView(request.getSender().getProfilePhoto());
