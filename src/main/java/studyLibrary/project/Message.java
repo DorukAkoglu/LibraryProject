@@ -88,4 +88,10 @@ public class Message {
     public boolean isDeleted() {
         return this.isDeleted;
     }
+    public void setDeleted(boolean deleted) {
+        this.isDeleted = deleted;
+    }
+    public void setRead(boolean read) {
+        this.isRead = read;
+    }
 }
