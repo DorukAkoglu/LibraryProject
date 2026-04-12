@@ -13,7 +13,7 @@ installed on your machine:
 
 | Dependency | Version  | Download |
 |------------|----------|----------|
-| Java JDK   | 17+      | https://adoptium.net |
+| Java JDK   | 17+      | https://www.oracle.com/tr/java/technologies/downloads/|
 | Maven      | 3.8+     | https://maven.apache.org |
 | JavaFX SDK | 17+      | https://gluonhq.com/products/javafx |
 
@@ -57,21 +57,6 @@ You do not need to download them manually.
  ⁠
 
 ---
-
-## Configuration
-
-The application reads API credentials from a properties file that
-is *not included in the repository* for security reasons.
-
-Create the following file manually:
-
-*Path:* ⁠ src/main/resources/config.properties ⁠
-
-*Contents:*
-
-cloud_name=YOUR_CLOUDINARY_CLOUD_NAME
-api_key=YOUR_CLOUDINARY_API_KEY
-api_secret=YOUR_CLOUDINARY_API_SECRET
 
 
 	⁠Contact a project team member to get the actual credential values.
